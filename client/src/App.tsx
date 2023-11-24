@@ -4,6 +4,7 @@ import HomeRouter from "./routes/home/HomeRouter";
 import NotFound from "./components/error/NotFound";
 import UserLogin from "./components/user/login/UserLogin";
 import HomePage from "./components/homepage/HomePage";
+import UserSignUp from "./components/user/signup/UserSignup";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/*" element={<HomeRouter />} />
           <Route path="/user/login/*" element={<UserLogin />} />
+          <Route path="/user/register/*" element={<UserSignUp />} />
           <Route path="/user/*" element={<UserRouter />} />\
           <Route path="/*" element={<NotFound />} />
         </Routes>

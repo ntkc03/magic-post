@@ -71,25 +71,24 @@ export default function UserLogin() {
       });
   };
   return (
-    <div className="flex justify-end h-screen bg-background">
-      <div className="ml-60 flex justify-center items-center">
-        <div className="relative w-1/2 "> 
-          <img
-            src="https://i.imgur.com/7XTdnaF.png"
-            alt="Img"
-            style={{ maxWidth: 450, maxHeight: 450 }}
-            className="absolute pt-64 scale-75"
-          />
+    <div className="flex justify-center min-h-screen bg-background">
+      <div className="flex justify-center items-center">
+        <div className="lg:block hidden"> 
           <img
             src="https://i.imgur.com/5KtEikT.png"
             alt="Img"
-            style={{ maxWidth: 450, maxHeight: 450 }}
+            className="max-w-450 max-h-450 w-4/5"
+          />
+          <img
+            src="https://i.imgur.com/7XTdnaF.png"
+            alt="Img"
+            className="mt-[-180px] max-w-450 max-h-450 w-1/5"
           />
         </div>
         
       </div>
-      <div className="flex justify-center items-center w-1/2  sm:mx-auto sm:w-full sm:max-w-sm ">
-        <div className="w-96 p-8 bg-white border border-gray-300 rounded-xl shadow-md">
+      <div className="flex flex-wrap justify-center items-center ">
+        <div className="w-96 h-auto p-8 bg-white border border-gray-300 rounded-xl shadow-md">
           <h2 className="text-3xl font-bold mb-4">Login</h2>
           <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
             <div>
@@ -135,7 +134,7 @@ export default function UserLogin() {
             <Link to={"/user/register"}>
               <span className="text-gray-500">
                 Don't have an account?{" "}
-                <p className="text-loginText underline">Sign up</p>
+                <p className="text-loginText underline">Register</p>
               </span>
             </Link>
           </div>
