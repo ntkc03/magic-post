@@ -22,7 +22,7 @@ export default withMT({
         foundItBg: "#f7f2fa",
         footerBg: "#1d1934",
         limeGreen: "#0AD20A",
-        buttonPurple: "#302C42",
+        buttonBlue: "#C4DDFF",
         background: "#f4f7ff",
         loginText: "#39147B",
         activeButton: "#007aff",

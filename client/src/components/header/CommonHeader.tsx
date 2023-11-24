@@ -24,7 +24,7 @@ function CommonHeader() {
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-black-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -33,7 +33,7 @@ function CommonHeader() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="sm:flex-1 sm:justify-start flex text-bold text-lg">
+              <div className="sm:flex-1 sm:justify-start flex w-full justify-center text-bold text-lg">
                 MagicPost
               </div>
               <div className="flex-4 hidden sm:block">
@@ -54,21 +54,10 @@ function CommonHeader() {
                 </div>
               </div>
 
-              <div className="hidden flex-1 sm:block">
-                <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 bg-buttonbg hover:underline text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+              <div className="absolute right-0 flex-1 sm:relative sm:block">
+                <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 sm:bg-buttonbg bg-buttonBlue hover:underline sm:text-white text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <a href = "user/login">LOGIN</a>
                 </Disclosure.Button>
-                
-                
-                {/* <div>
-                    <div className="float-right transition-all duration-300 ease hover:right-0 hover:bottom-0">
-                        <a href="user/login" className="primary-button reverse-color w-inline-block">
-                            <div className="button-content">
-                                <div className="button-color color-white">Login</div>
-                            </div>
-                        </a>
-                    </div>
-                </div> */}
               </div>
             </div>
           </div>
@@ -81,9 +70,8 @@ function CommonHeader() {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "bg-buttonBlue text-textColor",
+                    "hover:bg-gray-200 opacity-75",
                     "block rounded-md px-3 py-2 text-base font-medium"
                   )}
                   aria-current={item.current ? "page" : undefined}
