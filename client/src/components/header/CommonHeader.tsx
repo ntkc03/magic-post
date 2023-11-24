@@ -33,24 +33,9 @@ function CommonHeader() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="sm:flex-1 sm:justify-start flex items-center justify-center w-screen">
-                <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="block h-8 w-auto lg:hidden"
-                    src="https://i.imgur.com/5KtEikT.png"
-                    alt="Your Company"
-                  />
-                  <Link to={"/"}>
-                    <img
-                      className="hidden h-8 w-auto lg:block"
-                      src="https://i.imgur.com/5KtEikT.png"
-                      alt="Your Company"
-                    />
-                  </Link>
-                </div>
+              <div className="sm:flex-1 sm:justify-start flex text-bold text-lg">
+                MagicPost
               </div>
-              {/* <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"></div> */}
-
               <div className="flex-4 hidden sm:block">
                 <div className="flex space-x-4">
                   {navigation.map((item) => (
@@ -58,28 +43,28 @@ function CommonHeader() {
                       key={item.name}
                       href={item.href}
                       className={classNames(
-                          "text-black hover:bg-buttonbg hover:text-white",
-                          "rounded-md px-3 py-2 text-lg font-semibold"
+                          "text-black hover:opacity-75",
+                          "rounded-md px-3 py-2 text-base font-mediun"
                       )}
                       aria-current={item.current ? "page" : undefined}
                     >
-                      {item.name}
+                      {item.name} 
                     </a>
                   ))}
                 </div>
               </div>
 
-              <div className="flex-1 hidden justify-end sm:block">
-                <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                    LOGIN
+              <div className="hidden flex-1 sm:block">
+                <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 bg-buttonbg hover:underline text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <a href = "user/login">LOGIN</a>
                 </Disclosure.Button>
                 
                 
                 {/* <div>
-                    <div className="btn-wrapper transition-all duration-300 ease hover:right-0 hover:bottom-0">
-                        <a href="#" class="primary-button reverse-color w-inline-block">
-                            <div class="button-content">
-                                <div class="button-color color-white">Login</div>
+                    <div className="float-right transition-all duration-300 ease hover:right-0 hover:bottom-0">
+                        <a href="user/login" className="primary-button reverse-color w-inline-block">
+                            <div className="button-content">
+                                <div className="button-color color-white">Login</div>
                             </div>
                         </a>
                     </div>
