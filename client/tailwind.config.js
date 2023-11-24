@@ -29,6 +29,7 @@ export default withMT({
         h6: "#6A7785",
         headline: "#302C42",
         button: "#7339AB",
+        buttonbg: "#89BCFF",
       },
     },
     plugins: [require("tailwind-scrollbar"), require("@tailwindcss/forms")],
