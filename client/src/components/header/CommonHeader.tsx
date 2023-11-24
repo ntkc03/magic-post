@@ -33,7 +33,7 @@ function CommonHeader() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+              <div className="sm:flex-1 sm:justify-start flex items-center justify-center w-screen">
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="block h-8 w-auto lg:hidden"
