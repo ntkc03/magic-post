@@ -72,8 +72,8 @@ export default function UserLogin() {
   };
   return (
     <div className="flex justify-end h-screen bg-background">
-      <div className="ml-60 flex justify-center items-center  ">
-        <div className="relative">
+      <div className="ml-60 flex justify-center items-center">
+        <div className="relative w-1/2 "> 
           <img
             src="https://i.imgur.com/7XTdnaF.png"
             alt="Img"

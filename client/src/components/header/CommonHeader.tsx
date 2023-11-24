@@ -20,7 +20,7 @@ function CommonHeader() {
     <Disclosure as="nav" className="bg-background">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className="sm:mx-2 mx-auto  px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
@@ -72,8 +72,8 @@ function CommonHeader() {
               </div>
 
               <div className="flex-1 hidden justify-end sm:block">
-                <Disclosure.Button className="flex-1 items-center justify-end rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                    tại sao t không căn phải được cái này ToT
+                <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                    LOGIN
                 </Disclosure.Button>
                 
                 
