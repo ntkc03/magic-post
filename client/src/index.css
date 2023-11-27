@@ -10,6 +10,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'FS Magistral';
+  src: url('../public/fonts/fs-magistral-medium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
-  font-family: 'FontSpring Demo Priego', sans-serif;
+  font-family: 'FS Magistral', sans-serif;
 }
