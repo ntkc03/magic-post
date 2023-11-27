@@ -6,6 +6,7 @@ export default withMT({
   theme: {
     extend: {
       fontFamily: {
+        logo: ["FontSpring Demo Priego"],
         sans: ["Open Sans", "Roboto", "Arial", "sans-serif"],
         serif: ["Merriweather", "serif"],
         mono: [

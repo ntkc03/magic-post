@@ -22,14 +22,20 @@ export default function HomePage() {
     <Disclosure as="div" className="">
     {({ open }) => (
       <>
-      <div className="flex flex-col items-center justify-center h-screen bg-background text-center text-textColor">
-        <h1 className="text-8xl my-4">Magic derives from <br /> sustainable service</h1>
-        <p className="text-xl">MagicPost is a magical provider of domestic and <br />international parcel courier services in Vietnam.<br /><br /></p>
-        <div className="mb-14">
+      <div className="items-center justify-center h-screen bg-background text-center text-textColor">
+        <h1 className="text-8xl"><br />Magic derives from <br /> sustainable service</h1>
+        <p className="text-xl">MagicPost cung cấp dịch vụ ổn định và bền bỉ, đáp ứng nhu cầu <br /> vận chuyển hàng hóa nội địa và quốc tế tại Việt Nam.<br /><br /></p>
+        <div className="mb-0">
           <Disclosure.Button className="rounded-md p-2 sm:bg-buttonbg bg-buttonBlue hover:underline sm:text-white text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
             <a href = "">Search</a>
           </Disclosure.Button>
         </div>
+      
+      <img
+        src="https://i.imgur.com/Jrvywgo.png"
+        alt="Img"
+        className=""
+      />
       </div>
       </>
     )}

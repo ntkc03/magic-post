@@ -11,12 +11,13 @@
 }
 
 @font-face {
-  font-family: 'FS Magistral';
-  src: url('../public/fonts/fs-magistral-medium.woff') format('woff');
+  font-family: 'BD Lifeless';
+  src: url('../public/fonts/BDLifelessGrotesk-Medium.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 body {
-  font-family: 'FS Magistral', sans-serif;
+  font-family: 'BD Lifeless', sans-serif;
+  background-color: #f4f7ff;
 }

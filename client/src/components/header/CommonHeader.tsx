@@ -33,7 +33,7 @@ function CommonHeader() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="sm:flex-1 sm:justify-start flex w-full justify-center text-bold text-lg">
+              <div className="sm:flex-1 sm:justify-start flex w-full justify-center text-bold text-2xl font-logo">
                 MagicPost
               </div>
               <div className="flex-4 hidden sm:block">
