@@ -1,6 +1,6 @@
-import { CreateUserInterface, UserInterface } from "../../../../types/userInterface";
+// import { CreateUserInterface, UserInterface } from "../../../../types/userInterface";
 import { UserEntity } from "../../../../entities/UserEntity";
-import {UserModel} from "../models/userModel";
+import { UserModel } from "../models/userModel";
 
 export const UserRepositoryMongoDB = (model: UserModel) => {
   const userEntity = new UserEntity(model);
@@ -12,20 +12,20 @@ export const UserRepositoryMongoDB = (model: UserModel) => {
   };
 
   // adding a new user
-  const createUser = async (user: CreateUserInterface)=> {
-    const newUser = await userEntity.creteUser(user);
-    return newUser;
-  }
+  // const createUser = async (user: CreateUserInterface)=> {
+  //   const newUser = await userEntity.creteUser(user);
+  //   return newUser;
+  // }
 
-  const getUserDataById = async (id: string) => {
-    const userData = await userEntity.getUserDataById(id);
-    return userData;
-  }
+  // const getUserDataById = async (id: string) => {
+  //   const userData = await userEntity.getUserDataById(id);
+  //   return userData;
+  // }
 
-  const updateUser = async (userId: string, updates: Partial<UserInterface>) => {
-    const updatedUser = await userEntity.updateUser(userId, updates);
-    return updatedUser;
-  }
+  // const updateUser = async (userId: string, updates: Partial<UserInterface>) => {
+  //   const updatedUser = await userEntity.updateUser(userId, updates);
+  //   return updatedUser;
+  // }
 
   const deleteResume = async (userId: string) => {
     await userEntity.resumeDelete(userId);
@@ -33,9 +33,9 @@ export const UserRepositoryMongoDB = (model: UserModel) => {
 
   return {
     getUserByEmail,
-    createUser,
-    getUserDataById,
-    updateUser,
+    // createUser,
+    // getUserDataById,
+    // updateUser,
     deleteResume
   };
 };
