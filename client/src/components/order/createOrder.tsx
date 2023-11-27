@@ -19,7 +19,20 @@ export default function CreateOrder() {
   // const isLoggedIn = useSelector(
   //   (state: RootState) => state.userAuth.isLoggedIn
   // );
+  function setPadding(){
+    let padding: HTMLElement | null = document.getElementById('padding');
+    let fixed: HTMLElement | null  = document.getElementById('fixed');
+
+    if(padding) {
+        padding.style.height = fixed?.offsetHeight + 'px';
+        console.log(fixed?.offsetHeight, padding.offsetHeight)
+    }
+    
+
+  }
+  window.addEventListener('resize',setPadding);
   
+    
   const token = localStorage.getItem("token");
 
 //   const {
@@ -74,18 +87,18 @@ export default function CreateOrder() {
                     <CardBody className="p-4 ">
                     
                         <h1 className="font-bold">
-                            SENDER
+                            Thông tin người gửi
                         </h1>
 
                         {/* information */}
                         <div>
                             <div className="mb-4">
                                 <label className="text-sm font-bold" htmlFor="name">
-                                    Name
+                                    Tên người gửi
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="Enter the name"
+                                    placeholder="Nhập tên người gửi"
                                     // {...register("confirmPassword")}
                                     className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                 />
@@ -98,11 +111,11 @@ export default function CreateOrder() {
 
                             <div className="mb-4">
                                 <label className="text-sm font-bold" htmlFor="phone">
-                                    Phone
+                                    Điện thoại
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="Enter the phone number"
+                                    placeholder="Nhập số điện thoại của người gửi"
                                     // {...register("confirmPassword")}
                                     className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                 />
@@ -114,13 +127,13 @@ export default function CreateOrder() {
                             </div>
 
                             <label className="text-sm font-bold" htmlFor="address">
-                                Address
+                                Địa chỉ
                             </label>
-                            <div className="flex flex-row space-x-[2%] my-[10px]">
-                                <div className="flex flex-col space-y-2 w-[49%]">
+                            <div className="grid lg:grid-cols-2 ">
+                                <div className="lg:mr-2 my-2">
                                     <input
                                         type="text"
-                                        placeholder="Country"
+                                        placeholder="Quốc gia"
                                         // {...register("confirmPassword")}
                                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
@@ -131,10 +144,10 @@ export default function CreateOrder() {
                                     )} */}
                                 </div>
                                 
-                                <div className="flex flex-col space-y-2 w-[49%]">
+                                <div className="lg:ml-2 my-2">
                                     <input
                                         type="text"
-                                        placeholder="Province/City"
+                                        placeholder="Tỉnh/Thành phố"
                                         // {...register("confirmPassword")}
                                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
@@ -146,11 +159,11 @@ export default function CreateOrder() {
                                 </div>
                             </div>
 
-                            <div className="flex flex-row space-x-[2%] my-[10px]">
-                                <div className="flex flex-col space-y-2 w-[49%]">
+                            <div className="grid lg:grid-cols-2">
+                                <div className="lg:mr-2 my-2">
                                     <input
                                         type="text"
-                                        placeholder="District/Town"
+                                        placeholder="Quận/Huyện/Thị trấn"
                                         // {...register("confirmPassword")}
                                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
@@ -162,10 +175,10 @@ export default function CreateOrder() {
                                 </div>
 
                                 
-                                <div className="flex flex-col space-y-2 w-[49%]">
+                                <div className="lg:ml-2 my-2">
                                     <input
                                         type="text"
-                                        placeholder="Sub-district/Village"
+                                        placeholder="Phường/Xã"
                                         // {...register("confirmPassword")}
                                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
@@ -177,10 +190,10 @@ export default function CreateOrder() {
                                 </div>
                             </div>
 
-                            <div className="mb-4">
+                            <div className="mb-4 mt-2">
                                 <input
                                     type="text"
-                                    placeholder="Enter the no/hamlet/alley/lane/..."
+                                    placeholder="Nhập số nhà/tên đường/thôn ..."
                                     // {...register("confirmPassword")}
                                     className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                 />
@@ -196,22 +209,22 @@ export default function CreateOrder() {
                 </Card>
 
                 {/* Receiver Form */}
-                <Card className="relative mx-[10%] mt-16 lg:mx-[5%] shadow-lg shadow-gray-400">
+                <Card className="relative mx-[10%] mt-8 lg:mx-[5%] shadow-lg shadow-gray-400">
                     <CardBody className="p-4 ">
                     
                         <h1 className="font-bold">
-                            RECEIVER
+                            Thông tin người nhận
                         </h1>
 
                         {/* information */}
                         <div>
                             <div className="mb-4">
                                 <label className="text-sm font-bold" htmlFor="name">
-                                    Name
+                                    Tên người nhận
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="Enter the name"
+                                    placeholder="Nhập tên người nhận"
                                     // {...register("confirmPassword")}
                                     className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                 />
@@ -224,11 +237,11 @@ export default function CreateOrder() {
 
                             <div className="mb-4">
                                 <label className="text-sm font-bold" htmlFor="phone">
-                                    Phone
+                                    Điện thoại
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="Enter the phone number"
+                                    placeholder="Nhập số điện thoại của người nhận"
                                     // {...register("confirmPassword")}
                                     className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                 />
@@ -240,13 +253,13 @@ export default function CreateOrder() {
                             </div>
 
                             <label className="text-sm font-bold" htmlFor="address">
-                                Address
+                                Địa chỉ
                             </label>
-                            <div className="flex flex-row space-x-[2%] my-[10px]">
-                                <div className="flex flex-col space-y-2 w-[49%]">
+                            <div className="grid lg:grid-cols-2 ">
+                                <div className="lg:mr-2 my-2">
                                     <input
                                         type="text"
-                                        placeholder="Country"
+                                        placeholder="Quốc gia"
                                         // {...register("confirmPassword")}
                                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
@@ -257,10 +270,10 @@ export default function CreateOrder() {
                                     )} */}
                                 </div>
                                 
-                                <div className="flex flex-col space-y-2 w-[49%]">
+                                <div className="lg:ml-2 my-2">
                                     <input
                                         type="text"
-                                        placeholder="Province/City"
+                                        placeholder="Tỉnh/Thành phố"
                                         // {...register("confirmPassword")}
                                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
@@ -272,11 +285,11 @@ export default function CreateOrder() {
                                 </div>
                             </div>
 
-                            <div className="flex flex-row space-x-[2%] my-[10px]">
-                                <div className="flex flex-col space-y-2 w-[49%]">
+                            <div className="grid lg:grid-cols-2">
+                                <div className="lg:mr-2 my-2">
                                     <input
                                         type="text"
-                                        placeholder="District/Town"
+                                        placeholder="Quận/Huyện/Thị trấn"
                                         // {...register("confirmPassword")}
                                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
@@ -288,10 +301,10 @@ export default function CreateOrder() {
                                 </div>
 
                                 
-                                <div className="flex flex-col space-y-2 w-[49%]">
+                                <div className="lg:ml-2 my-2">
                                     <input
                                         type="text"
-                                        placeholder="Sub-district/Village"
+                                        placeholder="Phường/Xã"
                                         // {...register("confirmPassword")}
                                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
@@ -303,10 +316,10 @@ export default function CreateOrder() {
                                 </div>
                             </div>
 
-                            <div className="mb-4">
+                            <div className="mb-4 mt-2">
                                 <input
                                     type="text"
-                                    placeholder="Enter the no/hamlet/alley/lane/..."
+                                    placeholder="Nhập số nhà/tên đường/thôn ..."
                                     // {...register("confirmPassword")}
                                     className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                 />
@@ -324,44 +337,368 @@ export default function CreateOrder() {
             
             {/* Goods */}
             <div className="flex-1">
-                <Card className="relative mx-[10%] mt-16 lg:mt-0 lg:mx-[5%] shadow-lg shadow-gray-400">
+                <Card className="relative mx-[10%] mt-8 lg:mt-0 lg:mx-[5%] shadow-lg shadow-gray-400">
                     <CardBody className="p-4 ">
+                        <h1 className="font-bold">
+                            Thông tin hàng hóa
+                        </h1>
                         <div>
-                            <h1 className="font-bold">
-                                Type of parcel
-                            </h1>
-
                             {/* information */}
                             <div>
-                                <div className="flex flex-col space-y-2 w-[49%]">
+                                <div className="mb-4 mt-4">
                                     <label className="font-bold">
-                                        Parcel content
+                                        Loại hàng gửi
                                     </label>
-                                    <div className="space-x-4">
+                                    <div className="md:space-x-4 my-2 grid md:grid-cols-2">
                                         <label className="inline-flex items-center">
                                             <input
                                                 type="checkbox"
                                                 className="form-radio text-blue-600"
                                                 // {...register("page2q2")}
                                             />
-                                            <span className="ml-2">Document</span>
-                                            </label>
+                                            <span className="ml-2">Tài liệu</span>
+                                        </label>
 
-                                            <label className="inline-flex items-center">
+                                        <label className="inline-flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            className="form-radio text-blue-600"
+                                            // {...register("page2q2")}
+                                        />
+                                        <span className="ml-2">Hàng hóa</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div className="border-t border-gray-300 my-4"></div>
+
+                                <div className="mb-4">
+                                    <div>
+                                        <label>
+                                            Tên hàng 1
+                                        </label>
+
+                                        <div className="mb-4">
                                             <input
-                                                type="checkbox"
-                                                className="form-radio text-blue-600"
-                                                // {...register("page2q2")}
+                                                type="text"
+                                                placeholder="Nhập tên hàng hóa"
+                                                // {...register("confirmPassword")}
+                                                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                             />
-                                            <span className="ml-2">Goods</span>
-                                            </label>
+                                            {/* {errors.confirmPassword && (
+                                                <p className="text-red-500 text-sm">
+                                                {errors.confirmPassword.message}
+                                                </p>
+                                            )} */}
+                                        </div>
+
+                                        <div className="grid md:grid-cols-3">
+                                            <div className="md:mr-2 mb-4">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Số lượng"
+                                                    // {...register("confirmPassword")}
+                                                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                                />
+                                                {/* {errors.confirmPassword && (
+                                                    <p className="text-red-500 text-sm">
+                                                    {errors.confirmPassword.message}
+                                                    </p>
+                                                )} */}
+                                            </div>
+
+                                            
+                                            <div className="md:ml-2 md:mr-2 mb-4">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Trọng lượng"
+                                                    // {...register("confirmPassword")}
+                                                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                                />
+                                                {/* {errors.confirmPassword && (
+                                                    <p className="text-red-500 text-sm">
+                                                    {errors.confirmPassword.message}
+                                                    </p>
+                                                )} */}
+                                            </div>
+
+                                            <div className="md:ml-2 mb-4">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Giá trị hàng"
+                                                    // {...register("confirmPassword")}
+                                                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                                />
+                                                {/* {errors.confirmPassword && (
+                                                    <p className="text-red-500 text-sm">
+                                                    {errors.confirmPassword.message}
+                                                    </p>
+                                                )} */}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="border-t border-gray-300 my-4"></div>
+
+                                    <div className="flex items-center justify-center">
+                                        <button className="inline-flex items-center bg-white hover:bg-gray-100 border-2 text-blue-200 border-blue-200 py-2 px-2 shadow-md rounded">
+                                            <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                            </svg>
+                                            Thêm hàng hóa
+                                        </button>
+                                    </div>
+
+                                    <div className="border-t border-gray-300 my-4"></div>
+
+                                    <div>
+                                        <div className="space-x-4 my-4 grid grid-cols-2">
+                                            <p>Tổng khối lượng</p>
+
+                                            <p className="text-right text-blue-700">
+                                                0 g
+                                            </p>
+                                        </div>
+
+                                        <div className="space-x-4 my-4 grid grid-cols-2">
+                                            <p>Tổng giá trị</p>
+
+                                            <p className="text-right text-blue-700">
+                                                0 đ
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="border-t border-gray-300 my-4"></div>
+                                    
+                                    <div>
+                                        <label className="font-bold">
+                                            Tính chất của hàng hóa đặc biệt
+                                        </label>
+
+                                        <div className="md:space-x-4 my-2 grid md:grid-cols-2">
+                                            <div>
+                                                <label className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-radio text-blue-600"
+                                                        // {...register("page2q2")}
+                                                    />
+                                                    <span className="ml-2">Giá trị cao</span>
+                                                </label>
+
+                                                <label className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-radio text-blue-600"
+                                                        // {...register("page2q2")}
+                                                    />
+                                                    <span className="ml-2">Dễ vỡ</span>
+                                                </label>
+
+                                                <label className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-radio text-blue-600"
+                                                        // {...register("page2q2")}
+                                                    />
+                                                    <span className="ml-2">Chất lỏng</span>
+                                                </label>
+
+                                                <label className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-radio text-blue-600"
+                                                        // {...register("page2q2")}
+                                                    />
+                                                    <span className="ml-2">Hàng lạnh</span>
+                                                </label>
+                                            </div>
+
+                                            <div>
+                                            <label className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-radio text-blue-600"
+                                                        // {...register("page2q2")}
+                                                    />
+                                                    <span className="ml-2">Nguyên khối</span>
+                                                </label>
+
+                                                <label className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-radio text-blue-600"
+                                                        // {...register("page2q2")}
+                                                    />
+                                                    <span className="ml-2">Quá khổ</span>
+                                                </label>
+
+                                                <label className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-radio text-blue-600"
+                                                        // {...register("page2q2")}
+                                                    />
+                                                    <span className="ml-2">Từ tính/Pin</span>
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div className="border-t border-gray-300 my-4"></div>
+
+                                    <div>
+                                        <label className="font-bold">Chỉ dẫn của người gửi khi không phát được bưu gửi</label>
+                                        <div className="md:space-x-4 my-2 grid md:grid-cols-2">
+                                            <div>
+                                                <label className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-radio text-blue-600"
+                                                        // {...register("page2q2")}
+                                                    />
+                                                    <span className="ml-2">Chuyển hoàn ngay</span>
+                                                </label>
+
+                                                <label className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-radio text-blue-600"
+                                                        // {...register("page2q2")}
+                                                    />
+                                                    <span className="ml-2">Gọi điện cho người gửi</span>
+                                                </label>
+
+                                                <label className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-radio text-blue-600"
+                                                        // {...register("page2q2")}
+                                                    />
+                                                    <span className="ml-2">Chuyển hoàn trước ngày</span>
+                                                </label>
+                                            </div>
+
+                                            <div>
+                                            <label className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-radio text-blue-600"
+                                                        // {...register("page2q2")}
+                                                    />
+                                                    <span className="ml-2">Chuyển hoàn khi hết thời gian lưu trữ</span>
+                                                </label>
+
+                                                <label className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="form-radio text-blue-600"
+                                                        // {...register("page2q2")}
+                                                    />
+                                                    <span className="ml-2">Hủy</span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </CardBody>
+                </Card>
+
+                <Card className="relative mx-[10%] mt-8 lg:mx-[5%] shadow-lg shadow-gray-400">
+                    <CardBody className="p-4 ">
+                        <h1 className="font-bold">
+                            Tiền thu hộ
+                        </h1>
+                        <div className="my-4 ml-2">
+                            <label className="inline-flex items-center">
+                                <input
+                                    type="checkbox"
+                                    className="form-radio text-blue-600"
+                                    // {...register("page2q2")}
+                                />
+                                <span className="ml-2">Thu hộ bằng tiền hàng</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                placeholder="Nhập tiền thu hộ"
+                                // {...register("confirmPassword")}
+                                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                            />
+
+                            <div className="border-t border-gray-300 my-4"></div>
+                            
+                            <div className="mb-4">
+                                <label className="text-sm font-bold" htmlFor="name">
+                                    Ghi chú
+                                </label>
+                                <textarea className="resize-none border rounded w-full p-2 focus:outline-none focus:border-blue-500"
+                                placeholder="Nhập ghi chú">
+
+                                </textarea>
+                            </div>
                         </div>
                     </CardBody>
                 </Card>
             </div>
+
+            <div id='padding'>
+                {/* Some space (adjust the margin-bottom value as needed) */}
+            </div>
+
+            {/* Money */}
+
+            <div id='fixed' className="fixed bottom-0 z-10 lg:grid lg:grid-cols-6 w-[90%] left-1/2 transform -translate-x-1/2  bg-white rounded border-[3px] border-gray-400 my-[5px]">
+                 <div className="grid col-span-2 grid-cols-2 border-b-[3px] lg:border-b-[0px] border-gray-300">
+                    <div className="col-span-1 p-4 border-r-[3px] border-gray-300">
+                        <p className="mb-2">Tổng cước</p>
+                        <p>0 đ</p>
+                    </div>
+
+                    <div className="col-span-1 p-4 border-r-[3px] border-gray-300">
+                        <p className="mb-2">Tiền thu hộ</p>
+                        <p>0 đ</p>
+                    </div>
+                 </div>
+
+                 <div className="grid col-span-2 grid-cols-2 border-b-[3px] lg:border-b-[0px] border-gray-300">
+                    <div className="lg:col-span-1 p-4 border-r-[3px] border-gray-300">
+                        <p className="mb-2">Tiền thu người nhận</p>
+                        <p>0 đ</p>
+                    </div>
+
+                    <div className="lg:col-span-1 p-4 border-r-[3px] border-gray-300">
+                        <p className="mb-2">Thời gian dự kiến</p>
+                        <p></p>
+                    </div>
+                 </div>
+
+                 <div className="col-span-2 py-4 grid lg:grid-cols-3 grid-cols-1 flex items-center">
+                    <div className="flex justify-center pb-2">
+                        <button className="w-[80%] bg-white hover:bg-blue-100 border-2 text-blue-200 border-blue-200 py-2 px-2 shadow-md rounded">
+                            Gửi ngay
+                        </button>
+                    </div>
+
+                    <div className="flex justify-center pb-2">
+                        <button className="w-[80%] bg-gray-700 hover:bg-gray-400 border-2 text-white py-2 px-2 rounded">
+                            Lưu nháp
+                        </button>
+                    </div>
+
+                    <div className="flex justify-center pb-2">
+                        <button className="w-[80%] bg-gray-700 hover:bg-gray-400 border-2 text-white py-2 px-2 rounded">
+                            Làm mới
+                        </button>
+                    </div>
+                 </div>
+
+            </div>
+            
         </form>
         
 
