@@ -9,6 +9,8 @@ const apiConfig = {
     uploadResume: `${configKeys.API_URL}user/update-resume`,
     deleteResume: `${configKeys.API_URL}user/delete-resume`,
     userCheckIn: `${configKeys.API_URL}user/check-in`,
+
+    createOrder: `${configKeys.API_URL}user/order`,
     
     employerRegister: `${configKeys.API_URL}employer-auth/register`,
     employerLogin: `${configKeys.API_URL}employer-auth/login`,

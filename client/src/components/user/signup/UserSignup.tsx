@@ -59,15 +59,15 @@ export default function UserSignUp() {
       </div>
       <div className="flex flex-wrap justify-center items-center ">
       <div className="p-8 bg-white border border-gray-300 rounded-xl shadow-lg sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="text-3xl font-bold mb-4">Register</h2>
+          <h2 className="text-3xl font-bold mb-4">Đăng ký</h2>
           <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
             <div>
               <label className="text-sm" htmlFor="email">
-                Name
+                Tên
               </label>
               <input
                 type="text"
-                placeholder="Name"
+                placeholder="Nhập tên người dùng"
                 {...register("name")}
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-purple-500"
               />
@@ -82,7 +82,7 @@ export default function UserSignUp() {
               <input
                 id="email"
                 type="text"
-                placeholder="Email"
+                placeholder="Nhập email"
                 {...register("email")}
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-purple-500"
               />
@@ -92,11 +92,11 @@ export default function UserSignUp() {
             </div>
             <div>
               <label className="text-sm" htmlFor="email">
-                Phone
+                Điện thoại
               </label>
               <input
                 type="phone"
-                placeholder="Phone"
+                placeholder="Nhập số điện thoại"
                 {...register("phone")}
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-purple-500"
               />
@@ -106,11 +106,11 @@ export default function UserSignUp() {
             </div>
             <div>
               <label className="text-sm" htmlFor="email">
-                Password
+                Mật khẩu
               </label>
               <input
                 type="password"
-                placeholder="Password"
+                placeholder="Nhập mật khẩu"
                 {...register("password")}
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-purple-500"
               />
@@ -122,11 +122,11 @@ export default function UserSignUp() {
             </div>
             <div>
               <label className="text-sm" htmlFor="email">
-                Confirm password
+                Xác nhận lại mật khẩu
               </label>
               <input
                 type="password"
-                placeholder="Confirm password"
+                placeholder="Nhập lại mật khẩu để xác nhận"
                 {...register("confirmPassword")}
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-purple-500"
               />
@@ -140,7 +140,7 @@ export default function UserSignUp() {
               type="submit"
               className="w-full px-3 py-2 text-sm bg-activeButton text-white rounded hover:bg-buttonPurple flex justify-center items-center"
             >
-              Register
+              Đăng ký
             </button>
           </form>
           {/* <span className="mr-2 flex justify-center">or</span> */}
@@ -153,8 +153,8 @@ export default function UserSignUp() {
           <div className="mt-4 text-center">
             <Link to={"/user/login"}>
               <span className="text-gray-500">
-               Have an account?
-                <p className="text-loginText underline">Login</p>
+               Đã có tài khoản?
+                <p className="text-loginText underline">Đăng nhập</p>
               </span>
             </Link>
           </div>

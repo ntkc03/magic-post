@@ -1,25 +1,29 @@
-import { Types } from "mongoose";
-
 export interface orderInterface {
-    _id?: Types.ObjectId,
+    _id?: any,
     code?: string,
 
     senderName?: string,
     senderAddress?: string,
-    senderLocal?: string,
-    senderCity?: string,
     senderCountry?: string,
+    senderCity?: string,
+    senderDistrict?: string,
+    senderCommunes?: string,
+    senderVillage?: string,
+    senderHouseNumber?:string,
     senderPhone?: string,
 
     receiverName?: string,
     receiverAddress?: string,
-    receiverLocal?: string,
-    receiverCity?: string,
     receiverCountry?: string,
+    receiverDistrict?: string,
+    receiverNeighborhood?: string,
+    receiverVillage?: string,
+    receiverHouseNumber?:string,
+    receiverCity?: string,
     receiverPhone?: string,
 
     type: boolean,
-    specialService?: string,
+    specialService?: string[],
     cannotDilvered?: number,
 
     mainFee?: number,
@@ -39,7 +43,7 @@ export interface orderInterface {
     note?: string,
     create_at?: Date,
     sended_at?: Date,
-    status?: number,
+    status?: string[],
     consolidationID?: string,
     transactionID?: string,
     deliveryPersonID?: string

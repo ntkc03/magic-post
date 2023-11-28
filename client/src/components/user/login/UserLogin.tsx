@@ -57,10 +57,6 @@ export default function UserLogin() {
         const token = response.token;
         dispatch(setToken(token));
         dispatch(loginSuccess());
-        
-        
-        
-
         notify("Login success", "success");
         setTimeout(() => {
           navigate("/user/home");
@@ -89,7 +85,7 @@ export default function UserLogin() {
       </div>
       <div className="flex flex-wrap justify-center items-center ">
         <div className="w-96 h-auto p-8 bg-white border border-gray-300 rounded-xl shadow-md">
-          <h2 className="text-3xl font-bold mb-4">Login</h2>
+          <h2 className="text-3xl font-bold mb-4">Đăng nhập</h2>
           <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
             <div>
               <label className="text-sm" htmlFor="email">
@@ -98,7 +94,7 @@ export default function UserLogin() {
               <input
                 id="email"
                 type="text  "
-                placeholder="Email"
+                placeholder="Nhập email"
                 {...register("email")}
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-purple-500  "
               />
@@ -108,11 +104,11 @@ export default function UserLogin() {
             </div>
             <div>
               <label className="text-sm" htmlFor="password">
-                Password
+                Mật khẩu
               </label>
               <input
                 type="password"
-                placeholder="Password"
+                placeholder="Nhập mật khẩu"
                 {...register("password")}
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-purple-500 "
               />
@@ -126,15 +122,15 @@ export default function UserLogin() {
               type="submit"
               className="w-full px-3 py-2 text-sm  bg-activeButton text-white rounded hover:bg-buttonPurple flex justify-center items-center "
             >
-              Login
+              Đăng nhập
             </button>
           </form>
 
           <div className="mt-4 text-center">
             <Link to={"/user/register"}>
               <span className="text-gray-500">
-                Don't have an account?{" "}
-                <p className="text-loginText underline">Register</p>
+                Chưa có tài khoản?{" "}
+                <p className="text-loginText underline">Đăng ký</p>
               </span>
             </Link>
           </div>

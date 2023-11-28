@@ -23,7 +23,7 @@ export interface orderInterface {
     receiverPhone?: string,
 
     type: boolean,
-    specialService?: string,
+    specialService?: string[],
     cannotDilvered?: number,
 
     mainFee?: number,
@@ -43,7 +43,7 @@ export interface orderInterface {
     note?: string,
     create_at?: Date,
     sended_at?: Date,
-    status?: number,
+    status?: string[],
     consolidationID?: string,
     transactionID?: string,
     deliveryPersonID?: string
