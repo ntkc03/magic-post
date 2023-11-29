@@ -30,17 +30,20 @@ export default function CreateOrder() {
     // resolver: yupResolver(userLoginValidationSchema),
   });
   
-  function setPadding(){
-    let padding: HTMLElement | null = document.getElementById('padding');
-    let fixed: HTMLElement | null  = document.getElementById('fixed');
 
-    if(padding) {
-        padding.style.height = fixed?.offsetHeight + 'px';
+  useEffect(() => {
+    function setPadding(){
+      let padding: HTMLElement | null = document.getElementById('padding');
+      let fixed: HTMLElement | null  = document.getElementById('fixed');
+  
+      if(padding) {
+          padding.style.height = fixed?.offsetHeight + 'px';
+      }
+      
+  
     }
-    
-
-  }
-  window.addEventListener('resize',setPadding);
+    setPadding();
+  });
   
     
   const token = localStorage.getItem("token");

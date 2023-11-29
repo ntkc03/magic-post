@@ -73,7 +73,7 @@ export default function GoodsInformation() {
                             <div id="items-list">
                                 <ItemDetails/>
                                 {items.map((item, index) => (
-                                <div key={index}>{item}</div>
+                                 <div key={index}>{item}</div>
                                 ))}
                             </div>
 
@@ -95,7 +95,6 @@ export default function GoodsInformation() {
                                     <p>Tổng khối lượng</p>
 
                                     <p className="text-right text-blue-700">
-                                        0 g
                                     </p>
                                 </div>
 
@@ -103,7 +102,6 @@ export default function GoodsInformation() {
                                     <p>Tổng giá trị</p>
 
                                     <p className="text-right text-blue-700">
-                                        0 đ
                                     </p>
                                 </div>
                             </div>
