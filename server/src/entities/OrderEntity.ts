@@ -65,7 +65,7 @@ export class OrderEntity {
         return orders;
     }
 
-    public async updateOrderStatus(orderId: string, newStatus: any): Promise<orderInterface | null> {
+    public async updateOrderStatus(orderId: string, updates: Partial<orderInterface>): Promise<orderInterface | null> {
         try {
             const order = await this.model.findById(orderId);
 
@@ -74,18 +74,21 @@ export class OrderEntity {
                 throw new Error("order not found");
                 return null;
             }
-
-            order.status = newStatus;
+            Object.assign(order, updates);
 
             // Save the updated order to the database
             const updatedOrder = await order.save();
-
             return updatedOrder.toObject(); // Convert Mongoose document to plain JavaScript object
         } catch (error) {
             // Handle errors, e.g., log them or throw a custom error
             console.error('Error updating order status:', error);
             throw error;
         }
+    }
+
+    public async getAllOrders(): Promise<orderInterface[]> {
+        const allOrders: any = await this.model.find();
+        return allOrders;
     }
 
 }

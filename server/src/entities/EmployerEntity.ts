@@ -48,4 +48,10 @@ export class EmployerEntity {
         await this.model.findByIdAndDelete(employerId);
     }
 
+    public async getAllEmployers(): Promise<employerInterface[]> {
+        const allEmployers = await this.model.find();
+        return allEmployers;
+    }
+
+
 }
