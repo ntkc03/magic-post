@@ -13,7 +13,6 @@ import {
 import { orderInterface } from "../../types/OrderInterface";
 import ItemDetails from "./itemDetails";
 
-
 export default function GoodsInformation() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,6 +31,8 @@ export default function GoodsInformation() {
     setItems([...items, <ItemDetails key={items.length} />]);
   };
 
+  
+  
   return (
     <div>
         <Card className="relative mx-[10%] mt-8 lg:mt-0 lg:mx-[0%] lg:mr-[10%] lg:ml-[2.5%] shadow-lg shadow-gray-400">
@@ -91,18 +92,22 @@ export default function GoodsInformation() {
                             <div className="border-t border-gray-300 my-4"></div>
 
                             <div>
-                                <div className="space-x-4 my-4 grid grid-cols-2">
-                                    <p>Tổng khối lượng</p>
-
-                                    <p className="text-right text-blue-700">
-                                    </p>
+                                <div className="my-4 lg:grid lg:grid-cols-3">
+                                    <p className="lg:col-span-1 py-2">Tổng khối lượng (g)</p>
+                                    <input
+                                        type="text"
+                                        placeholder="Nhập tổng khối lượng"
+                                        className="lg:col-span-2 lg:mx-4 lg:w-auto w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
                                 </div>
 
-                                <div className="space-x-4 my-4 grid grid-cols-2">
-                                    <p>Tổng giá trị</p>
-
-                                    <p className="text-right text-blue-700">
-                                    </p>
+                                <div className="my-4 lg:grid lg:grid-cols-3">
+                                    <p className="lg:col-span-1 py-2">Tổng giá trị (đ)</p>
+                                    <input
+                                        type="text"
+                                        placeholder="Nhập tổng giá trị"
+                                        className="lg:col-span-2 lg:mx-4 lg:w-auto w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
                                 </div>
                             </div>
 

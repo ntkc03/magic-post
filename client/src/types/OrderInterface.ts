@@ -26,13 +26,7 @@ export interface orderInterface {
     specialService?: string[],
     cannotDilvered?: number,
 
-    items?:Array<any>,
-    item?: {
-        name?: string,
-        quantity?: number,
-        weight?:number,
-        cost?:number
-    }
+    items?:string[],
 
     mainFee?: number,
     additionalFee?: number,
