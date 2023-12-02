@@ -1,35 +1,52 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux/es/exports";
-import { ToastContainer, toast } from "react-toastify";
-import { Disclosure } from "@headlessui/react";
-import "react-toastify/dist/ReactToastify.css";
+import React from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+// import { useNavigate } from "react-router-dom";
+import { RootState } from "../../features/redux/reducers/Reducer";
+import { loginSuccess } from "../../features/redux/slices/user/userLoginAuthSlice";
 
 
+const links = [
+  { name: "Easy apply", href: "#" },
+  { name: "Hundreds of recruiters", href: "#" },
+  { name: "Different categories of jobs", href: "#" },
+  { name: "Find you dream job", href: "#" },
+];
+const stats = [
+  { name: "Of jobs", value: "1000" },
+  { name: "Full-time Part-time etc", value: "Different jobs" },
+  { name: "Companies", value: "100+" },
+  { name: "No charges", value: "Unlimited" },
+];
 
-export default function HomePage() {
+function HomePage() {
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const isLoggedIn = true;
+//   const isLoggedIn = useSelector(
+//     (state: RootState) => state.userAuth.isLoggedIn
+//   );
 
-  const token = localStorage.getItem("token");
-
-
-  const notify = (msg: string, type: string) =>
-    type === "error"
-      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
-      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(loginSuccess());
+    }
+    // if (isLoggedIn === true) {
+    //   navigate("/user/home");
+    // }
+  }, [dispatch, isLoggedIn]);
 
   return (
-    <Disclosure as="div" className="">
-    {({ open }) => (
-      <>
-      <div className="items-center justify-center h-screen bg-background text-center text-textColor">
-        <h1 className="text-8xl"><br />Magic derives from <br /> sustainable service</h1>
-        <p className="text-xl">MagicPost cung cấp dịch vụ ổn định và bền bỉ, đáp ứng nhu cầu <br /> vận chuyển hàng hóa nội địa và quốc tế tại Việt Nam.<br /><br /></p>
+    <div className="relative overflow-hidden bg-background py-24 sm:py-32">
+        <div className="items-center justify-center bg-background text-center text-textColor">
+        <h1 className="text-4xl sm:text-8xl">Magic derives from <br /> sustainable service</h1>
+        <p className="mx-4 sm:text-xl">MagicPost cung cấp dịch vụ ổn định và bền bỉ, đáp ứng nhu cầu <br className="hidden sm:block" /> vận chuyển hàng hóa nội địa và quốc tế tại Việt Nam.<br /><br /></p>
         <div className="mb-0">
-          <Disclosure.Button className="rounded-md p-2 sm:bg-buttonbg bg-buttonBlue hover:underline sm:text-white text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+          <button className="rounded-md p-2 bg-buttonbg hover:underline text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
             <a href = "">Search</a>
-          </Disclosure.Button>
-        </div>
+          </button>
+        
       
       <img
         src="https://i.imgur.com/Jrvywgo.png"
@@ -37,8 +54,9 @@ export default function HomePage() {
         className=""
       />
       </div>
-      </>
-    )}
-    </Disclosure>
+      </div>
+    </div>
   );
 }
+
+export default HomePage;

@@ -19,6 +19,7 @@ export default function ItemDetails() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
   const {
     register,
     formState: { errors },
@@ -36,7 +37,6 @@ export default function ItemDetails() {
             <input
                 type="text"
                 placeholder="Nhập tên hàng hóa"
-                {...register("item.name")}
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
             />
             {/* {errors.confirmPassword && (
@@ -44,51 +44,6 @@ export default function ItemDetails() {
                 {errors.confirmPassword.message}
                 </p>
             )} */}
-        </div>
-
-        <div className="grid md:grid-cols-3">
-            <div className="md:mr-2 mb-4">
-                <input
-                    type="text"
-                    placeholder="Số lượng"
-                    {...register("item.quantity")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                />
-                {/* {errors.confirmPassword && (
-                    <p className="text-red-500 text-sm">
-                    {errors.confirmPassword.message}
-                    </p>
-                )} */}
-            </div>
-
-            
-            <div className="md:ml-2 md:mr-2 mb-4">
-                <input
-                    type="text"
-                    placeholder="Trọng lượng"
-                    {...register("item.weight")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                />
-                {/* {errors.confirmPassword && (
-                    <p className="text-red-500 text-sm">
-                    {errors.confirmPassword.message}
-                    </p>
-                )} */}
-            </div>
-
-            <div className="md:ml-2 mb-4">
-                <input
-                    type="text"
-                    placeholder="Giá trị hàng"
-                    {...register("item.cost")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                />
-                {/* {errors.confirmPassword && (
-                    <p className="text-red-500 text-sm">
-                    {errors.confirmPassword.message}
-                    </p>
-                )} */}
-            </div>
         </div>
     </div>
   );

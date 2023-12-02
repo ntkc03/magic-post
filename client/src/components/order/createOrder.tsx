@@ -17,6 +17,7 @@ import { orderInterface } from "../../types/OrderInterface";
 import SenderInformation from "./senderInformation";
 import ReceiverInformation from "./receiverInformation";
 import GoodsInformation from "./goodsInformation";
+import { costCalcu} from "./calculation";
 
 export default function CreateOrder() {
   const dispatch = useDispatch();
@@ -29,6 +30,8 @@ export default function CreateOrder() {
   } = useForm<orderInterface>({
     // resolver: yupResolver(userLoginValidationSchema),
   });
+  
+  const { costCalculation } = costCalcu();
   
 
   useEffect(() => {
@@ -43,6 +46,17 @@ export default function CreateOrder() {
   
     }
     setPadding();
+    window.addEventListener('resize', setPadding);
+  });
+
+  let totalFee = 0;
+  let estimatedTime = 0;
+  let totalWeight = 0;
+  useEffect(() => {
+    const senderCity = document.getElementById("city") as HTMLSelectElement;
+    const receiverCity = document.getElementById("cityz") as HTMLSelectElement;
+    
+    costCalculation(senderCity, receiverCity, totalWeight, estimatedTime, totalFee);
   });
   
     
@@ -105,7 +119,7 @@ export default function CreateOrder() {
                  <div className="grid col-span-2 grid-cols-2 border-b-[3px] lg:border-b-[0px] border-gray-300">
                     <div className="col-span-1 lg:p-4 p-2 border-r-[3px] border-gray-300">
                         <p className="lg:mb-2">Tổng cước</p>
-                        <p>0 đ</p>
+                        <p>{totalFee} đ</p>
                     </div>
 
                     <div className="col-span-1 lg:p-4 p-2 lg:border-r-[3px] border-gray-300">
@@ -122,7 +136,7 @@ export default function CreateOrder() {
 
                     <div className="lg:col-span-1 md:p-4 p-2 lg:border-r-[3px] border-gray-300">
                         <p className="lg:mb-2">Thời gian dự kiến</p>
-                        <p></p>
+                        <p>{estimatedTime} ngày</p>
                     </div>
                  </div>
 
