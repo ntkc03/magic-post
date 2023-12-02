@@ -11,32 +11,50 @@ const orderSchema = new Schema({
     senderAddress: {
         type: String
     },
-    senderLocal: {
+    senderCountry: {
         type: String
     },
     senderCity: {
         type: String
     },
-    senderCountry: {
+    senderDistrict: {
+        type: String
+    },
+    senderCommunes: {
+        type: String
+    },
+
+    senderVillage: {
+        type: String
+    },
+    senderHouseNumber: {
         type: String
     },
     senderPhone: {
         type: String
     },
-
     receiverName: {
         type: String
     },
     receiverAddress: {
         type: String
     },
-    receiverLocal: {
+    receiverCountry: {
+        type: String
+    },
+    receiverDistrict: {
+        type: String
+    },
+    receiverNeighborhood: {
+        type: String
+    },
+    receiverVillage: {
+        type: String
+    },
+    receiverHouseNumber: {
         type: String
     },
     receiverCity: {
-        type: String
-    },
-    receiverCountry: {
         type: String
     },
     receiverPhone: {
@@ -46,10 +64,13 @@ const orderSchema = new Schema({
         type: Boolean
     },
     specialService: {
-        type: String
+        type: Array
     },
     cannotDilvered: {
         type: Number
+    },
+    items: {
+        type: Array
     },
     mainFee: {
         type: Number
@@ -95,7 +116,7 @@ const orderSchema = new Schema({
         type: Date
     },
     status: {
-        type: Number
+        type: Array
     },
     consolidationID: {
         type: String

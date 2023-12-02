@@ -9,7 +9,7 @@ export interface orderInterface {
     senderDistrict?: string,
     senderCommunes?: string,
     senderVillage?: string,
-    senderHouseNumber?:string,
+    senderHouseNumber?: string,
     senderPhone?: string,
 
     receiverName?: string,
@@ -18,7 +18,7 @@ export interface orderInterface {
     receiverDistrict?: string,
     receiverNeighborhood?: string,
     receiverVillage?: string,
-    receiverHouseNumber?:string,
+    receiverHouseNumber?: string,
     receiverCity?: string,
     receiverPhone?: string,
 
@@ -27,6 +27,7 @@ export interface orderInterface {
     cannotDilvered?: number,
 
     items?:string[],
+
 
     mainFee?: number,
     additionalFee?: number,
