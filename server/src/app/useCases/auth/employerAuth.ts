@@ -17,4 +17,26 @@ export const createAccount = async (
     employer.password = await authService.encryptPassword(employer.password ?? "");
     const result = await employerRepository.createEmployer(employer);
     return result;
-};
+}
+
+export const loginAction = async (
+    usename: string,
+    password: string,
+    employerRepository: ReturnType<employerDbInterface>,
+    authService: ReturnType<AuthServiceInterface>
+) => {
+    const employer = await employerRepository.getEmployerByUsername(usename);
+    if (!employer) {
+        throw new AppError("this account does not exist", HttpStatus.UNAUTHORIZED);
+    }
+    const isPasswordCorrect = await authService.comparePassword(
+        password,
+        employer.password ?? ""
+    );
+    if (!isPasswordCorrect) {
+        throw new AppError("Sorry, incorrect password", HttpStatus.UNAUTHORIZED);
+    }
+    const payload = employer._id ? employer._id.toString() : '';
+    const token = authService.generateToken(payload, 'employer');
+    return token;
+}
