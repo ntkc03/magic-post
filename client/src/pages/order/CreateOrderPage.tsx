@@ -7,7 +7,9 @@ const CreateOrderPage = () => {
     <div>
       <CommonHeader/>
       <CreateOrder/>
-      <UserSideFooter/>
+      <div className='md:hidden'>
+        <UserSideFooter/>
+      </div>
     </div>
   )
 }

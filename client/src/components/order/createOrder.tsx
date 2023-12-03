@@ -30,8 +30,7 @@ export default function CreateOrder() {
   } = useForm<orderInterface>({
     // resolver: yupResolver(userLoginValidationSchema),
   });
-  
-  const { costCalculation } = costCalcu();
+
   
 
   useEffect(() => {
@@ -49,14 +48,58 @@ export default function CreateOrder() {
     window.addEventListener('resize', setPadding);
   });
 
-  let totalFee = 0;
-  let estimatedTime = 0;
+
+
+
   let totalWeight = 0;
   useEffect(() => {
-    const senderCity = document.getElementById("city") as HTMLSelectElement;
-    const receiverCity = document.getElementById("cityz") as HTMLSelectElement;
+    const sender = document.getElementById("city") as HTMLSelectElement;
+    const receiver = document.getElementById("cityz") as HTMLSelectElement;
+    const totalW = document.getElementById("total-weight") as HTMLInputElement;
+
+    let senderCity =  sender.value;
+    let receiverCity = receiver.value;
+    totalWeight = parseInt(totalW.value);
+
+    function setTotalValue() {
+      const fee = document.getElementById("fee") as HTMLElement;
+      const time = document.getElementById("time") as HTMLElement;
+      if (senderCity!="" && receiverCity !="" && totalWeight != 0 && !Number.isNaN(totalWeight)) {
+        const fetchData = async () => {
+          const { totalFee, estimatedTime } = await costCalcu(senderCity, receiverCity, totalWeight);
+          var f = totalFee.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+          fee.innerText = `${f}`;
+          time.innerText = `${estimatedTime} ngày`;
+        };
     
-    costCalculation(senderCity, receiverCity, totalWeight, estimatedTime, totalFee);
+        fetchData();
+      } else {
+        fee.innerText = `0 VND`;
+        time.innerText = `0 ngày`;
+      }
+    }
+
+    sender.addEventListener("change", (event) => {
+      // The value of the senderCity has changed
+      senderCity = (event.target as HTMLSelectElement).value;
+      console.log("sender")
+      setTotalValue();
+    });
+
+    receiver.addEventListener("change", (event) => {
+      // The value of the senderCity has changed
+      receiverCity = (event.target as HTMLSelectElement).value;
+      console.log("receiver") 
+      setTotalValue();
+    });
+
+    totalW.addEventListener("change", (event) => {
+      // The value of the senderCity has changed
+      totalWeight = parseInt((event.target as HTMLSelectElement).value);
+      console.log("weight") 
+      setTotalValue();
+    });
+    
   });
   
     
@@ -116,31 +159,25 @@ export default function CreateOrder() {
             {/* Money */}
 
             <div id='fixed' className="md:mx-[0%] md:w-[88%] md:fixed md:bottom-0 md:left-1/2 md:transform md:-translate-x-1/2 md:z-10 lg:grid lg:grid-cols-6 mx-[5%] bg-white rounded border-[3px] border-gray-400 my-[5px]">
-                 <div className="grid col-span-2 grid-cols-2 border-b-[3px] lg:border-b-[0px] border-gray-300">
-                    <div className="col-span-1 lg:p-4 p-2 border-r-[3px] border-gray-300">
+                 <div className="grid md:col-span-3 md:grid-cols-3 md:text-center">
+                    <div className="grid grid-cols-2 md:grid-cols-1 md:p-4 p-2 md:border-r-[3px] border-gray-300 border-b-[3px] lg:border-b-[0px]">
                         <p className="lg:mb-2">Tổng cước</p>
-                        <p>{totalFee} đ</p>
+                        <p id="fee" className="md:text-center text-right">0 VND</p>
                     </div>
 
-                    <div className="col-span-1 lg:p-4 p-2 lg:border-r-[3px] border-gray-300">
+                    <div className="grid grid-cols-2 md:grid-cols-1 md:p-4 p-2 md:border-r-[3px] border-gray-300 border-b-[3px] lg:border-b-[0px]">
                         <p className="lg:mb-2">Tiền thu hộ</p>
-                        <p>0 đ</p>
-                    </div>
-                 </div>
-
-                 <div className="grid col-span-2 grid-cols-2 border-b-[3px] lg:border-b-[0px] border-gray-300">
-                    <div className="lg:col-span-1 md:p-4 p-2 border-r-[3px] border-gray-300">
-                        <p className="lg:mb-2">Tiền thu người nhận</p>
-                        <p>0 đ</p>
+                        <p className="md:text-center text-right">0 VND</p>
                     </div>
 
-                    <div className="lg:col-span-1 md:p-4 p-2 lg:border-r-[3px] border-gray-300">
+                    <div className="grid grid-cols-2 md:grid-cols-1 md:p-4 p-2 lg:border-r-[3px] border-gray-300 border-b-[3px] lg:border-b-[0px]">
                         <p className="lg:mb-2">Thời gian dự kiến</p>
-                        <p>{estimatedTime} ngày</p>
+                        <p id="time" className="md:text-center text-right">0 ngày</p>
                     </div>
                  </div>
 
-                 <div className="col-span-2 py-4 grid lg:grid-cols-3 grid-cols-1 flex items-center">
+
+                 <div className="col-span-3 py-4 grid lg:grid-cols-3 grid-cols-1 flex items-center">
                     <div className="flex justify-center pb-2">
                         <button 
                             type="submit"

@@ -58,7 +58,7 @@ export default function UserSignUp() {
         
       </div>
       <div className="flex flex-wrap justify-center items-center ">
-      <div className="p-8 bg-white border border-gray-300 rounded-xl shadow-lg sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="w-screen h-screen md:w-96 md:h-auto p-8 bg-white border border-gray-300 rounded-xl shadow-lg">
           <h2 className="text-3xl font-bold mb-4">Đăng ký</h2>
           <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
             <div>

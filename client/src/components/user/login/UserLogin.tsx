@@ -84,7 +84,7 @@ export default function UserLogin() {
         
       </div>
       <div className="flex flex-wrap justify-center items-center ">
-        <div className="w-96 h-auto p-8 bg-white border border-gray-300 rounded-xl shadow-md">
+        <div className="w-screen h-screen md:w-96 md:h-auto p-8 bg-white border border-gray-300 rounded-xl shadow-md">
           <h2 className="text-3xl font-bold mb-4">Đăng nhập</h2>
           <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
             <div>
@@ -133,6 +133,12 @@ export default function UserLogin() {
                 <p className="text-loginText underline">Đăng ký</p>
               </span>
             </Link>
+          </div>
+
+          <div className="flex justify-center lg:hidden">
+            <img src="https://i.imgur.com/TSDO2cW.gif" 
+                  alt="img"
+                  className="h-auto w-auto" />
           </div>
         </div>
       </div>
