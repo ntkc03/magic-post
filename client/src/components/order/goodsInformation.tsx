@@ -17,6 +17,7 @@ export default function GoodsInformation() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
   const {
     register,
     formState: { errors },
@@ -27,9 +28,9 @@ export default function GoodsInformation() {
   const [items, setItems] = useState<React.ReactNode[]>([]);
 
   const handleAddItem = () => {
-    // Add a new item to the array
     setItems([...items, <ItemDetails key={items.length} />]);
   };
+  
 
   
   
@@ -81,7 +82,7 @@ export default function GoodsInformation() {
                             <div className="border-t border-gray-300 my-4"></div>
 
                             <div className="flex items-center justify-center">
-                                <button id="add-items" onClick={handleAddItem} className="inline-flex items-center bg-white hover:bg-gray-100 border-2 text-blue-200 border-blue-200 py-2 px-2 shadow-md rounded">
+                                <button type="button" id="add-items" onClick={handleAddItem} className="inline-flex items-center bg-white hover:bg-gray-100 border-2 text-blue-200 border-blue-200 py-2 px-2 shadow-md rounded">
                                     <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                     </svg>
@@ -97,6 +98,7 @@ export default function GoodsInformation() {
                                     <input
                                         type="text"
                                         placeholder="Nhập tổng khối lượng"
+                                        id="total-weight"
                                         className="lg:col-span-2 lg:mx-4 lg:w-auto w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
