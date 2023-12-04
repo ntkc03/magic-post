@@ -1,11 +1,11 @@
 import React from 'react'
 import CreateOrder from '../../components/order/createOrder'
-import CommonHeader from '../../components/header/CommonHeader'
+import StaffHeader from '../../components/header/StaffHeader'
 import UserSideFooter from '../../components/footer/UserSideFooter'
 const CreateOrderPage = () => {
   return (
     <div>
-      <CommonHeader/>
+      <StaffHeader/>
       <CreateOrder/>
       <div className='md:hidden'>
         <UserSideFooter/>

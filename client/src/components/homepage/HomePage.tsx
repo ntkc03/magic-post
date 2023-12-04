@@ -44,7 +44,7 @@ function HomePage() {
         <p className="mx-4 sm:text-xl">MagicPost cung cấp dịch vụ ổn định và bền bỉ, đáp ứng nhu cầu <br className="hidden sm:block" /> vận chuyển hàng hóa nội địa và quốc tế tại Việt Nam.<br /><br /></p>
         <div className="mb-0">
           <button className="rounded-md p-2 bg-buttonbg hover:underline text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-            <a href = "">Search</a>
+            <a href = "">Tra cứu</a>
           </button>
         
       

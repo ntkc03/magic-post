@@ -5,10 +5,9 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
 const navigation = [
-  { name: "Home", href: "/homepage", current: false },
-  { name: "Service", href: "/", current: false },
-  { name: "Process", href: "/", current: false },
-  { name: "About", href: "/", current: false },
+  { name: "Trang chủ", href: "/homepage", current: false },
+  { name: "Dịch vụ", href: "/", current: false },
+  { name: "Thông tin", href: "/", current: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -55,8 +54,8 @@ function CommonHeader() {
               </div>
 
               <div className="absolute right-0 flex-1 sm:relative sm:block">
-                <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 sm:bg-buttonbg bg-buttonBlue hover:underline sm:text-white text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <a href = "/user/login">LOGIN</a>
+                <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 hover:bg-buttonBlue text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <a href = "/user/login">Đăng nhập</a>
                 </Disclosure.Button>
               </div>
             </div>
