@@ -9,6 +9,9 @@ export const createAccount = async (
     employerRepository: ReturnType<employerDbInterface>,
     authService: ReturnType<AuthServiceInterface>
 ) => {
+    if (!employer || employer.username === undefined) {
+        throw new AppError("Invalid employer object", HttpStatus.BAD_REQUEST);
+    }
     employer.username = employer.username.toLowerCase();
     const isExistingEmail = await employerRepository.getEmployerByUsername(employer.username);
     if (isExistingEmail) {

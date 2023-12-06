@@ -3,7 +3,7 @@ import { HttpStatus } from "../../../types/httpStatus";
 import AppError from "../../../utils/appError";
 import { employerDbInterface } from "../../repositories/employerDbRepository";
 
-export const getEmployerByUsername = async (
+export const findEmployerByUsername = async (
     username: string,
     employerRepository: ReturnType<employerDbInterface>
 ) => {
@@ -19,7 +19,7 @@ export const getEmployerByUsername = async (
     }
 }
 
-export const getEmployerById = async (
+export const findEmployerById = async (
     id: string,
     employerRepository: ReturnType<employerDbInterface>
 ) => {
@@ -35,7 +35,7 @@ export const getEmployerById = async (
     }
 }
 
-export const getEmployerByTransationID = async (
+export const findEmployerByTransationID = async (
     id: string,
     employerRepository: ReturnType<employerDbInterface>
 ) => {
@@ -51,7 +51,7 @@ export const getEmployerByTransationID = async (
     }
 }
 
-export const getEmployerByConsolidationID = async (
+export const findEmployerByConsolidationID = async (
     id: string,
     employerRepository: ReturnType<employerDbInterface>
 ) => {
@@ -67,7 +67,7 @@ export const getEmployerByConsolidationID = async (
     }
 }
 
-export const getAllEmployers = async (
+export const findAllEmployers = async (
     consolidationRepository: ReturnType<employerDbInterface>
 ) => {
     try {

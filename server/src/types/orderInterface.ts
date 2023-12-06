@@ -1,5 +1,6 @@
+import { Types } from "mongoose";
 export interface orderInterface {
-    _id?: any,
+    _id?: Types.ObjectId,
     code?: string,
 
     senderName?: string,

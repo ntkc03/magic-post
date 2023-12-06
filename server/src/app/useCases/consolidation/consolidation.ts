@@ -2,7 +2,7 @@ import { HttpStatus } from "../../../types/httpStatus";
 import AppError from "../../../utils/appError";
 import { consolidationDbInterface } from "../../repositories/consolidationDbRepository";
 
-export const getConsolidationByAddress = async (
+export const findConsolidationByAddress = async (
     address: string,
     consolidationRepository: ReturnType<consolidationDbInterface>
 ) => {
@@ -18,7 +18,7 @@ export const getConsolidationByAddress = async (
     }
 }
 
-export const getConsolidationByID = async (
+export const findConsolidationByID = async (
     id: string,
     consolidationRepository: ReturnType<consolidationDbInterface>
 ) => {
@@ -34,7 +34,7 @@ export const getConsolidationByID = async (
     }
 }
 
-export const getAllConsolidations = async (
+export const findAllConsolidations = async (
     consolidationRepository: ReturnType<consolidationDbInterface>
 ) => {
     try {

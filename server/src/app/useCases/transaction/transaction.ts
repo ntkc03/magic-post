@@ -34,7 +34,7 @@ export const getTransactionByID = async (
     }
 }
 
-export const getTransactionsByConsolidationByID = async (
+export const getTransactionsByConsolidationID = async (
     id: string,
     transactionRepository: ReturnType<transactionDbInterface>
 ) => {

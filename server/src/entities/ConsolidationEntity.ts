@@ -14,7 +14,7 @@ export class ConsolidationEntity {
     }
 
     public async getConsolidationByID(id: string): Promise<consolidationInterface | null> {
-        const consolidation = await this.model.findById({ id });
+        const consolidation = await this.model.findById(id);
         return consolidation;
     }
 

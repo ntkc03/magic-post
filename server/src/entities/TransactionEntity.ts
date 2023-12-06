@@ -14,7 +14,7 @@ export class TransactionEntity {
     }
 
     public async getTransactionByID(id: string): Promise<transactionInterface | null> {
-        const transaction = await this.model.findById({ id });
+        const transaction = await this.model.findById(id);
         return transaction;
     }
 

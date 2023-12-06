@@ -6,14 +6,15 @@ const employerSchema = new Schema({
         require: [true, "please enter username"]
     },
     password: {
-        type: String
+        type: String,
+        require: [true, "please provide password"]
     },
     role: {
         type: String
     },
     phone: {
         type: String,
-        require: true
+        require: [true, "please add phone number"]
     },
     transactionID: {
         type: String,

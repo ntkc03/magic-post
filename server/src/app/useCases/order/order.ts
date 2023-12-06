@@ -118,7 +118,7 @@ export const filterOrder = async (
     }
 }
 
-export const updateJob = async (
+export const updateOrder = async (
     id: string,
     order: Partial<orderInterface>,
     orderRepository: ReturnType<orderDbInterface>
