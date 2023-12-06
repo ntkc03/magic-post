@@ -89,42 +89,42 @@ export const orderController = (
     );
 
     const filterTheOrders = expressAsyncHandler(
-        async(req: Request, res: Response) => {
-          const {create_at, sended_at, transactionID,consolidationID} = req.body;
-          const jobs = await filterOrder(create_at, sended_at, transactionID,consolidationID, dbRepositoryOrder);
-    
-          res.json({
-            status: 'success',
-            jobs
-          })
-        }
-      )
-
-      const updateOrderStatus = expressAsyncHandler(
         async (req: Request, res: Response) => {
-          const customReq = req as CustomRequest;
-          const orderId = customReq.payload ?? "";
-          if (!orderId) {
-            throw new AppError(
-              "unauthorized request, invalid token",
-              HttpStatus.UNAUTHORIZED
-            );
-          }
-          const updates: orderInterface = req.body;
-          const updateOrderData = await updateOrder(
-            orderId,
-            updates,
-            dbRepositoryOrder
-          );
-    
-          res.json({
-            status: "success",
-            updateOrderData,
-          });
-        }
-      );
+            const { create_at, sended_at, transactionID, consolidationID } = req.body;
+            const jobs = await filterOrder(create_at, sended_at, transactionID, consolidationID, dbRepositoryOrder);
 
-      return{
+            res.json({
+                status: 'success',
+                jobs
+            })
+        }
+    )
+
+    const updateOrderStatus = expressAsyncHandler(
+        async (req: Request, res: Response) => {
+            const customReq = req as CustomRequest;
+            const orderId = customReq.payload ?? "";
+            if (!orderId) {
+                throw new AppError(
+                    "unauthorized request, invalid token",
+                    HttpStatus.UNAUTHORIZED
+                );
+            }
+            const updates: orderInterface = req.body;
+            const updateOrderData = await updateOrder(
+                orderId,
+                updates,
+                dbRepositoryOrder
+            );
+
+            res.json({
+                status: "success",
+                updateOrderData,
+            });
+        }
+    );
+
+    return {
         orderCreate,
         orderDelete,
         getTheOrderByCode,
@@ -134,5 +134,6 @@ export const orderController = (
         findAllJOrders,
         filterTheOrders,
         updateOrderStatus
-      }
+    }
 }
+export default orderController;

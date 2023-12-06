@@ -47,4 +47,13 @@ const transactionController = (
             })
         }
     )
+
+    return {
+        getTheTransactionByAddress,
+        getTheTransactionByConsolidationID,
+        getTheTransactionByID,
+        findAllTransactions
+    }
 }
+
+export default transactionController;
