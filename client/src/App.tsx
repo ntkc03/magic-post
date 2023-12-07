@@ -14,11 +14,11 @@ function App() {
       <Router>
         <Routes>
           <Route path="/*" element={<HomeRouter />} />
-          <Route path="/user/login/*" element={<UserLogin />} />
-          <Route path="/user/register/*" element={<UserSignUp />} />
-          <Route path="/user/order/new/*" element={<CreateOrderPage />} />
-          <Route path="/user/order/*" element={<OrderDetailsPage />} />
-          <Route path="/user/*" element={<UserRouter />} />\
+          <Route path="/employer/login/*" element={<UserLogin />} />
+          <Route path="/employer/register/*" element={<UserSignUp />} />
+          <Route path="/employer/order/new/*" element={<CreateOrderPage />} />
+          <Route path="/employer/order/*" element={<OrderDetailsPage />} />
+          <Route path="/employer/*" element={<UserRouter />} />\
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </Router>

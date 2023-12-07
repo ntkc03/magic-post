@@ -10,6 +10,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import GenerateQR from "./generateQRCode";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import PrintButton from "./printOrder";
 
 export default function OrderDetails() {
   const dispatch = useDispatch();
@@ -47,7 +50,7 @@ export default function OrderDetails() {
             />
         </div>
 
-        <div className="mx-[5%] ">
+        <div className="mx-[5%]" id="elementToPrint">
             {/* Header */}
             <div className="grid grid-cols-2">
                 <div className="items-center flex w-full justify-center text-bold text-2xl font-logo">
@@ -163,18 +166,18 @@ export default function OrderDetails() {
                     <table className="w-full border text-center">
                         <thead>
                             <tr>
-                                <th className="border">Nội dung</th>
-                                <th className="border">Số lượng</th>
-                                <th className="border">Trị giá</th>
-                                <th className="border">Giấy tờ đính kèm</th>
+                                <th className="border p-2">Nội dung</th>
+                                <th className="border p-2">Số lượng</th>
+                                <th className="border p-2">Trị giá</th>
+                                <th className="border p-2">Giấy tờ đính kèm</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td className="border">Tổng</td>
-                                <td className="border"></td>
-                                <td className="border"></td>
-                                <td className="border"></td>
+                                <td className="border p-2">Tổng</td>
+                                <td className="border p-2"></td>
+                                <td className="border p-2"></td>
+                                <td className="border p-2"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -338,12 +341,21 @@ export default function OrderDetails() {
                   </div>
                 </div>
               </div>
-
-            </div>
-
-              
+            </div>         
         </div>
         
+        <div className="grid grid-cols-2">
+          <div className="flex items-center justify-end m-4">
+              <button type="button" className="inline-flex items-center bg-blue-400 hover:bg-blue-800 text-white py-2 px-4 shadow-md rounded">
+              <FontAwesomeIcon icon={faEdit} className="mr-2" />
+                  Chỉnh sửa
+              </button>
+          </div>
+
+          <div className="flex items-center justify-start m-4">
+            <PrintButton elementId="elementToPrint" />
+          </div>
+        </div>
         
     </div>
   );
