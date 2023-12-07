@@ -277,6 +277,47 @@ export default function GoodsInformation() {
                         {...register("note")}>
                         </textarea>
                     </div>
+
+                    <div className="mb-4">
+                        <label className="text-sm font-bold" htmlFor="name">
+                            Chỉ dẫn của người gửi khi không phát được bưu gửi:
+                        </label>
+
+                        <div>
+                            <label className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    className="form-radio text-blue-600"
+                                />
+                                <span className="ml-2">Chuyển hoàn ngay</span>
+                            </label>
+
+                            <label className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    className="form-radio text-blue-600"
+                                />
+                                <span className="ml-2">Gọi điện cho người gửi/bưu cục gửi</span>
+                            </label>
+
+                            <label className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    className="form-radio text-blue-600"
+                                />
+                                <span className="ml-2">Chuyển hoàn khi hết thời gian lưu trữ</span>
+                            </label>
+
+                            <label className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    className="form-radio text-blue-600"
+                                />
+                                <span className="ml-2">Hủy</span>
+                            </label>
+                        </div>
+                        
+                    </div>
                 </div>
             </CardBody>
         </Card>

@@ -1,31 +1,4 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 
-interface Ward {
-    Name: string;
-    Id: string;
-    // Add other properties if needed
-}
-
-interface District {
-    Name: string;
-    Id: string;
-    Wards: Ward[];
-    // Add other properties if needed
-}
-
-interface City {
-    Name: string;
-    Id: string;
-    Districts: District[];
-    // Add other properties if needed
-}
-
-
-interface City {
-    Name: string;
-    Id: string;
-  }
-  
   export async function costCalcu(
     senderCity: string,
     receiverCity: string,
@@ -75,19 +48,19 @@ interface City {
   const fee = (data: any, totalWeight: number) => {
     let updatedEstimatedTime = data['estimate-time'];
     let updatedTotalFee = 0;
-    if (totalWeight < 50 && totalWeight > 0) {
+    if (totalWeight <= 50 && totalWeight > 0) {
       updatedTotalFee = data.pricing[0];
-    } else if (totalWeight < 100) {
+    } else if (totalWeight <= 100) {
       updatedTotalFee = data.pricing[1];
-    } else if (totalWeight < 250) {
+    } else if (totalWeight <= 250) {
       updatedTotalFee = data.pricing[2];
-    } else if (totalWeight < 500) {
+    } else if (totalWeight <= 500) {
       updatedTotalFee = data.pricing[3];
-    } else if (totalWeight < 1000) {
+    } else if (totalWeight <= 1000) {
       updatedTotalFee = data.pricing[4];
-    } else if (totalWeight < 1500) {
+    } else if (totalWeight <= 1500) {
       updatedTotalFee = data.pricing[5];
-    } else if (totalWeight < 2000) {
+    } else if (totalWeight <= 2000) {
       updatedTotalFee = data.pricing[6];
     } else {
       let fee = data.pricing[6];

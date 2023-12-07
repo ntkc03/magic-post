@@ -37,9 +37,16 @@ export default function CreateOrder() {
     function setPadding(){
       let padding: HTMLElement | null = document.getElementById('padding');
       let fixed: HTMLElement | null  = document.getElementById('fixed');
+
+      let header: HTMLElement | null  = document.getElementById('fixed-header');
+      let container: HTMLElement | null  = document.getElementById('container');
   
       if(padding) {
           padding.style.height = fixed?.offsetHeight + 'px';
+      }
+
+      if(container) {
+        container.style.marginTop = header?.offsetHeight + "px";
       }
       
   
@@ -131,8 +138,7 @@ export default function CreateOrder() {
       });
   };
   return (
-    <div className="min-h-screen bg-background py-8">
-
+    <div className="min-h-screen bg-background py-8" id="container">
         <div className="mx-[10%] lg:mx-[5%] mb-[1%] flex">
             <h1 className="text-[30px] mr-[1%]">Tạo đơn</h1>
             <img

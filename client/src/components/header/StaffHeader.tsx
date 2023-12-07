@@ -15,7 +15,7 @@ import {
 const navigation = [
   { name: "Thống kê", href: "", current: false },
   { name: "Quản lý đơn hàng", href: "", current: false },
-  { name: "Tạo đơn", href: "/user/order", current: false }
+  { name: "Tạo đơn", href: "/user/order/new", current: false }
 ];
 
 function classNames(...classes: string[]) {
@@ -42,7 +42,7 @@ function StaffHeader() {
   };
 
   return (
-    <div className="fixed top-0 w-full bg-background z-50 shadow-lg">
+    <div className="fixed top-0 w-full bg-background z-50 shadow-lg" id="fixed-header">
       <Disclosure as="nav" className="">
         {({ open }) => (
           <div className="">
