@@ -1,42 +1,36 @@
 import configKeys from "./config";
 
 const apiConfig = {
-    userRegister : `${configKeys.API_URL}user-auth/register`,
-    userLogin: `${configKeys.API_URL}user-auth/login`,
-    googleSignIN: `${configKeys.API_URL}user-auth/sign-in-with-google`,
-    userData: `${configKeys.API_URL}user/user-data`,
-    updateUser: `${configKeys.API_URL}user/update-user`,
-    uploadResume: `${configKeys.API_URL}user/update-resume`,
-    deleteResume: `${configKeys.API_URL}user/delete-resume`,
-    userCheckIn: `${configKeys.API_URL}user/check-in`,
+    consolidationAddress: `${configKeys.API_URL}consolidation/consolidation-data/address`,
+    getConsolidation: `${configKeys.API_URL}consolidation/consolidation-data/cons-id`,
+    allConsolidations: `${configKeys.API_URL}consolidation/all-consolidations`,
 
-    createOrder: `${configKeys.API_URL}user/order`,
-    
-    employerRegister: `${configKeys.API_URL}employer-auth/register`,
-    employerLogin: `${configKeys.API_URL}employer-auth/login`,
-    emailVerify: `${configKeys.API_URL}employer-auth/email-verify`,
-    OTPVerify: `${configKeys.API_URL}employer-auth/email-OTP`,
-    employerData: `${configKeys.API_URL}employer/employer-data`,
-    updateEmployer: `${configKeys.API_URL}employer/update-employer`,
+    employerUsername: `${configKeys.API_URL}employer/employer-data/username`,
+    getEmployer: `${configKeys.API_URL}employer/employer-data/emp-id`,
+    employerTransId: `${configKeys.API_URL}employer/employer-data/transaction-id`,
+    employerConsId: `${configKeys.API_URL}employer/employer-data/consolidation-id`,
+    allEmployers: `${configKeys.API_URL}employer/all-employers`,
+    deleteEmployer: `${configKeys.API_URL}employer/delete-employer`,
+    deleteEmployerId: `${configKeys.API_URL}employer/delete-employer/:id`,
 
-    employerJObs: `${configKeys.API_URL}job/employer-jobs`,
-    createNewJob: `${configKeys.API_URL}job/create-job`,
-    updateJob: `${configKeys.API_URL}job/update-job`,
-    deleteJob: `${configKeys.API_URL}job/delete-job`,
-    jobData: `${configKeys.API_URL}job/job-data`,
-    allJobs: `${configKeys.API_URL}job/all-jobs`,
-    filterJobs: `${configKeys.API_URL}job/filter-jobs`,
-    type: `${configKeys.API_URL}job/distinct`,
+    createAccount: `${configKeys.API_URL}employer-auth/create`,
+    login: `${configKeys.API_URL}employer-auth/login`,
 
-    applyJob: `${configKeys.API_URL}job-application/create-application`,
-    isApplied: `${configKeys.API_URL}job-application/is-applied`,
-    allApplication: `${configKeys.API_URL}job-application/all-applications`,
-    applicationDetails: `${configKeys.API_URL}job-application/applicant-details`,
-    changeStatus: `${configKeys.API_URL}job-application/change-status`,
-    allUserApplications: `${configKeys.API_URL}job-application/user-applications`,
+    createOrder: `${configKeys.API_URL}order/create`,
+    deleteOrder: `${configKeys.API_URL}order/delete`,
+    orderCode: `${configKeys.API_URL}order/find-order/code`,
+    orderConsId: `${configKeys.API_URL}order/find-order/consolidation-id`,
+    orderTransId: `${configKeys.API_URL}order/find-order/transaction-id`,
+    orderDeliverPersonId: `${configKeys.API_URL}order/find-order/deliveryPerson-id`,
+    allOrders: `${configKeys.API_URL}order/all-orders`,
+    filterOrder: `${configKeys.API_URL}order/filter-orders`,
+    updaterOrder: `${configKeys.API_URL}order/update-order`,
 
-    getConversations: `${configKeys.API_URL}messenger-conversation`,
-    getMessages: `${configKeys.API_URL}messenger-message`,
+    transactionAddress: `${configKeys.API_URL}transaction/transaction-data/address`,
+    transactionConsId: `${configKeys.API_URL}transaction/transaction-data/consolidation-id`,
+    getTransaction: `${configKeys.API_URL}transaction/transaction-data/:id`,
+    allTransactions: `${configKeys.API_URL}transaction/all-transactions`,
+
 }
 
 export default apiConfig;
