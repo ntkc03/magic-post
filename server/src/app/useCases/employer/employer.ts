@@ -79,18 +79,6 @@ export const findAllEmployers = async (
     }
 }
 
-export const createEmployer = async (
-    employer: employerInterface,
-    employerRepository: ReturnType<employerDbInterface>
-) => {
-    try {
-        const result = await employerRepository.createEmployer(employer);
-        return result;
-    } catch (error: any) {
-        console.log(error)
-        throw new Error("Failed to create employer")
-    }
-}
 
 export const deleteEmployer = async (
     username: string,

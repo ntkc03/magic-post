@@ -18,13 +18,11 @@ const googleAuthClient = constants.GOOGLE_AUTH_CLIENT;
 root.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <GoogleOAuthProvider clientId={googleAuthClient}>
         <Provider store={store}>
           <ThemeProvider>
             <App />
           </ThemeProvider>
         </Provider>
-      </GoogleOAuthProvider>
     </ErrorBoundary>
   </React.StrictMode>
 );

@@ -3,13 +3,13 @@ import { employerDbInterface } from "../../app/repositories/employerDbRepository
 import { EmployerModel } from "../../frameworks/database/mongoDb/models/employerModel";
 import { employerRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/employerRepositoryMongoDB";
 import { Request, Response } from "express";
-import { createEmployer, deleteEmployer, deleteEmployerById, findAllEmployers, findEmployerById, findEmployerByTransationID, findEmployerByUsername } from "../../app/useCases/employer/employer";
+import { deleteEmployer, deleteEmployerById, findAllEmployers, findEmployerById, findEmployerByTransationID, findEmployerByUsername } from "../../app/useCases/employer/employer";
 import { CustomRequest } from "../../types/expressRequest";
 import { employerInterface } from "../../types/employerInterface";
 import AppError from "../../utils/appError";
 import { HttpStatus } from "../../types/httpStatus";
 
-export const employerAuthController = (
+export const employerController = (
     employerDbRepository: employerDbInterface,
     employerDbRepositoryImpl: employerRepositoryMongoDB,
     employerModel: EmployerModel
@@ -55,23 +55,6 @@ export const employerAuthController = (
             })
         }
     )
-    const employerCreate = expressAsyncHandler(
-        async (req: Request, res: Response) => {
-            const employer: employerInterface = req.body;
-            const createdEmployer = await createEmployer(employer, dbRepositoryEmployer);
-            if (!createdEmployer) {
-                throw new AppError(
-                    "employer creation failed",
-                    HttpStatus.INTERNAL_SERVER_ERROR
-                );
-            }
-            res.json({
-                status: "success",
-                message: "employer created successfully",
-                employer: createEmployer,
-            });
-        }
-    )
 
     const deleteTheEmployer = expressAsyncHandler(
         async (req: Request, res: Response) => {
@@ -103,8 +86,10 @@ export const employerAuthController = (
         getEmployerByTransationID,
         getEmployerByConsolidationID,
         getAllEmployers,
-        employerCreate,
         deleteTheEmployer,
         deleteTheEmployerById
     }
 }
+
+export default employerController;
+ 
