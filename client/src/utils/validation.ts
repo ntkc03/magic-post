@@ -8,9 +8,9 @@ export const userRegisterValidationSchema = yup.object().shape({
       /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/,
       "Please enter a valid name!"
     ),
-  email: yup
+  username: yup
     .string()
-    .required("Email required.")
+    .required("username required.")
     .email("Please enter a valid email!"),
   phone: yup
     .string()
@@ -26,13 +26,14 @@ export const userRegisterValidationSchema = yup.object().shape({
 });
 
 export const userLoginValidationSchema = yup.object().shape({
-  email: yup
+  username: yup
     .string()
-    .required("Email required.")
+    .required("username required.")
     .email("Please enter a valid email!"),
   password: yup
     .string()
     .required("Password required.")
     .min(6, "Password requires at least 6 letters!"),
 });
+
 

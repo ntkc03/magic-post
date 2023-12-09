@@ -8,24 +8,29 @@ export class EmployerEntity {
         this.model = model;
     }
     //search
+    public async getEmployerByName(name: string):Promise<employerInterface[] |null>{
+        const employer = await this.model.find({name: name});
+        return employer;
+    }
+
     public async getEmployerByUsername(username: string): Promise<employerInterface | null> {
-        const user = await this.model.findOne({ username: username });
-        return user;
+        const employer = await this.model.findOne({ username: username });
+        return employer;
     }
 
     public async getEmployerById(id: string): Promise<employerInterface | null> {
-        const userData: any = await this.model.findById(id);
-        return userData;
+        const employer: any = await this.model.findById(id);
+        return employer;
     }
 
     public async getEmployerByTransationID(transactionID: string): Promise<employerInterface[] | null> {
-        const users: any = await this.model.find({ transactionID: transactionID });
-        return users;
+        const employers: any = await this.model.find({ transactionID: transactionID });
+        return employers;
     }
 
     public async getEmployerByConsolidationID(consolidationID: string): Promise<employerInterface[] | null> {
-        const users: any = await this.model.find({ consolidationID: consolidationID });
-        return users;
+        const employers: any = await this.model.find({ consolidationID: consolidationID });
+        return employers;
     }
 
 

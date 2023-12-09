@@ -1,7 +1,5 @@
-import { Types } from "mongoose";
-
 export interface employerInterface {
-    _id?: Types.ObjectId,
+    _id?: any,
     name?: string,
     username?: string,
     password?: string,

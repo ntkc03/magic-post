@@ -1,6 +1,10 @@
 import { Schema, model } from "mongoose";
 
 const employerSchema = new Schema({
+    name: {
+        type:String,
+        require: [true,"please enter name"]
+    },
     username: {
         type: String,
         require: [true, "please enter username"]
@@ -10,7 +14,8 @@ const employerSchema = new Schema({
         require: [true, "please provide password"]
     },
     role: {
-        type: String
+        type: String,
+        require: false
     },
     phone: {
         type: String,
