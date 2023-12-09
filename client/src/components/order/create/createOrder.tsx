@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { setToken } from "../../features/redux/slices/user/tokenSlice";
+import { setToken } from "../../../features/redux/slices/user/tokenSlice";
 import { useSelector, useDispatch } from "react-redux/es/exports";
 // import { RootState } from "../../../features/redux/reducers/Reducer";
 // import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthSlice";
@@ -12,11 +12,11 @@ import {
     Card,
     CardBody,
   } from "@material-tailwind/react";
-import { updateOrder } from "../../features/axios/api/order/createOrder";
-import { orderInterface } from "../../types/OrderInterface";
-import SenderInformation from "./senderInformation";
-import ReceiverInformation from "./receiverInformation";
-import GoodsInformation from "./goodsInformation";
+import { updateOrder } from "../../../features/axios/api/order/createOrder";
+import { orderInterface } from "../../../types/OrderInterface";
+import SenderInformation from "./elements/senderInformation";
+import ReceiverInformation from "./elements/receiverInformation";
+import GoodsInformation from "./elements/goodsInformation";
 import { costCalcu} from "./calculation";
 
 export default function CreateOrder() {
@@ -185,9 +185,10 @@ export default function CreateOrder() {
 
                  <div className="col-span-3 py-4 grid lg:grid-cols-3 grid-cols-1 flex items-center">
                     <div className="flex justify-center pb-2">
-                        <button 
+                        <button
                             type="submit"
                             className="w-[90%] bg-white hover:bg-blue-100 border-2 text-blue-200 border-blue-200 py-2 px-2 shadow-md rounded"
+                            
                             >
                             Gửi ngay
                         </button>

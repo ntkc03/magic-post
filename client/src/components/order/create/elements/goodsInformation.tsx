@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { setToken } from "../../features/redux/slices/user/tokenSlice";
+import { setToken } from "../../../../features/redux/slices/user/tokenSlice";
 import { useSelector, useDispatch } from "react-redux/es/exports";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -10,7 +10,7 @@ import {
     Card,
     CardBody,
   } from "@material-tailwind/react";
-import { orderInterface } from "../../types/OrderInterface";
+import { orderInterface } from "../../../../types/OrderInterface";
 import ItemDetails from "./itemDetails";
 
 export default function GoodsInformation() {

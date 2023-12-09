@@ -7,39 +7,34 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 
-import {
-  updateUser,
-  userData,
-} from "../../../features/axios/api/user/userDetails";
-
 export default function UserSignUp() {
-    const navigate = useNavigate();
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm<SignupPayload>({
-      resolver: yupResolver(userRegisterValidationSchema),
-    });
-  
-    const notify = (msg: string, type: string) =>
-      type === "error"
-        ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
-        : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
-  
-    const submitHandler = async (formData: SignupPayload) => {
-      registerUser(formData)
-        .then((response: any) => {
-          notify("User registered successfully", "success");
-  
-          setTimeout(() => {
-            navigate("/user/login");
-          }, 2000);
-        })
-        .catch((error: any) => {
-          notify(error.message, "error");
-        });
-    };
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignupPayload>({
+    resolver: yupResolver(userRegisterValidationSchema),
+  });
+
+  const notify = (msg: string, type: string) =>
+    type === "error"
+      ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
+
+  const submitHandler = async (formData: SignupPayload) => {
+    registerUser(formData)
+      .then((response: any) => {
+        notify("User registered successfully", "success");
+
+        setTimeout(() => {
+          navigate("/user/login");
+        }, 2000);
+      })
+      .catch((error: any) => {
+        notify(error.message, "error");
+      });
+  };
   return (
     <div className="flex justify-center min-h-screen bg-background">
       <div className="flex justify-center items-center">

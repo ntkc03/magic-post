@@ -346,10 +346,12 @@ export default function OrderDetails() {
         
         <div className="grid grid-cols-2">
           <div className="flex items-center justify-end m-4">
+          <Link to={"/employer/order/new"}>
               <button type="button" className="inline-flex items-center bg-blue-400 hover:bg-blue-800 text-white py-2 px-4 shadow-md rounded">
               <FontAwesomeIcon icon={faEdit} className="mr-2" />
                   Chỉnh sửa
               </button>
+          </Link>
           </div>
 
           <div className="flex items-center justify-start m-4">

@@ -55,7 +55,7 @@ function CommonHeader() {
 
               <div className="absolute right-0 flex-1 sm:relative sm:block">
                 <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 hover:bg-buttonBlue text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <a href = "/user/login">Đăng nhập</a>
+                  <a href = "/employer/login">Đăng nhập</a>
                 </Disclosure.Button>
               </div>
             </div>

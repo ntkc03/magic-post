@@ -127,7 +127,7 @@ export default function UserLogin() {
           </form>
 
           <div className="mt-4 text-center">
-            <Link to={"/user/register"}>
+            <Link to={"/employer/register"}>
               <span className="text-gray-500">
                 Chưa có tài khoản?{" "}
                 <p className="text-loginText underline">Đăng ký</p>
