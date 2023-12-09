@@ -4,7 +4,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { LoginPayload } from "../../../types/PayloadInterface";
 import { userLoginValidationSchema } from "../../../utils/validation";
-import { userLogin } from "../../../features/axios/api/user/userAuthentication";
 import { Link, useNavigate } from "react-router-dom";
 import { setToken } from "../../../features/redux/slices/user/tokenSlice";
 import { useSelector, useDispatch } from "react-redux/es/exports";
@@ -12,11 +11,8 @@ import { RootState } from "../../../features/redux/reducers/Reducer";
 import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { login } from "../../../features/axios/api/employer/userAuthentication";
 
-import {
-  updateUser,
-  userData,
-} from "../../../features/axios/api/user/userDetails";
 
 export default function UserLogin() {
   const dispatch = useDispatch();
@@ -24,7 +20,7 @@ export default function UserLogin() {
   // const isLoggedIn = useSelector(
   //   (state: RootState) => state.userAuth.isLoggedIn
   // );
-  
+
   const token = localStorage.getItem("token");
 
   const {
@@ -49,10 +45,10 @@ export default function UserLogin() {
     // }
   }, [navigate]);
 
-  
+
 
   const submitHandler = async (formData: LoginPayload) => {
-    userLogin(formData)
+    login(formData)
       .then((response) => {
         const token = response.token;
         dispatch(setToken(token));
@@ -69,7 +65,7 @@ export default function UserLogin() {
   return (
     <div className="flex justify-center min-h-screen bg-background">
       <div className="flex justify-center items-center">
-        <div className="lg:block hidden"> 
+        <div className="lg:block hidden">
           <img
             src="https://i.imgur.com/5KtEikT.png"
             alt="Img"
@@ -81,7 +77,7 @@ export default function UserLogin() {
             className="mt-[-180px] max-w-450 max-h-450 w-1/5"
           />
         </div>
-        
+
       </div>
       <div className="flex flex-wrap justify-center items-center ">
         <div className="w-screen h-screen md:w-96 md:h-auto p-8 bg-white border border-gray-300 rounded-xl shadow-md">
@@ -92,14 +88,14 @@ export default function UserLogin() {
                 Email
               </label>
               <input
-                id="email"
+                id="username"
                 type="text  "
-                placeholder="Nhập email"
-                {...register("email")}
+                placeholder="Nhập tên đăng nhập"
+                {...register("username")}
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-purple-500  "
               />
-              {errors.email && (
-                <p className="text-red-500 text-sm">{errors.email.message}</p>
+              {errors.username && (
+                <p className="text-red-500 text-sm">{errors.username.message}</p>
               )}
             </div>
             <div>
@@ -136,9 +132,9 @@ export default function UserLogin() {
           </div>
 
           <div className="flex justify-center lg:hidden">
-            <img src="https://i.imgur.com/TSDO2cW.gif" 
-                  alt="img"
-                  className="h-auto w-auto" />
+            <img src="https://i.imgur.com/TSDO2cW.gif"
+              alt="img"
+              className="h-auto w-auto" />
           </div>
         </div>
       </div>

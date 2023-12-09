@@ -9,7 +9,7 @@ const api = setupAxiosInterceptors();
 export const orderData = async (): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-      url: apiConfig.userData,
+      url: apiConfig.orderCode,
       method: "get",
     };
     const response = await api(config);
@@ -22,7 +22,7 @@ export const orderData = async (): Promise<any> => {
 export const updateOrder = async (payload: orderInterface): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-    url: `${apiConfig.userRegister}`,
+    url: `${apiConfig.updaterOrder}`,
     method: "post",
     data: payload,
     };
@@ -34,10 +34,10 @@ export const updateOrder = async (payload: orderInterface): Promise<any> => {
 };
 
 
-export const deleteResume = async (): Promise<any> => {
+export const deleteOrder = async (): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-      url: apiConfig.deleteResume,
+      url: apiConfig.deleteOrder,
       method: "delete",
     };
     await api(config);
