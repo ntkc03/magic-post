@@ -6,7 +6,7 @@ import tokenReducer from '../slices/user/tokenSlice';
 // import jobDetailReducer from '../slices/user/jobDetailsSlice';
 // import employerJobDetailReducer from '../slices/employer/employerJobDetailsSlice';
 // import employerTokenReducer from '../slices/employer/employerTokenSlice';
-// import userLoginAuthReducer from '../slices/user/userLoginAuthSlice';
+import userLoginAuthReducer from '../slices/user/userLoginAuthSlice';
 // import userDetailsReducer from '../slices/user/userDetailsSlice';
 // import userAllApplicationReducer from '../slices/user/allApplicationSlice';
 // import userApplicationDetailsReducer from '../slices/user/userApplicationDetailsSlice';
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   // allJobs: allJobReducer,
   // jobDetails: jobDetailReducer,
   // employerJobDetails: employerJobDetailReducer,
-  // userAuth: userLoginAuthReducer,
+  userAuth: userLoginAuthReducer,
   // userDetails: userDetailsReducer,
   // userApplications: userAllApplicationReducer,
   // applicationDetails: userApplicationDetailsReducer

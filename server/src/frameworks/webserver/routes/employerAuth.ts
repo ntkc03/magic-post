@@ -21,8 +21,8 @@ const employerAuthRoute = () => {
         Employer,
     );
 
-    route.post('/create',authenticationMiddleware,employerMiddleware,controller.accountCreate);
-    route.post('/login',authenticationMiddleware,controller.loginAccount);
+    route.post('/create',controller.accountCreate);
+    route.post('/login',controller.loginAccount);
     return route;
 }
 

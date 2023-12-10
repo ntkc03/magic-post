@@ -72,7 +72,7 @@ export default function UserSignUp() {
             </div>
             <div>
               <label className="text-sm" htmlFor="email">
-                Email
+                Tên đăng nhập
               </label>
               <input
                 id="username"

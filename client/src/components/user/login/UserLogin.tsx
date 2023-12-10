@@ -17,9 +17,9 @@ import { login } from "../../../features/axios/api/employer/userAuthentication";
 export default function UserLogin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const isLoggedIn = useSelector(
-  //   (state: RootState) => state.userAuth.isLoggedIn
-  // );
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.userAuth.isLoggedIn
+  );
 
   const token = localStorage.getItem("token");
 
@@ -40,9 +40,9 @@ export default function UserLogin() {
     if (token) {
       dispatch(loginSuccess());
     }
-    // if (isLoggedIn === true) {
-    //   navigate("/user/home");
-    // }
+    if (isLoggedIn === true) {
+      navigate("/user/home");
+    }
   }, [navigate]);
 
 

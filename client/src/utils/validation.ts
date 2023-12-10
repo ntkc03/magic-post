@@ -10,8 +10,7 @@ export const userRegisterValidationSchema = yup.object().shape({
     ),
   username: yup
     .string()
-    .required("username required.")
-    .email("Please enter a valid email!"),
+    .required("username required."),
   phone: yup
     .string()
     .required("Phone number required.")
@@ -28,8 +27,7 @@ export const userRegisterValidationSchema = yup.object().shape({
 export const userLoginValidationSchema = yup.object().shape({
   username: yup
     .string()
-    .required("username required.")
-    .email("Please enter a valid email!"),
+    .required("username required."),
   password: yup
     .string()
     .required("Password required.")
