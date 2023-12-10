@@ -21,6 +21,8 @@ export default function UserLogin() {
     (state: RootState) => state.userAuth.isLoggedIn
   );
 
+  console.log(isLoggedIn)
+
   const token = localStorage.getItem("token");
 
   const {
@@ -41,7 +43,7 @@ export default function UserLogin() {
       dispatch(loginSuccess());
     }
     if (isLoggedIn === true) {
-      navigate("/user/home");
+      navigate("/employer/home");
     }
   }, [navigate]);
 
@@ -55,8 +57,9 @@ export default function UserLogin() {
         dispatch(loginSuccess());
         notify("Login success", "success");
         setTimeout(() => {
-          navigate("/user/home");
-        }, 2000);
+          navigate("/employer/home");
+          console.log(dispatch)
+        }, 200);
       })
       .catch((error: any) => {
         notify(error.message, "error");
@@ -85,7 +88,7 @@ export default function UserLogin() {
           <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
             <div>
               <label className="text-sm" htmlFor="email">
-                Email
+                Tên đăng nhập
               </label>
               <input
                 id="username"

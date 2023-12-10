@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { setToken } from "../../features/redux/slices/user/tokenSlice";
 import { useSelector, useDispatch } from "react-redux/es/exports";
 // import { RootState } from "../../../features/redux/reducers/Reducer";
 // import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 
 import GenerateQR from "./generateQRCode";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

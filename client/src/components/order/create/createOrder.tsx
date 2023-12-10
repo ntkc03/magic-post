@@ -8,10 +8,7 @@ import { useSelector, useDispatch } from "react-redux/es/exports";
 // import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-    Card,
-    CardBody,
-  } from "@material-tailwind/react";
+
 import { updateOrder } from "../../../features/axios/api/order/createOrder";
 import { orderInterface } from "../../../types/OrderInterface";
 import SenderInformation from "./elements/senderInformation";

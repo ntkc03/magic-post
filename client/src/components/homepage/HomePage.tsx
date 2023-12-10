@@ -1,42 +1,6 @@
-import React from "react";
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-import { RootState } from "../../features/redux/reducers/Reducer";
-import { loginSuccess } from "../../features/redux/slices/user/userLoginAuthSlice";
-
-
-const links = [
-  { name: "Easy apply", href: "#" },
-  { name: "Hundreds of recruiters", href: "#" },
-  { name: "Different categories of jobs", href: "#" },
-  { name: "Find you dream job", href: "#" },
-];
-const stats = [
-  { name: "Of jobs", value: "1000" },
-  { name: "Full-time Part-time etc", value: "Different jobs" },
-  { name: "Companies", value: "100+" },
-  { name: "No charges", value: "Unlimited" },
-];
 
 function HomePage() {
-  // const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isLoggedIn = true;
-//   const isLoggedIn = useSelector(
-//     (state: RootState) => state.userAuth.isLoggedIn
-//   );
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      dispatch(loginSuccess());
-    }
-    // if (isLoggedIn === true) {
-    //   navigate("/user/home");
-    // }
-  }, [dispatch, isLoggedIn]);
-
+  
   return (
     <div className="relative overflow-hidden bg-background py-24 sm:py-32">
         <div className="items-center justify-center bg-background text-center text-textColor">

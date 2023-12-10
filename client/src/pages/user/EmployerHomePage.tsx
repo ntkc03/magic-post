@@ -2,15 +2,15 @@ import React from 'react'
 import OrderDetails from '../../components/order/orderDetails'
 import StaffHeader from '../../components/header/StaffHeader'
 import UserSideFooter from '../../components/footer/UserSideFooter'
-import OrderList from '../../components/order/orderList'
-const OrderDetailsPage = () => {
+import HomePage from '../../components/homepage/HomePage'
+const EmployerHomePage = () => {
   return (
     <div>
       <StaffHeader/>
-      <OrderDetails/>
+      <HomePage/>
       <UserSideFooter/>
     </div>
   )
 }
 
-export default OrderDetailsPage
+export default EmployerHomePage

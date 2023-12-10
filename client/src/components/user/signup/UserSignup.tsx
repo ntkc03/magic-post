@@ -28,7 +28,7 @@ export default function UserSignUp() {
         notify("User registered successfully", "success");
 
         setTimeout(() => {
-          navigate("/user/login");
+          navigate("/employer/login");
         }, 2000);
       })
       .catch((error: any) => {

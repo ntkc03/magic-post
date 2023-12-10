@@ -10,7 +10,11 @@ export const userRegisterValidationSchema = yup.object().shape({
     ),
   username: yup
     .string()
-    .required("username required."),
+    .required("Username required.")
+    .matches(
+      /^[a-zA-Z0-9._]+$/,
+      "User Name must only contain a-z, A-Z, 0-9, '.' and '_', no _ or . at the beginning!"
+    ),
   phone: yup
     .string()
     .required("Phone number required.")

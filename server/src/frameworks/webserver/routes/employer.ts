@@ -16,10 +16,10 @@ const employerRoute = () => {
         employerRepositoryMongoDB,
         Employer
     );
-    route.get('/employer-data/username',employerMiddleware,controller.getEmployerByUsername);
-    route.get('/employer-data/emp-id',employerMiddleware,controller.getEmployerById);
-    route.get('/employer-data/transaction-id',employerMiddleware,controller.getEmployerByTransationID);
-    route.get('/employer-data/consolidation-id',employerMiddleware,controller.getEmployerByConsolidationID);
+    route.get('/employer-data/username',controller.getEmployerByUsername);
+    route.get('/employer-data/emp-id',controller.getEmployerById);
+    route.get('/employer-data/transaction-id',controller.getEmployerByTransationID);
+    route.get('/employer-data/consolidation-id',controller.getEmployerByConsolidationID);
     route.get('/all-employers',employerMiddleware,controller.getAllEmployers);
     route.delete('/delete-employer',employerMiddleware,controller.deleteTheEmployer);
     route.delete('/delete-employer/:id',employerMiddleware,controller.deleteTheEmployerById);
