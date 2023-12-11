@@ -19,6 +19,7 @@ export const orderController = (
     const orderCreate = expressAsyncHandler(
         async (req: Request, res: Response) => {
             const order: orderInterface = req.body;
+            console.log("create order")
             const createdOrder = await createOrder(order, dbRepositoryOrder);
             if (!createdOrder) {
                 throw new AppError(

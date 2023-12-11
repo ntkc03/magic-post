@@ -66,8 +66,8 @@ const orderSchema = new Schema({
     specialService: {
         type: Array
     },
-    cannotDilvered: {
-        type: Number
+    cannotDelivered: {
+        type: String
     },
     items: {
         type: Array
@@ -102,7 +102,7 @@ const orderSchema = new Schema({
     weight: {
         type: Number
     },
-    transWeight: {
+    cost: {
         type: Number
     },
     note: {

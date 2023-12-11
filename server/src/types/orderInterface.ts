@@ -25,7 +25,7 @@ export interface orderInterface {
 
     type: boolean,
     specialService?: string[],
-    cannotDilvered?: number,
+    cannotDelivered?: string,
 
     items?: string[],
     mainFee?: number,
@@ -38,7 +38,7 @@ export interface orderInterface {
     other?: number,
     sum?: number,
     weight?: number,
-    transWeight?: number,
+    cost?: number,
     note?: string,
     create_at?: Date,
     sended_at?: Date,

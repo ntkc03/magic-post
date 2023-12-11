@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { setToken } from "../../../features/redux/slices/user/tokenSlice";
 import { useSelector, useDispatch } from "react-redux/es/exports";
@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux/es/exports";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { updateOrder } from "../../../features/axios/api/order/createOrder";
+import { createOrder, updateOrder } from "../../../features/axios/api/order/createOrder";
 import { orderInterface } from "../../../types/OrderInterface";
 import SenderInformation from "./elements/senderInformation";
 import ReceiverInformation from "./elements/receiverInformation";
@@ -21,14 +21,10 @@ export default function CreateOrder() {
   const navigate = useNavigate();
 
   const {
-    register,
+    setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<orderInterface>({
-    // resolver: yupResolver(userLoginValidationSchema),
-  });
-
-  
+  } = useForm<orderInterface>({});
 
   useEffect(() => {
     function setPadding(){
@@ -45,20 +41,100 @@ export default function CreateOrder() {
       if(container) {
         container.style.marginTop = header?.offsetHeight + "px";
       }
-      
-  
     }
     setPadding();
     window.addEventListener('resize', setPadding);
   });
 
+  function setFormValue() {
+    const senderName = document.getElementById("senderName") as HTMLInputElement;
+    const senderCity = document.getElementById("senderCity") as HTMLSelectElement;
+    const senderCountry = document.getElementById("senderCountry") as HTMLSelectElement;
+    const senderDistrict = document.getElementById("senderDistrict") as HTMLSelectElement;
+    const senderVillage = document.getElementById("senderVillage") as HTMLSelectElement;
+    const senderHouseNumber = document.getElementById("senderHouseNumber") as HTMLInputElement;
+    const senderPhone = document.getElementById("senderPhone") as HTMLInputElement;
 
+    const receiverName = document.getElementById("receiverName") as HTMLInputElement;
+    const receiverCity = document.getElementById("receiverCity") as HTMLSelectElement;
+    const receiverCountry = document.getElementById("receiverCountry") as HTMLSelectElement;
+    const receiverDistrict = document.getElementById("receiverDistrict") as HTMLSelectElement;
+    const receiverVillage = document.getElementById("receiverVillage") as HTMLSelectElement;
+    const receiverHouseNumber = document.getElementById("receiverHouseNumber") as HTMLInputElement;
+    const receiverPhone = document.getElementById("receiverPhone") as HTMLInputElement;
+
+    const features = document.querySelectorAll<HTMLInputElement>('.features');
+    const specialServices: string[] = [];
+
+    const guidles = document.querySelectorAll<HTMLInputElement>('.guidles');
+    const cannotDelivered: string[] = [];
+
+    const itemsElement = document.querySelectorAll<HTMLInputElement>('.items');
+    const items: string[] = [];
+
+    const mainFee = document.getElementById("fee") as HTMLInputElement;
+    const cod = document.getElementById("COD") as HTMLInputElement;
+
+    const weight = document.getElementById("total-weight") as HTMLInputElement;
+    const cost = document.getElementById("total-cost") as HTMLInputElement;
+
+    setValue('senderName', senderName.value)
+    setValue('senderCountry', senderCountry.value)
+    setValue('senderCity', senderCity.value)
+    setValue('senderDistrict', senderDistrict.value)
+    setValue('senderVillage', senderVillage.value)
+    setValue('senderHouseNumber', senderHouseNumber.value)
+    setValue('senderPhone', senderPhone.value)
+
+    setValue('receiverName', receiverName.value)
+    setValue('receiverCountry', receiverCountry.value)
+    setValue('receiverCity', receiverCity.value)
+    setValue('receiverDistrict', receiverDistrict.value)
+    setValue('receiverVillage', receiverVillage.value)
+    setValue('receiverHouseNumber', receiverHouseNumber.value)
+    setValue('receiverPhone', receiverPhone.value)
+
+    setValue('mainFee', parseInt(mainFee.value))
+    setValue('additionalFee', 0)
+    setValue('GTGTFee', 0)
+    setValue('otherFee', 0)
+    setValue('sumFee', parseInt(mainFee.value))
+
+    setValue('COD', parseInt(cod.value))
+    setValue('other',0)
+    setValue('sum', parseInt(cod.value))
+
+    setValue('weight', parseInt(weight.value))
+    setValue('cost', parseInt(cost.value))
+
+    
+
+
+    for (let i = 0; i < features.length; i++) {
+      if (features[i].checked) {
+        specialServices.push(features[i].value);
+      }
+    }
+
+    for (let i = 0; i < guidles.length; i++) {
+      if (guidles[i].checked) {
+        cannotDelivered.push(guidles[i].value);
+      }
+    }
+
+    for (let i = 0; i < itemsElement.length; i++) {
+      items.push(itemsElement[i].value)
+    }
+    setValue('specialService', specialServices)
+    setValue('cannotDelivered', cannotDelivered[0])
+    setValue('items', items)
+  }
 
 
   let totalWeight = 0;
   useEffect(() => {
-    const sender = document.getElementById("city") as HTMLSelectElement;
-    const receiver = document.getElementById("cityz") as HTMLSelectElement;
+    const sender = document.getElementById("senderCity") as HTMLSelectElement;
+    const receiver = document.getElementById("receiverCity") as HTMLSelectElement;
     const totalW = document.getElementById("total-weight") as HTMLInputElement;
 
     let senderCity =  sender.value;
@@ -84,26 +160,19 @@ export default function CreateOrder() {
     }
 
     sender.addEventListener("change", (event) => {
-      // The value of the senderCity has changed
       senderCity = (event.target as HTMLSelectElement).value;
-      console.log("sender")
       setTotalValue();
     });
 
     receiver.addEventListener("change", (event) => {
-      // The value of the senderCity has changed
       receiverCity = (event.target as HTMLSelectElement).value;
-      console.log("receiver") 
       setTotalValue();
     });
 
     totalW.addEventListener("change", (event) => {
-      // The value of the senderCity has changed
       totalWeight = parseInt((event.target as HTMLSelectElement).value);
-      console.log("weight") 
       setTotalValue();
     });
-    
   });
   
     
@@ -119,15 +188,12 @@ export default function CreateOrder() {
   
 
   const submitHandler = async (formData: orderInterface) => {
-    updateOrder(formData)
-      .then((response) => {
-        const token = response.token;
-        dispatch(setToken(token));
-        // dispatch(loginSuccess());
-
-        notify("Create Order Success", "success");
+    setFormValue();
+    createOrder(formData)
+      .then((response: any) => {
+        notify("User registered successfully", "success");
         setTimeout(() => {
-          navigate("/user/home");
+          navigate("/order/new");
         }, 2000);
       })
       .catch((error: any) => {
