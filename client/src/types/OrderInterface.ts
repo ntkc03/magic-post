@@ -7,7 +7,6 @@ export interface orderInterface {
     senderCountry?: string,
     senderCity?: string,
     senderDistrict?: string,
-    senderCommunes?: string,
     senderVillage?: string,
     senderHouseNumber?: string,
     senderPhone?: string,
@@ -16,7 +15,6 @@ export interface orderInterface {
     receiverAddress?: string,
     receiverCountry?: string,
     receiverDistrict?: string,
-    receiverNeighborhood?: string,
     receiverVillage?: string,
     receiverHouseNumber?: string,
     receiverCity?: string,
@@ -24,7 +22,7 @@ export interface orderInterface {
 
     type: boolean,
     specialService?: string[],
-    cannotDilvered?: number,
+    cannotDelivered?: string,
 
     items?:string[],
 
@@ -41,7 +39,7 @@ export interface orderInterface {
     sum?: number,
 
     weight?: number,
-    transWeight?: number,
+    cost?: number,
 
     note?: string,
     create_at?: Date,

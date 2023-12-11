@@ -4,35 +4,23 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { setToken } from "../../../../features/redux/slices/user/tokenSlice";
 import { useSelector, useDispatch } from "react-redux/es/exports";
-// import { RootState } from "../../../features/redux/reducers/Reducer";
-// import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
     Card,
     CardBody,
   } from "@material-tailwind/react";
-import { updateOrder } from "../../../../features/axios/api/order/createOrder";
 import { orderInterface } from "../../../../types/OrderInterface";
 import { useAddressSelector } from "../getAddressSelector";
 
 export default function SenderInformation() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const {
-    register,
-    formState: { errors },
-  } = useForm<orderInterface>({
-    // resolver: yupResolver(userLoginValidationSchema),
-  });
 
   const { fetching } = useAddressSelector();  
 
   useEffect(() => {
-    const city = document.getElementById("city") as HTMLSelectElement;
-    const district= document.getElementById("district") as HTMLSelectElement;
-    const ward = document.getElementById("ward") as HTMLSelectElement;
+    const city = document.getElementById("senderCity") as HTMLSelectElement;
+    const district= document.getElementById("senderDistrict") as HTMLSelectElement;
+    const ward = document.getElementById("senderVillage") as HTMLSelectElement;
     if (city && district && ward) {
         fetching({city, district, ward});
     }
@@ -57,9 +45,9 @@ export default function SenderInformation() {
                             Tên người gửi
                         </label>
                         <input
+                            id="senderName"
                             type="text"
                             placeholder="Nhập tên người gửi"
-                            {...register("senderName")}
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                         />
                         {/* {errors.confirmPassword && (
@@ -75,8 +63,8 @@ export default function SenderInformation() {
                         </label>
                         <input
                             type="text"
+                            id="senderPhone"
                             placeholder="Nhập số điện thoại của người gửi"
-                            {...register("senderAddress")}
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                         />
                         {/* {errors.confirmPassword && (
@@ -91,14 +79,14 @@ export default function SenderInformation() {
                     </label>
                     <div className="grid lg:grid-cols-2 ">
                         <div className="lg:mr-2 my-2">
-                            <select className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
+                            <select id="senderCountry" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
                                 <option value="" selected>Quốc gia</option>  
                                 <option value="">Việt Nam</option>         
                             </select>
                         </div>
                         
                         <div className="lg:ml-2 my-2">
-                            <select className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">
+                            <select id='senderCity' className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
                                 <option value="" selected>Tỉnh/Thành phố</option>     
                             </select>
                         </div>
@@ -106,14 +94,14 @@ export default function SenderInformation() {
 
                     <div className="grid lg:grid-cols-2">
                         <div className="lg:mr-2 my-2">
-                            <select className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm">
+                            <select id='senderDistrict'className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
                                 <option value="" selected>Quận/Huyện</option>     
                             </select>
                         </div>
 
                         
                         <div className="lg:ml-2 my-2">
-                            <select className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" id="ward" aria-label=".form-select-sm">
+                            <select id='senderVillage' className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
                                 <option value="" selected>Phường/Xã</option>     
                             </select>
                         </div>
@@ -121,9 +109,9 @@ export default function SenderInformation() {
 
                     <div className="mb-4 mt-2">
                         <input
+                            id='senderHouseNumber'
                             type="text"
                             placeholder="Nhập số nhà/tên đường/thôn ..."
-                            {...register("senderHouseNumber")}
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                         />
                         {/* {errors.confirmPassword && (

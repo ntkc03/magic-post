@@ -17,24 +17,14 @@ import { orderInterface } from "../../../../types/OrderInterface";
 import { useAddressSelector } from "../getAddressSelector";
 
 export default function ReceiverInformation() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const {
-    register,
-    formState: { errors },
-  } = useForm<orderInterface>({
-    // resolver: yupResolver(userLoginValidationSchema),
-  });
-
 
   const { fetching } = useAddressSelector();
   
 
 useEffect(() => {
-    const city = document.getElementById("cityz") as HTMLSelectElement;
-    const district= document.getElementById("districtz") as HTMLSelectElement;
-    const ward = document.getElementById("wardz") as HTMLSelectElement;
+    const city = document.getElementById("receiverCity") as HTMLSelectElement;
+    const district= document.getElementById("receiverDistrict") as HTMLSelectElement;
+    const ward = document.getElementById("receiverVillage") as HTMLSelectElement;
     if (city && district && ward) {
         fetching({city, district, ward});
     }
@@ -46,7 +36,6 @@ useEffect(() => {
         {/* Receiver Form */}
         <Card className="relative mx-[10%] mt-8 lg:mx-[0%] lg:ml-[10%] lg:mr-[2.5%] shadow-lg shadow-gray-400">
             <CardBody className="p-4 ">
-            
                 <h1 className="font-bold">
                     Thông tin người nhận
                 </h1>
@@ -58,16 +47,11 @@ useEffect(() => {
                             Tên người nhận
                         </label>
                         <input
+                            id="receiverName"
                             type="text"
                             placeholder="Nhập tên người nhận"
-                            {...register("receiverName")}
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                         />
-                        {/* {errors.confirmPassword && (
-                            <p className="text-red-500 text-sm">
-                            {errors.confirmPassword.message}
-                            </p>
-                        )} */}
                     </div>
 
                     <div className="mb-4">
@@ -75,16 +59,11 @@ useEffect(() => {
                             Điện thoại
                         </label>
                         <input
+                            id="receiverPhone"
                             type="text"
                             placeholder="Nhập số điện thoại của người nhận"
-                            {...register("receiverPhone")}
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                         />
-                        {/* {errors.confirmPassword && (
-                            <p className="text-red-500 text-sm">
-                            {errors.confirmPassword.message}
-                            </p>
-                        )} */}
                     </div>
 
                     <label className="text-sm font-bold" htmlFor="address">
@@ -92,14 +71,14 @@ useEffect(() => {
                     </label>
                     <div className="grid lg:grid-cols-2 ">
                         <div className="lg:mr-2 my-2">
-                            <select className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
+                            <select id="receiverCountry" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
                                 <option value="" selected>Quốc gia</option>  
                                 <option value="">Việt Nam</option>         
                             </select>
                         </div>
                         
                         <div className="lg:ml-2 my-2">
-                            <select className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" id="cityz" aria-label=".form-select-sm">
+                            <select id="receiverCity" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
                                 <option value="" selected>Tỉnh/Thành phố</option>     
                             </select>
                         </div>
@@ -107,14 +86,14 @@ useEffect(() => {
 
                     <div className="grid lg:grid-cols-2">
                         <div className="lg:mr-2 my-2">
-                            <select className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" id="districtz" aria-label=".form-select-sm">
+                            <select id="receiverDistrict" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3"  aria-label=".form-select-sm">
                                 <option value="" selected>Quận/Huyện</option>     
                             </select>
                         </div>
 
                         
                         <div className="lg:ml-2 my-2">
-                            <select className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" id="wardz" aria-label=".form-select-sm">
+                            <select id="receiverVillage" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
                                 <option value="" selected>Phường/Xã</option>     
                             </select>
                         </div>
@@ -122,9 +101,9 @@ useEffect(() => {
 
                     <div className="mb-4 mt-2">
                         <input
+                            id="receiverHouseNumber" 
                             type="text"
                             placeholder="Nhập số nhà/tên đường/thôn ..."
-                            {...register("receiverHouseNumber")}
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                         />
                         {/* {errors.confirmPassword && (

@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import apiConfig from "../../../../utils/apiConfig";
-import { UserInterface } from "../../../../types/UserInterface";
+import { employerInterface } from "../../../../types/EmployerInterface";
 
 const api = setupAxiosInterceptors();
 

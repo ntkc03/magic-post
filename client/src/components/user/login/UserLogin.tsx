@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { UserInterface } from "../../../types/UserInterface";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { LoginPayload } from "../../../types/PayloadInterface";
@@ -12,7 +11,7 @@ import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthS
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../features/axios/api/employer/userAuthentication";
-import { log } from "console";
+
 
 
 export default function UserLogin() {
@@ -53,14 +52,12 @@ export default function UserLogin() {
     login(formData)
       .then((response) => {
         const token = response.token;
-        console.log("test",token);
         dispatch(setToken(token));
         dispatch(loginSuccess());
         notify("Login success", "success");
         setTimeout(() => {
           navigate("/employer/home");
-          console.log(dispatch)
-        }, 200);
+        }, 2000);
       })
       .catch((error: any) => {
         notify(error.message, "error");

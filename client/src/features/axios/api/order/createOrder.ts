@@ -19,6 +19,27 @@ export const orderData = async (): Promise<any> => {
   }
 };
 
+export const createOrder = async (payload: orderInterface): Promise<any> => {
+  try {
+    const config: AxiosRequestConfig = {
+      url: `${apiConfig.createOrder}`,
+      method: "post",
+      data: payload,
+    };
+    const response = await axios(config);
+    return response.data;
+  } catch (error: any) {
+    if (error.message === "Request failed with status code 409") {
+      throw new Error("Username already exists !!!");
+    } else {
+      console.log(error.message);
+      throw new Error("Create account failed, try again");
+
+    }
+  }
+};
+
+
 export const updateOrder = async (payload: orderInterface): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
@@ -26,6 +47,7 @@ export const updateOrder = async (payload: orderInterface): Promise<any> => {
     method: "post",
     data: payload,
     };
+    console.log(apiConfig.updaterOrder)
     const response = await axios(config);
     return response.data;
   } catch (error) {
