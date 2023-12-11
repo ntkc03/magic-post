@@ -12,6 +12,7 @@ import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthS
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../features/axios/api/employer/userAuthentication";
+import { log } from "console";
 
 
 export default function UserLogin() {
@@ -21,9 +22,8 @@ export default function UserLogin() {
     (state: RootState) => state.userAuth.isLoggedIn
   );
 
-  console.log(isLoggedIn)
-
   const token = localStorage.getItem("token");
+
 
   const {
     register,
@@ -53,6 +53,7 @@ export default function UserLogin() {
     login(formData)
       .then((response) => {
         const token = response.token;
+        console.log("test",token);
         dispatch(setToken(token));
         dispatch(loginSuccess());
         notify("Login success", "success");

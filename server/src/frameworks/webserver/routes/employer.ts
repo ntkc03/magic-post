@@ -4,6 +4,7 @@ import employerController from "../../../adapters/controllers/employerController
 import { employerDbRepository } from "../../../app/repositories/employerDbRepository";
 import { employerRepositoryMongoDB } from "../../database/mongoDb/repositories/employerRepositoryMongoDB";
 import { Employer } from "../../database/mongoDb/models/employerModel";
+import authenticationMiddleware from "../middleware/authenticationMiddleware";
 
 
 const employerMiddleware = roleMiddleware('employer');
@@ -16,13 +17,13 @@ const employerRoute = () => {
         employerRepositoryMongoDB,
         Employer
     );
-    route.get('/employer-data/username',controller.getEmployerByUsername);
-    route.get('/employer-data/emp-id',controller.getEmployerById);
-    route.get('/employer-data/transaction-id',controller.getEmployerByTransationID);
-    route.get('/employer-data/consolidation-id',controller.getEmployerByConsolidationID);
-    route.get('/all-employers',employerMiddleware,controller.getAllEmployers);
-    route.delete('/delete-employer',employerMiddleware,controller.deleteTheEmployer);
-    route.delete('/delete-employer/:id',employerMiddleware,controller.deleteTheEmployerById);
+    route.get('/employer-data/username',authenticationMiddleware,employerMiddleware,controller.getEmployerByUsername);
+    route.get('/employer-data/emp-id',authenticationMiddleware,employerMiddleware,controller.getEmployerById);
+    route.get('/employer-data/transaction-id',authenticationMiddleware,employerMiddleware,controller.getEmployerByTransationID);
+    route.get('/employer-data/consolidation-id',authenticationMiddleware,employerMiddleware,controller.getEmployerByConsolidationID);
+    route.get('/all-employers',authenticationMiddleware,employerMiddleware,controller.getAllEmployers);
+    route.delete('/delete-employer',authenticationMiddleware,employerMiddleware,controller.deleteTheEmployer);
+    route.delete('/delete-employer/:id',authenticationMiddleware,employerMiddleware,controller.deleteTheEmployerById);
 
     return route;
 }

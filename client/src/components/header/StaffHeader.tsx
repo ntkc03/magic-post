@@ -22,14 +22,17 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
+const token = localStorage.getItem("token");
+
 function StaffHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-//   const user = useSelector((state: RootState) => state.userDetails.userDetails);
+  //   const user = useSelector((state: RootState) => state.userDetails.userDetails);
 
   useEffect(() => {
-    dispatch(fetchUser());
-
+    if (token) {
+      dispatch(fetchUser());
+    }
     return () => {
       dispatch(clearUserDetails());
     };
@@ -101,7 +104,7 @@ function StaffHeader() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src = "https://i.imgur.com/4yMatlX.png"
+                          src="https://i.imgur.com/4yMatlX.png"
                           alt="user"
                         />
                       </Menu.Button>
@@ -173,4 +176,4 @@ function StaffHeader() {
 }
 
 export default StaffHeader;
-export{};
+export { };
