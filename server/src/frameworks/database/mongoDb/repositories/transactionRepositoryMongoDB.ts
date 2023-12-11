@@ -13,8 +13,8 @@ export const transactionRepositoryMongoDB = (model: TransactionModel) => {
         const transaction = transactionEntity.getTransactionByID(id);
         return transaction;
     }
-    const getTransactionsByConsolidationByID = async (id: string) => {
-        const transactions = transactionEntity.getTransactionsByConsolidationByID(id);
+    const getTransactionsByConsolidation = async (consolidation: string) => {
+        const transactions = transactionEntity.getTransactionsByConsolidation(consolidation);
         return transactions;
     }
     const getAllTransactions = async () => {
@@ -25,7 +25,7 @@ export const transactionRepositoryMongoDB = (model: TransactionModel) => {
     return {
         getTransactionByAddress,
         getTransactionByID,
-        getTransactionsByConsolidationByID,
+        getTransactionsByConsolidation,
         getAllTransactions
     }
 }

@@ -41,6 +41,7 @@ export default function UserLogin() {
   useEffect(() => {
     if (token) {
       dispatch(loginSuccess());
+      
     }
     if (isLoggedIn === true) {
       navigate("/employer/home");

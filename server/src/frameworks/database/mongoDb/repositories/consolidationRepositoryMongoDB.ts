@@ -5,6 +5,8 @@ import { consolidationInterface } from "../../../../types/consolidationInterface
 export const consolidationRepositoryMongoDB = (model: ConsolidationModel) => {
     const consolidationEntity = new ConsolidationEntity(model);
 
+    
+
     // get consolidation by address
     const getConsolidationByAddress = async (address: string) => {
         const consolidation = await consolidationEntity.getConsolidationByAddress(address);
