@@ -11,6 +11,8 @@ import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthS
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../features/axios/api/employer/userAuthentication";
+import { employerData } from "../../../features/axios/api/employer/userDetails";
+import { employerInterface } from "../../../types/EmployerInterface";
 
 
 
@@ -20,6 +22,9 @@ export default function UserLogin() {
   const isLoggedIn = useSelector(
     (state: RootState) => state.userAuth.isLoggedIn
   );
+  const [employerDetails, setEmployerDetails] = useState<employerInterface>();
+
+
 
   const token = localStorage.getItem("token");
 
@@ -40,7 +45,11 @@ export default function UserLogin() {
   useEffect(() => {
     if (token) {
       dispatch(loginSuccess());
-      
+      const employerDetails = async () => {
+        const data = await employerData();
+        setEmployerDetails(data);
+      }
+      employerDetails();
     }
     if (isLoggedIn === true) {
       navigate("/employer/home");
@@ -57,7 +66,11 @@ export default function UserLogin() {
         dispatch(loginSuccess());
         notify("Login success", "success");
         setTimeout(() => {
-          navigate("/employer/home");
+          if (employerDetails?.role == "director") {
+            navigate("/director/static-points");
+          } else {
+            navigate("/employer/home");
+          }
         }, 2000);
       })
       .catch((error: any) => {
