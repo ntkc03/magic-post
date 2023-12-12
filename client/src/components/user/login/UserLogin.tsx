@@ -46,6 +46,10 @@ export default function UserLogin() {
     }
   }, [navigate]);
 
+  const setFormValue = async () => {
+
+  }
+
 
 
   const submitHandler = async (formData: LoginPayload) => {
@@ -104,6 +108,7 @@ export default function UserLogin() {
                 Mật khẩu
               </label>
               <input
+                
                 type="password"
                 placeholder="Nhập mật khẩu"
                 {...register("password")}

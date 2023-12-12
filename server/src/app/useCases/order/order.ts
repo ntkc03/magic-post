@@ -8,7 +8,6 @@ export const createOrder = async (
     orderRepository: ReturnType<orderDbInterface>
 ) => {
     try {
-        console.log("hi")
         const result = await orderRepository.createOrder(order);
         return result;
     } catch (error: any) {

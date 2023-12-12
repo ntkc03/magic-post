@@ -4,7 +4,6 @@ export interface orderInterface {
     code?: string,
 
     senderName?: string,
-    senderAddress?: string,
     senderCountry?: string,
     senderCity?: string,
     senderDistrict?: string,
@@ -14,7 +13,6 @@ export interface orderInterface {
     senderPhone?: string,
 
     receiverName?: string,
-    receiverAddress?: string,
     receiverCountry?: string,
     receiverDistrict?: string,
     receiverNeighborhood?: string,
@@ -28,6 +26,9 @@ export interface orderInterface {
     cannotDelivered?: string,
 
     items?: string[],
+    
+    estimatedTime: number,
+
     mainFee?: number,
     additionalFee?: number,
     GTGTFee?: number,

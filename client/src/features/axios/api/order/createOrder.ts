@@ -6,10 +6,10 @@ import { orderInterface } from "../../../../types/OrderInterface";
 
 const api = setupAxiosInterceptors();
 
-export const orderData = async (): Promise<any> => {
+export const orderData = async (orderCode: string): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-      url: apiConfig.orderCode,
+      url: `${apiConfig.orderCode}/${orderCode}`,
       method: "get",
     };
     const response = await api(config);
@@ -47,7 +47,6 @@ export const updateOrder = async (payload: orderInterface): Promise<any> => {
     method: "post",
     data: payload,
     };
-    console.log(apiConfig.updaterOrder)
     const response = await axios(config);
     return response.data;
   } catch (error) {

@@ -7,7 +7,7 @@ const OrderRouter = () => {
     <div>
       <Routes>
         <Route path="/new" element={<CreateOrderPage />} />
-        <Route path="/register" element={<OrderDetailsPage />} />
+        <Route path="/details/:code" element={<OrderDetailsPage />} />
       </Routes>
     </div>
   );

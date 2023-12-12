@@ -2,10 +2,6 @@ import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { set, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { setToken } from "../../../features/redux/slices/user/tokenSlice";
-import { useSelector, useDispatch } from "react-redux/es/exports";
-// import { RootState } from "../../../features/redux/reducers/Reducer";
-// import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,13 +13,23 @@ import GoodsInformation from "./elements/goodsInformation";
 import { costCalcu} from "./calculation";
 
 export default function CreateOrder() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleDocumentChange = () => {
+      setFormValue();
+      setTotalValue();
+    };
+    document.addEventListener("change", handleDocumentChange);
+    return () => {
+      document.removeEventListener("change", handleDocumentChange);
+    };
+  }, []);
 
   const {
     setValue,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<orderInterface>({});
 
   useEffect(() => {
@@ -46,7 +52,7 @@ export default function CreateOrder() {
     window.addEventListener('resize', setPadding);
   });
 
-  function setFormValue() {
+  const setFormValue = async () =>{
     const senderName = document.getElementById("senderName") as HTMLInputElement;
     const senderCity = document.getElementById("senderCity") as HTMLSelectElement;
     const senderCountry = document.getElementById("senderCountry") as HTMLSelectElement;
@@ -63,20 +69,24 @@ export default function CreateOrder() {
     const receiverHouseNumber = document.getElementById("receiverHouseNumber") as HTMLInputElement;
     const receiverPhone = document.getElementById("receiverPhone") as HTMLInputElement;
 
+    const types = document.querySelectorAll<HTMLInputElement>('.type');
+    
+
     const features = document.querySelectorAll<HTMLInputElement>('.features');
     const specialServices: string[] = [];
 
-    const guidles = document.querySelectorAll<HTMLInputElement>('.guidles');
+    const guides = document.querySelectorAll<HTMLInputElement>('.guides');
     const cannotDelivered: string[] = [];
 
     const itemsElement = document.querySelectorAll<HTMLInputElement>('.items');
     const items: string[] = [];
 
-    const mainFee = document.getElementById("fee") as HTMLInputElement;
     const cod = document.getElementById("COD") as HTMLInputElement;
+    const totalCod = document.getElementById("total-cod") as HTMLElement;
 
     const weight = document.getElementById("total-weight") as HTMLInputElement;
     const cost = document.getElementById("total-cost") as HTMLInputElement;
+    const note = document.getElementById("note") as HTMLInputElement;
 
     setValue('senderName', senderName.value)
     setValue('senderCountry', senderCountry.value)
@@ -94,21 +104,24 @@ export default function CreateOrder() {
     setValue('receiverHouseNumber', receiverHouseNumber.value)
     setValue('receiverPhone', receiverPhone.value)
 
-    setValue('mainFee', parseInt(mainFee.value))
-    setValue('additionalFee', 0)
-    setValue('GTGTFee', 0)
-    setValue('otherFee', 0)
-    setValue('sumFee', parseInt(mainFee.value))
 
     setValue('COD', parseInt(cod.value))
+    totalCod.innerText =  `${parseInt(cod.value).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}`;
+
     setValue('other',0)
     setValue('sum', parseInt(cod.value))
 
     setValue('weight', parseInt(weight.value))
     setValue('cost', parseInt(cost.value))
+    setValue('note', note.value)
 
-    
+    setValue('code', String(Math.floor(Math.random() * 1000000000) + 10000000000))
 
+    if (types[0].checked) {
+      setValue('type', true)
+    } else {
+      setValue('type', false)
+    }
 
     for (let i = 0; i < features.length; i++) {
       if (features[i].checked) {
@@ -116,9 +129,9 @@ export default function CreateOrder() {
       }
     }
 
-    for (let i = 0; i < guidles.length; i++) {
-      if (guidles[i].checked) {
-        cannotDelivered.push(guidles[i].value);
+    for (let i = 0; i < guides.length; i++) {
+      if (guides[i].checked) {
+        cannotDelivered.push(guides[i].value);
       }
     }
 
@@ -132,7 +145,7 @@ export default function CreateOrder() {
 
 
   let totalWeight = 0;
-  useEffect(() => {
+  const setTotalValue = async () => {
     const sender = document.getElementById("senderCity") as HTMLSelectElement;
     const receiver = document.getElementById("receiverCity") as HTMLSelectElement;
     const totalW = document.getElementById("total-weight") as HTMLInputElement;
@@ -141,43 +154,36 @@ export default function CreateOrder() {
     let receiverCity = receiver.value;
     totalWeight = parseInt(totalW.value);
 
-    function setTotalValue() {
-      const fee = document.getElementById("fee") as HTMLElement;
-      const time = document.getElementById("time") as HTMLElement;
-      if (senderCity!="" && receiverCity !="" && totalWeight != 0 && !Number.isNaN(totalWeight)) {
-        const fetchData = async () => {
-          const { totalFee, estimatedTime } = await costCalcu(senderCity, receiverCity, totalWeight);
-          var f = totalFee.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
-          fee.innerText = `${f}`;
-          time.innerText = `${estimatedTime} ngày`;
-        };
-    
-        fetchData();
-      } else {
-        fee.innerText = `0 VND`;
-        time.innerText = `0 ngày`;
+    const fee = document.getElementById("fee") as HTMLElement;
+    const time = document.getElementById("time") as HTMLElement;
+    if (senderCity!="" && receiverCity !="" && totalWeight != 0 && !Number.isNaN(totalWeight)) {
+      try {
+        const { totalFee, estimatedTime } = await costCalcu(senderCity, receiverCity, totalWeight);
+        var f = totalFee.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+        fee.innerText = `${f}`;
+        time.innerText = `${estimatedTime} ngày`;
+        setValue('mainFee', totalFee)
+        setValue('additionalFee', 0)
+        setValue('GTGTFee', 0)
+        setValue('otherFee', 0)
+        setValue('sumFee', totalFee)
+        setValue('estimatedTime', estimatedTime)
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
+    } else {
+      fee.innerText = `0 VND`;
+      time.innerText = `0 ngày`;
+
+      setValue('mainFee', 0)
+      setValue('additionalFee', 0)
+      setValue('GTGTFee', 0)
+      setValue('otherFee', 0)
+      setValue('sumFee', 0)
+      setValue('estimatedTime', 0)
     }
-
-    sender.addEventListener("change", (event) => {
-      senderCity = (event.target as HTMLSelectElement).value;
-      setTotalValue();
-    });
-
-    receiver.addEventListener("change", (event) => {
-      receiverCity = (event.target as HTMLSelectElement).value;
-      setTotalValue();
-    });
-
-    totalW.addEventListener("change", (event) => {
-      totalWeight = parseInt((event.target as HTMLSelectElement).value);
-      setTotalValue();
-    });
-  });
+  }
   
-    
-  const token = localStorage.getItem("token");
-
 
   const notify = (msg: string, type: string) =>
     type === "error"
@@ -185,15 +191,12 @@ export default function CreateOrder() {
       : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
 
 
-  
-
   const submitHandler = async (formData: orderInterface) => {
-    setFormValue();
     createOrder(formData)
       .then((response: any) => {
-        notify("User registered successfully", "success");
+        notify("Create a new order successfully", "success");
         setTimeout(() => {
-          navigate("/order/new");
+          navigate("/order/details");
         }, 2000);
       })
       .catch((error: any) => {
@@ -236,7 +239,7 @@ export default function CreateOrder() {
 
                     <div className="grid grid-cols-2 md:grid-cols-1 md:p-4 p-2 md:border-r-[3px] border-gray-300 border-b-[3px] lg:border-b-[0px]">
                         <p className="lg:mb-2">Tiền thu hộ</p>
-                        <p className="md:text-center text-right">0 VND</p>
+                        <p id='total-cod'className="md:text-center text-right">0 VND</p>
                     </div>
 
                     <div className="grid grid-cols-2 md:grid-cols-1 md:p-4 p-2 lg:border-r-[3px] border-gray-300 border-b-[3px] lg:border-b-[0px]">
@@ -251,7 +254,6 @@ export default function CreateOrder() {
                         <button
                             type="submit"
                             className="w-[90%] bg-white hover:bg-blue-100 border-2 text-blue-200 border-blue-200 py-2 px-2 shadow-md rounded"
-                            
                             >
                             Gửi ngay
                         </button>

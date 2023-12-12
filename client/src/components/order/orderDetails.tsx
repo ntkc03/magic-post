@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux/es/exports";
 // import { RootState } from "../../../features/redux/reducers/Reducer";
 // import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthSlice";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,10 +12,44 @@ import GenerateQR from "./generateQRCode";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import PrintButton from "./printOrder";
+import { orderInterface } from "../../types/OrderInterface";
+import { orderData } from "../../features/axios/api/order/createOrder";
+import { getAddress } from "./create/getAddressSelector";
+
 
 export default function OrderDetails() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [orderDetails, setOrderDetails] = useState<orderInterface>();
+
+  const fetchAddresses = async () => {
+    try {
+        const senderAddressPromise = getAddress(orderDetails?.senderCity ?? "", orderDetails?.senderDistrict ?? "", orderDetails?.senderVillage ?? "");
+        const receiverAddressPromise = getAddress(orderDetails?.receiverCity ?? "", orderDetails?.receiverDistrict ?? "", orderDetails?.receiverVillage ?? "");
+
+        const [senderAddress, receiverAddress] = await Promise.all([senderAddressPromise, receiverAddressPromise]);
+
+        const sender = document.getElementById("senderAddress") as HTMLElement;
+        const receiver = document.getElementById("receiverAddress") as HTMLElement;
+
+        sender.innerText = orderDetails?.senderHouseNumber + ", " + senderAddress.village + ", " + senderAddress.district + ", " + senderAddress.city + ", Việt Nam"
+        receiver.innerText = orderDetails?.receiverHouseNumber + ", " + receiverAddress.village + ", " + receiverAddress.district + ", " + receiverAddress.city + ", Việt Nam"
+
+    } catch (error) {
+        // Handle errors here
+        console.error("Error fetching addresses:", error);
+    }
+  };
+
+  // Call the function
+  
+  fetchAddresses();
+
+  useEffect(() => {
+    const userInfo = async () => {
+      const data = await orderData("10083105429");
+      setOrderDetails(data);
+    };
+    userInfo();
+  }, []);
 
   useEffect(() => {
     function setPadding(){
@@ -74,7 +107,7 @@ export default function OrderDetails() {
                     </p>
 
                     <p>
-                      Nguyễn Văn A
+                      {orderDetails?.senderName}
                     </p>
                   </div>
 
@@ -83,8 +116,7 @@ export default function OrderDetails() {
                       Địa chỉ
                     </p>
 
-                    <p>
-                      Đường x
+                    <p id="senderAddress">
                     </p>
                   </div>
 
@@ -94,7 +126,7 @@ export default function OrderDetails() {
                     </p>
 
                     <p>
-                      Nguyễn Văn A
+                      {orderDetails?.senderPhone}
                     </p>
                   </div>
                 </div>
@@ -107,7 +139,7 @@ export default function OrderDetails() {
                     </p>
 
                     <p>
-                      Nguyễn Văn A
+                      {orderDetails?.receiverName}
                     </p>
                   </div>
 
@@ -116,8 +148,7 @@ export default function OrderDetails() {
                       Địa chỉ
                     </p>
 
-                    <p>
-                      Đường x
+                    <p id="receiverAddress">
                     </p>
                   </div>
 
@@ -127,7 +158,7 @@ export default function OrderDetails() {
                     </p>
 
                     <p>
-                      Nguyễn Văn A
+                      {orderDetails?.receiverPhone}
                     </p>
                   </div>
                 </div>
@@ -144,6 +175,7 @@ export default function OrderDetails() {
                               <input
                                   type="checkbox"
                                   className="form-radio text-blue-600"
+                                  checked={orderDetails?.type === true}
                               />
                               <span className="ml-2">Tài liệu</span>
                           </label>
@@ -152,6 +184,7 @@ export default function OrderDetails() {
                           <input
                               type="checkbox"
                               className="form-radio text-blue-600"
+                              checked={orderDetails?.type === false}
                           />
                           <span className="ml-2">Hàng hóa</span>
                           </label>
@@ -185,7 +218,7 @@ export default function OrderDetails() {
 
                   <div className="mb-2">
                     <label className="font-bold">Dịch vụ cộng thêm</label>
-                    <p>----------------</p>
+                    <p>{orderDetails?.specialService?.join(', ')}</p>
                   </div>
 
                 </div>
@@ -196,37 +229,23 @@ export default function OrderDetails() {
                   </label>
 
                   <div>
-                      <label className="flex items-center">
-                          <input
-                              type="checkbox"
-                              className="form-radio text-blue-600"
-                          />
-                          <span className="ml-2">Chuyển hoàn ngay</span>
-                      </label>
-
-                      <label className="flex items-center">
-                          <input
-                              type="checkbox"
-                              className="form-radio text-blue-600"
-                          />
-                          <span className="ml-2">Gọi điện cho người gửi/bưu cục gửi</span>
-                      </label>
-
-                      <label className="flex items-center">
-                          <input
-                              type="checkbox"
-                              className="form-radio text-blue-600"
-                          />
-                          <span className="ml-2">Chuyển hoàn khi hết thời gian lưu trữ</span>
-                      </label>
-
-                      <label className="flex items-center">
-                          <input
-                              type="checkbox"
-                              className="form-radio text-blue-600"
-                          />
-                          <span className="ml-2">Hủy</span>
-                      </label>
+                    {[
+                        { label: 'Chuyển hoàn ngay', value: 'returnImmediately' },
+                        { label: 'Gọi điện cho người gửi', value: 'callSender' },
+                        { label: 'Chuyển hoàn trước ngày', value: 'returnBeforeDate' },
+                        { label: 'Chuyển hoàn khi hết thời gian lưu trữ', value: 'returnWhenStorageExpires' },
+                        { label: 'Hủy', value: 'cancel' },
+                    ].map((option) => (
+                        <label key={option.value} className="flex items-center">
+                        <input
+                            value={option.label}
+                            type="checkbox"
+                            checked={orderDetails?.cannotDelivered === option.label}
+                            className="guides form-checkbox text-blue-600"
+                        />
+                        <span className="ml-2">{option.label}</span>
+                        </label>
+                    ))}
                   </div>
 
                 </div>
@@ -240,32 +259,32 @@ export default function OrderDetails() {
 
                     <div className="grid grid-cols-2">
                       <label>Cước chính</label>
-                      <p className="text-right">0 đ</p>
+                    <p className="text-right">{orderDetails?.mainFee} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2">
                       <label>Phụ phí</label>
-                      <p className="text-right">0 đ</p>
+                    <p className="text-right">{orderDetails?.additionalFee} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2">
                       <label>Cước GTGT</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.GTGTFee} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2">
                       <label>Tổng cước (bao gồm VAT)</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.VAT} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2">
                       <label>Thu khác</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.otherFee} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2 font-bold">
                       <label>Tổng thu</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.sumFee} đ</p>
                     </div>
                     
                   </div>
@@ -277,17 +296,17 @@ export default function OrderDetails() {
 
                     <div className="grid grid-cols-2">
                       <label>COD</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.COD} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2">
                       <label>Thu khác</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.other} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2 font-bold">
                       <label>Tổng thu</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.sum} đ</p>
                     </div>
                   </div>
                   
@@ -295,7 +314,7 @@ export default function OrderDetails() {
                   <label className="font-bold">Khối lượng (kg)</label>
                   <div className="grid grid-cols-2">
                     <label>Khối lượng thực tế</label>
-                    <p className="text-right">0 g</p>
+                    <p className="text-right">{orderDetails?.weight} g</p>
                   </div>
                 </div>
               </div>
@@ -315,7 +334,7 @@ export default function OrderDetails() {
                       <label className="font-bold">
                         Ngày giờ gửi
                       </label>
-                      <p>---------</p>
+                      <p>{orderDetails?.sended_at?.getDate()}</p>
                     </div>
 
                     <div>

@@ -72,14 +72,14 @@ useEffect(() => {
                     <div className="grid lg:grid-cols-2 ">
                         <div className="lg:mr-2 my-2">
                             <select id="receiverCountry" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="" selected>Quốc gia</option>  
+                                <option value="">Quốc gia</option>  
                                 <option value="">Việt Nam</option>         
                             </select>
                         </div>
                         
                         <div className="lg:ml-2 my-2">
                             <select id="receiverCity" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="" selected>Tỉnh/Thành phố</option>     
+                                <option value="">Tỉnh/Thành phố</option>     
                             </select>
                         </div>
                     </div>
@@ -87,14 +87,14 @@ useEffect(() => {
                     <div className="grid lg:grid-cols-2">
                         <div className="lg:mr-2 my-2">
                             <select id="receiverDistrict" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3"  aria-label=".form-select-sm">
-                                <option value="" selected>Quận/Huyện</option>     
+                                <option value="">Quận/Huyện</option>     
                             </select>
                         </div>
 
                         
                         <div className="lg:ml-2 my-2">
                             <select id="receiverVillage" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="" selected>Phường/Xã</option>     
+                                <option value="">Phường/Xã</option>     
                             </select>
                         </div>
                     </div>

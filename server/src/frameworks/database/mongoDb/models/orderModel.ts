@@ -8,9 +8,6 @@ const orderSchema = new Schema({
     senderName: {
         type: String
     },
-    senderAddress: {
-        type: String
-    },
     senderCountry: {
         type: String
     },
@@ -34,9 +31,6 @@ const orderSchema = new Schema({
         type: String
     },
     receiverName: {
-        type: String
-    },
-    receiverAddress: {
         type: String
     },
     receiverCountry: {
@@ -71,6 +65,9 @@ const orderSchema = new Schema({
     },
     items: {
         type: Array
+    },
+    estimatedTime: {
+        type: Number
     },
     mainFee: {
         type: Number

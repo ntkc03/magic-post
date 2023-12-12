@@ -26,6 +26,48 @@ interface AddressSelectorProps {
     ward: HTMLSelectElement | null;
 }
 
+export async function getAddress(cityId: string, districtId: string, villageID: string) {
+    const fetchData = async (cityId: string, districtId: string, villageID: string) => {
+        try {
+            const response = await axios.get<City[]>("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json");
+            if (response.data) {
+                var city: string = "";
+                var district: string = "";
+                var village: string = "";
+                const data = response.data;
+                city = (data.find(city => city.Id === cityId) || {}).Name || "";
+                const districts = (data.find(city => city.Id === cityId) || {}).Districts;
+                if (districts) {
+                    district = (districts.find(dis => dis.Id === districtId) || {}).Name || "";
+                    const villages = (districts.find(dis => dis.Id === districtId)  || {}).Wards;
+                    if (villages) {
+                        village = (villages.find(ward => ward.Id === villageID) || {}).Name || ""
+                    }
+                }
+                // console.log(city, district, village)
+                return { city, district, village };
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            throw error; // Rethrow the error to handle it outside of this function if needed
+        }
+    };
+
+    try {
+        const result = await fetchData(cityId, districtId, villageID);
+
+        if (result) {
+            const { city, district, village } = result;
+            return { city, district, village };
+        } else {
+            throw new Error("Data not available");
+        }
+    } catch (error) {
+        // Handle the error here or propagate it to the calling code
+        console.error("Error in getAddress:", error);
+        return { city: 'defaultCity', district: 'defaultDistrict', village: 'defaultVillage' };
+    }
+}
 
 export function useAddressSelector() {
     const fetching = ({ city, district, ward }: AddressSelectorProps) => {

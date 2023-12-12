@@ -32,6 +32,17 @@ export default function GoodsInformation() {
     setItems([...items, <ItemDetails key={items.length} />]);
   };
 
+  
+  const [type, setType] = useState<string | null>(null);
+  const handleTypeChange = (value: string) => {
+    setType(value === type ? null : value);
+  };
+
+  const [guide, setGuide] = useState<string | null>(null);
+  const handleGuideChange = (value: string) => {
+    setGuide(value === type ? null : value);
+  };
+
 
   
   return (
@@ -58,6 +69,8 @@ export default function GoodsInformation() {
                                     <input
                                         value={option.label}
                                         type="checkbox"
+                                        checked={type === option.label}
+                                        onChange={() => handleTypeChange(option.label)}
                                         className="type form-checkbox text-blue-600"
                                     />
                                     <span className="ml-2">{option.label}</span>
@@ -81,7 +94,7 @@ export default function GoodsInformation() {
                             <div className="flex items-center justify-center">
                                 <button type="button" id="add-items" onClick={handleAddItem} className="inline-flex items-center bg-white hover:bg-gray-100 border-2 text-blue-200 border-blue-200 py-2 px-2 shadow-md rounded">
                                     <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                     </svg>
                                     Thêm hàng hóa
                                 </button>
@@ -163,7 +176,9 @@ export default function GoodsInformation() {
                                             <input
                                                 value={option.label}
                                                 type="checkbox"
-                                                className="guidles form-checkbox text-blue-600"
+                                                checked={guide === option.label}
+                                                onChange={() => handleGuideChange(option.label)}
+                                                className="guides form-checkbox text-blue-600"
                                             />
                                             <span className="ml-2">{option.label}</span>
                                             </label>
@@ -179,6 +194,8 @@ export default function GoodsInformation() {
                                             <input
                                                 value={option.label}
                                                 type="checkbox"
+                                                checked={guide === option.label}
+                                                onChange={() => handleGuideChange(option.label)}
                                                 className="guidles form-checkbox text-blue-600"
                                             />
                                             <span className="ml-2">{option.label}</span>

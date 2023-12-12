@@ -80,14 +80,14 @@ export default function SenderInformation() {
                     <div className="grid lg:grid-cols-2 ">
                         <div className="lg:mr-2 my-2">
                             <select id="senderCountry" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="" selected>Quốc gia</option>  
+                                <option value="">Quốc gia</option>  
                                 <option value="">Việt Nam</option>         
                             </select>
                         </div>
                         
                         <div className="lg:ml-2 my-2">
                             <select id='senderCity' className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="" selected>Tỉnh/Thành phố</option>     
+                                <option value="">Tỉnh/Thành phố</option>     
                             </select>
                         </div>
                     </div>
@@ -95,14 +95,14 @@ export default function SenderInformation() {
                     <div className="grid lg:grid-cols-2">
                         <div className="lg:mr-2 my-2">
                             <select id='senderDistrict'className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="" selected>Quận/Huyện</option>     
+                                <option value="">Quận/Huyện</option>     
                             </select>
                         </div>
 
                         
                         <div className="lg:ml-2 my-2">
                             <select id='senderVillage' className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="" selected>Phường/Xã</option>     
+                                <option value="">Phường/Xã</option>     
                             </select>
                         </div>
                     </div>
