@@ -3,6 +3,7 @@ import UserRouter from "./routes/user/UserRouter";
 import HomeRouter from "./routes/home/HomeRouter";
 import NotFound from "./components/error/NotFound";
 import OrderRouter from "./routes/order/OrderRouter";
+import DirectorRouter from "./routes/director/DirectorRouter";
 
 function App() {
   return (
@@ -10,8 +11,9 @@ function App() {
       <Router>
         <Routes>
           <Route path="/*" element={<HomeRouter />} />
-          <Route path="/employer/*" element={<UserRouter />} />\
+          <Route path="/employer/*" element={<UserRouter />} />
           <Route path="/order/*" element={<OrderRouter />} />
+          <Route path="/director/*" element={<DirectorRouter/>}/>
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </Router>

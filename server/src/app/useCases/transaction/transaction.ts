@@ -34,12 +34,12 @@ export const getTransactionByID = async (
     }
 }
 
-export const getTransactionsByConsolidationID = async (
-    id: string,
+export const getTransactionsByConsolidation = async (
+    consolidation: string,
     transactionRepository: ReturnType<transactionDbInterface>
 ) => {
     try {
-        const result = await transactionRepository.getTransactionsByConsolidationByID(id);
+        const result = await transactionRepository.getTransactionsByConsolidation(consolidation);
         if (!result) {
             throw new AppError("transaction point not found", HttpStatus.BAD_REQUEST);
         }

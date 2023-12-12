@@ -4,7 +4,7 @@ const transactionSchema = new Schema({
     address: {
         type: String
     },
-    consolidationID: {
+    consolidation: {
         type: String
     }
 })

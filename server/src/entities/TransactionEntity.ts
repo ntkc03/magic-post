@@ -18,8 +18,8 @@ export class TransactionEntity {
         return transaction;
     }
 
-    public async getTransactionsByConsolidationByID(id: string): Promise<transactionInterface[] | null> {
-        const transactions: any = await this.model.find({ consolidationID: id });
+    public async getTransactionsByConsolidation(consolidation: string): Promise<transactionInterface[] | null> {
+        const transactions: any = await this.model.find({ consolidation: consolidation });
         return transactions;
     }
 

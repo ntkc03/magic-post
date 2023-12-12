@@ -12,8 +12,8 @@ export const transactionDbRepository = (
         const transaction = repository.getTransactionByID(id);
         return transaction;
     }
-    const getTransactionsByConsolidationByID = async (id: string) => {
-        const transactions = repository.getTransactionsByConsolidationByID(id);
+    const getTransactionsByConsolidation = async (consolidation: string) => {
+        const transactions = repository.getTransactionsByConsolidation(consolidation);
         return transactions;
     }
     const getAllTransactions = async () => {
@@ -24,7 +24,7 @@ export const transactionDbRepository = (
     return {
         getTransactionByAddress,
         getTransactionByID,
-        getTransactionsByConsolidationByID,
+        getTransactionsByConsolidation,
         getAllTransactions
     }
 }
