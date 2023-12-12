@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { setToken } from "../../../../features/redux/slices/user/tokenSlice";
 import { useSelector, useDispatch } from "react-redux/es/exports";
@@ -13,7 +13,11 @@ import {
 import { orderInterface } from "../../../../types/OrderInterface";
 import { useAddressSelector } from "../getAddressSelector";
 
-export default function SenderInformation() {
+interface SenderInformationProps {
+    errors: FieldErrors<orderInterface>;
+  }
+  
+const SenderInformation: React.FC<SenderInformationProps> = ({ errors }) => {
 
   const { fetching } = useAddressSelector();  
 
@@ -50,11 +54,12 @@ export default function SenderInformation() {
                             placeholder="Nhập tên người gửi"
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                         />
-                        {/* {errors.confirmPassword && (
+                        {errors.senderName && (
                             <p className="text-red-500 text-sm">
-                            {errors.confirmPassword.message}
+                            {errors.senderName.message}
                             </p>
-                        )} */}
+                        )}
+                        
                     </div>
 
                     <div className="mb-4">
@@ -67,11 +72,11 @@ export default function SenderInformation() {
                             placeholder="Nhập số điện thoại của người gửi"
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                         />
-                        {/* {errors.confirmPassword && (
+                        {errors.senderPhone && (
                             <p className="text-red-500 text-sm">
-                            {errors.confirmPassword.message}
+                            {errors.senderPhone.message}
                             </p>
-                        )} */}
+                        )}
                     </div>
 
                     <label className="text-sm font-bold" htmlFor="address">
@@ -81,14 +86,24 @@ export default function SenderInformation() {
                         <div className="lg:mr-2 my-2">
                             <select id="senderCountry" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
                                 <option value="">Quốc gia</option>  
-                                <option value="">Việt Nam</option>         
+                                <option value="Việt Nam">Việt Nam</option>         
                             </select>
+                            {errors.senderCountry && (
+                                <p className="text-red-500 text-sm">
+                                {errors.senderCountry.message}
+                                </p>
+                            )}
                         </div>
                         
                         <div className="lg:ml-2 my-2">
                             <select id='senderCity' className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
                                 <option value="">Tỉnh/Thành phố</option>     
                             </select>
+                            {errors.senderCity && (
+                                <p className="text-red-500 text-sm">
+                                {errors.senderCity.message}
+                                </p>
+                            )}
                         </div>
                     </div>
 
@@ -97,6 +112,11 @@ export default function SenderInformation() {
                             <select id='senderDistrict'className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
                                 <option value="">Quận/Huyện</option>     
                             </select>
+                            {errors.senderDistrict && (
+                                <p className="text-red-500 text-sm">
+                                {errors.senderDistrict.message}
+                                </p>
+                            )}
                         </div>
 
                         
@@ -104,6 +124,11 @@ export default function SenderInformation() {
                             <select id='senderVillage' className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
                                 <option value="">Phường/Xã</option>     
                             </select>
+                            {errors.senderVillage && (
+                                <p className="text-red-500 text-sm">
+                                {errors.senderVillage.message}
+                                </p>
+                            )}
                         </div>
                     </div>
 
@@ -114,11 +139,11 @@ export default function SenderInformation() {
                             placeholder="Nhập số nhà/tên đường/thôn ..."
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                         />
-                        {/* {errors.confirmPassword && (
+                        {errors.senderHouseNumber && (
                             <p className="text-red-500 text-sm">
-                            {errors.confirmPassword.message}
+                            {errors.senderHouseNumber.message}
                             </p>
-                        )} */}
+                        )}
                     </div>
 
                 </div>
@@ -128,3 +153,5 @@ export default function SenderInformation() {
   );
 
 }
+
+export default SenderInformation;

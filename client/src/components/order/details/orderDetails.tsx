@@ -12,44 +12,37 @@ import GenerateQR from "./generateQRCode";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import PrintButton from "./printOrder";
-import { orderInterface } from "../../types/OrderInterface";
-import { orderData } from "../../features/axios/api/order/createOrder";
-import { getAddress } from "./create/getAddressSelector";
+import { orderInterface } from "../../../types/OrderInterface";
+import { orderData } from "../../../features/axios/api/order/createOrder";
+import {format, isValid} from "date-fns"
+import configKeys from "../../../utils/config";
 
+interface OrderDetailsProps {
+  code: string;
+}
 
-export default function OrderDetails() {
+const OrderDetails: React.FC<OrderDetailsProps> = ({ code }) => {
   const [orderDetails, setOrderDetails] = useState<orderInterface>();
-
-  const fetchAddresses = async () => {
-    try {
-        const senderAddressPromise = getAddress(orderDetails?.senderCity ?? "", orderDetails?.senderDistrict ?? "", orderDetails?.senderVillage ?? "");
-        const receiverAddressPromise = getAddress(orderDetails?.receiverCity ?? "", orderDetails?.receiverDistrict ?? "", orderDetails?.receiverVillage ?? "");
-
-        const [senderAddress, receiverAddress] = await Promise.all([senderAddressPromise, receiverAddressPromise]);
-
-        const sender = document.getElementById("senderAddress") as HTMLElement;
-        const receiver = document.getElementById("receiverAddress") as HTMLElement;
-
-        sender.innerText = orderDetails?.senderHouseNumber + ", " + senderAddress.village + ", " + senderAddress.district + ", " + senderAddress.city + ", Việt Nam"
-        receiver.innerText = orderDetails?.receiverHouseNumber + ", " + receiverAddress.village + ", " + receiverAddress.district + ", " + receiverAddress.city + ", Việt Nam"
-
-    } catch (error) {
-        // Handle errors here
-        console.error("Error fetching addresses:", error);
-    }
-  };
-
-  // Call the function
-  
-  fetchAddresses();
 
   useEffect(() => {
     const userInfo = async () => {
-      const data = await orderData("10083105429");
+      const data = await orderData(code);
       setOrderDetails(data);
     };
     userInfo();
   }, []);
+
+  const formattedDate = new Date(orderDetails?.create_at?.toString() ?? "").toLocaleString('en-ID', {
+    timeZone: 'Asia/Jakarta',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+
+
 
   useEffect(() => {
     function setPadding(){
@@ -63,14 +56,6 @@ export default function OrderDetails() {
     setPadding();
     window.addEventListener('resize', setPadding);
   });
- 
-  const token = localStorage.getItem("token");
-
-
-  const notify = (msg: string, type: string) =>
-    type === "error"
-      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
-      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
 
   return (
     <div className="min-h-screen bg-background py-8" id="container">
@@ -92,7 +77,7 @@ export default function OrderDetails() {
 
                 {/* QR */}
                 <div className="flex w-full justify-center pb-4">
-                  <GenerateQR url={"https://youtu.be/AZoZbtI67Yk?si=c7Sapvm6_V_KSkjj"} />
+                  <GenerateQR url={`${configKeys.API_URL}order/details/${code}`} />
                 </div>
             </div>
 
@@ -116,7 +101,11 @@ export default function OrderDetails() {
                       Địa chỉ
                     </p>
 
-                    <p id="senderAddress">
+                    <p>
+                      {
+                        orderDetails?.senderHouseNumber + ", " + orderDetails?.senderVillage + ", "
+                        + orderDetails?.senderDistrict + ", " + orderDetails?.senderCity + ", " + orderDetails?.senderCountry
+                      }
                     </p>
                   </div>
 
@@ -148,7 +137,11 @@ export default function OrderDetails() {
                       Địa chỉ
                     </p>
 
-                    <p id="receiverAddress">
+                    <p>
+                      {
+                        orderDetails?.receiverHouseNumber + ", " + orderDetails?.receiverVillage + ", "
+                        + orderDetails?.receiverDistrict + ", " + orderDetails?.receiverCity + ", " + orderDetails?.receiverCountry
+                      }
                     </p>
                   </div>
 
@@ -208,9 +201,9 @@ export default function OrderDetails() {
                         <tbody>
                             <tr>
                                 <td className="border p-2">Tổng</td>
-                                <td className="border p-2"></td>
-                                <td className="border p-2"></td>
-                                <td className="border p-2"></td>
+                                <td className="border p-2">{orderDetails?.items?.length}</td>
+                                <td className="border p-2">{orderDetails?.cost}</td>
+                                <td className="border p-2">Không có</td>
                             </tr>
                         </tbody>
                     </table>
@@ -334,7 +327,9 @@ export default function OrderDetails() {
                       <label className="font-bold">
                         Ngày giờ gửi
                       </label>
-                      <p>{orderDetails?.sended_at?.getDate()}</p>
+                      <p>
+                        {formattedDate}
+                      </p>
                     </div>
 
                     <div>
@@ -348,8 +343,8 @@ export default function OrderDetails() {
                 
                 <div className="p-4">
                   <div>
-                    <label>Ngày giờ nhận</label>
-                    <p className="mb-8">---------</p>
+                    <label className="font-bold">Ngày giờ nhận</label>
+                    <p className="mb-8">--/--/----, --:--:-- </p>
 
                     <p className="font-bold text-center pb-16">Chữ ký người nhận</p>
                   </div>
@@ -381,3 +376,5 @@ export default function OrderDetails() {
     </div>
   );
 }
+
+export default OrderDetails;

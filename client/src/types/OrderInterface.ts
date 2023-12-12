@@ -41,6 +41,7 @@ export interface orderInterface {
     cost?: number,
 
     note?: string,
+    
     create_at?: Date,
     sended_at?: Date,
     status?: string[],

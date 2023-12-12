@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -10,7 +10,12 @@ import { orderInterface } from "../../../../types/OrderInterface";
 import ItemDetails from "./itemDetails";
 
 
-export default function GoodsInformation() {
+interface GoodsInformationProps {
+    errors: FieldErrors<orderInterface>;
+  }
+  
+const GoodsInformation: React.FC<GoodsInformationProps> = ({ errors }) => {
+
 
   const [items, setItems] = useState<React.ReactNode[]>([]);
 
@@ -77,6 +82,11 @@ export default function GoodsInformation() {
                                     </label>
                                 ))}
                             </div>
+                            {errors.type && (
+                                <p className="text-red-500 text-sm">
+                                {errors.type.message}
+                                </p>
+                            )}
                         </div>
 
                         <div className="border-t border-gray-300 my-4"></div>
@@ -87,7 +97,14 @@ export default function GoodsInformation() {
                                 {items.map((item, index) => (
                                  <div key={index}>{item}</div>
                                 ))}
+                                {errors.items && (
+                                    <p className="text-red-500 text-sm">
+                                    {errors.items.message}
+                                    </p>
+                                )}
                             </div>
+
+            
 
                             <div className="border-t border-gray-300 my-4"></div>
 
@@ -111,6 +128,11 @@ export default function GoodsInformation() {
                                         id="total-weight"
                                         className="lg:col-span-2 lg:mx-4 lg:w-auto w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
+                                    {errors.weight && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.weight.message}
+                                        </p>
+                                    )}
                                 </div>
 
                                 <div className="my-4 lg:grid lg:grid-cols-3">
@@ -158,6 +180,8 @@ export default function GoodsInformation() {
                                         ))}
                                     </div>
 
+                                    
+
                                 </div>
                             </div>
 
@@ -202,6 +226,11 @@ export default function GoodsInformation() {
                                             </label>
                                         ))}
                                     </div>
+                                    {errors.cannotDelivered && (
+                                        <p className="text-red-500 text-sm">
+                                        {errors.cannotDelivered.message}
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -251,3 +280,5 @@ export default function GoodsInformation() {
   );
 
 }
+
+export default GoodsInformation;
