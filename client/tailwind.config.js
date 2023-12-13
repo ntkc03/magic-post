@@ -24,6 +24,7 @@ export default withMT({
         footerBg: "#1d1934",
         limeGreen: "#0AD20A",
         buttonBlue: "#C4DDFF",
+        bgBlue: "#82b4f8",
         background: "#f4f7ff",
         loginText: "#39147B",
         activeButton: "#007aff",
