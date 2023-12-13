@@ -79,9 +79,7 @@ function StaffHeader() {
                           key={item.name}
                           href={item.href}
                           className={classNames(
-                            item.current
-                              ? "bg-white text-purple-700"
-                              : "text-black hover:bg-buttonBlue hover:text-white",
+                            "text-black hover:bg-buttonBlue hover:text-white",
                             "rounded-md px-3 py-2 text-sm font-medium"
                           )}
                           aria-current={item.current ? "page" : undefined}
