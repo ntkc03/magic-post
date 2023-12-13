@@ -10,7 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // import { updateOrder } from "../../../../features/axios/api/order/createOrder";
-import { orderInterface } from "../../types/OrderInterface";
+import { orderInterface } from "../../../types/OrderInterface";
 
 export default function OrderBrief() {
 //   const dispatch = useDispatch();

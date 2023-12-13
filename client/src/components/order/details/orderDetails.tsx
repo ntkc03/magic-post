@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux/es/exports";
 // import { RootState } from "../../../features/redux/reducers/Reducer";
 // import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthSlice";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,10 +12,37 @@ import GenerateQR from "./generateQRCode";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import PrintButton from "./printOrder";
+import { orderInterface } from "../../../types/OrderInterface";
+import { orderData } from "../../../features/axios/api/order/createOrder";
+import {format, isValid} from "date-fns"
+import configKeys from "../../../utils/config";
 
-export default function OrderDetails() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+interface OrderDetailsProps {
+  code: string;
+}
+
+const OrderDetails: React.FC<OrderDetailsProps> = ({ code }) => {
+  const [orderDetails, setOrderDetails] = useState<orderInterface>();
+
+  useEffect(() => {
+    const userInfo = async () => {
+      const data = await orderData(code);
+      setOrderDetails(data);
+    };
+    userInfo();
+  }, []);
+
+  const formattedDate = new Date(orderDetails?.create_at?.toString() ?? "").toLocaleString('en-ID', {
+    timeZone: 'Asia/Jakarta',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+
+
 
   useEffect(() => {
     function setPadding(){
@@ -30,14 +56,6 @@ export default function OrderDetails() {
     setPadding();
     window.addEventListener('resize', setPadding);
   });
- 
-  const token = localStorage.getItem("token");
-
-
-  const notify = (msg: string, type: string) =>
-    type === "error"
-      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
-      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
 
   return (
     <div className="min-h-screen bg-background py-8" id="container">
@@ -59,7 +77,7 @@ export default function OrderDetails() {
 
                 {/* QR */}
                 <div className="flex w-full justify-center pb-4">
-                  <GenerateQR url={"https://youtu.be/AZoZbtI67Yk?si=c7Sapvm6_V_KSkjj"} />
+                  <GenerateQR url={`${configKeys.API_URL}order/details/${code}`} />
                 </div>
             </div>
 
@@ -74,7 +92,7 @@ export default function OrderDetails() {
                     </p>
 
                     <p>
-                      Nguyễn Văn A
+                      {orderDetails?.senderName}
                     </p>
                   </div>
 
@@ -84,7 +102,10 @@ export default function OrderDetails() {
                     </p>
 
                     <p>
-                      Đường x
+                      {
+                        orderDetails?.senderHouseNumber + ", " + orderDetails?.senderVillage + ", "
+                        + orderDetails?.senderDistrict + ", " + orderDetails?.senderCity + ", " + orderDetails?.senderCountry
+                      }
                     </p>
                   </div>
 
@@ -94,7 +115,7 @@ export default function OrderDetails() {
                     </p>
 
                     <p>
-                      Nguyễn Văn A
+                      {orderDetails?.senderPhone}
                     </p>
                   </div>
                 </div>
@@ -107,7 +128,7 @@ export default function OrderDetails() {
                     </p>
 
                     <p>
-                      Nguyễn Văn A
+                      {orderDetails?.receiverName}
                     </p>
                   </div>
 
@@ -117,7 +138,10 @@ export default function OrderDetails() {
                     </p>
 
                     <p>
-                      Đường x
+                      {
+                        orderDetails?.receiverHouseNumber + ", " + orderDetails?.receiverVillage + ", "
+                        + orderDetails?.receiverDistrict + ", " + orderDetails?.receiverCity + ", " + orderDetails?.receiverCountry
+                      }
                     </p>
                   </div>
 
@@ -127,7 +151,7 @@ export default function OrderDetails() {
                     </p>
 
                     <p>
-                      Nguyễn Văn A
+                      {orderDetails?.receiverPhone}
                     </p>
                   </div>
                 </div>
@@ -144,6 +168,7 @@ export default function OrderDetails() {
                               <input
                                   type="checkbox"
                                   className="form-radio text-blue-600"
+                                  checked={orderDetails?.type === true}
                               />
                               <span className="ml-2">Tài liệu</span>
                           </label>
@@ -152,6 +177,7 @@ export default function OrderDetails() {
                           <input
                               type="checkbox"
                               className="form-radio text-blue-600"
+                              checked={orderDetails?.type === false}
                           />
                           <span className="ml-2">Hàng hóa</span>
                           </label>
@@ -175,9 +201,9 @@ export default function OrderDetails() {
                         <tbody>
                             <tr>
                                 <td className="border p-2">Tổng</td>
-                                <td className="border p-2"></td>
-                                <td className="border p-2"></td>
-                                <td className="border p-2"></td>
+                                <td className="border p-2">{orderDetails?.items?.length}</td>
+                                <td className="border p-2">{orderDetails?.cost}</td>
+                                <td className="border p-2">Không có</td>
                             </tr>
                         </tbody>
                     </table>
@@ -185,7 +211,7 @@ export default function OrderDetails() {
 
                   <div className="mb-2">
                     <label className="font-bold">Dịch vụ cộng thêm</label>
-                    <p>----------------</p>
+                    <p>{orderDetails?.specialService?.join(', ')}</p>
                   </div>
 
                 </div>
@@ -196,37 +222,23 @@ export default function OrderDetails() {
                   </label>
 
                   <div>
-                      <label className="flex items-center">
-                          <input
-                              type="checkbox"
-                              className="form-radio text-blue-600"
-                          />
-                          <span className="ml-2">Chuyển hoàn ngay</span>
-                      </label>
-
-                      <label className="flex items-center">
-                          <input
-                              type="checkbox"
-                              className="form-radio text-blue-600"
-                          />
-                          <span className="ml-2">Gọi điện cho người gửi/bưu cục gửi</span>
-                      </label>
-
-                      <label className="flex items-center">
-                          <input
-                              type="checkbox"
-                              className="form-radio text-blue-600"
-                          />
-                          <span className="ml-2">Chuyển hoàn khi hết thời gian lưu trữ</span>
-                      </label>
-
-                      <label className="flex items-center">
-                          <input
-                              type="checkbox"
-                              className="form-radio text-blue-600"
-                          />
-                          <span className="ml-2">Hủy</span>
-                      </label>
+                    {[
+                        { label: 'Chuyển hoàn ngay', value: 'returnImmediately' },
+                        { label: 'Gọi điện cho người gửi', value: 'callSender' },
+                        { label: 'Chuyển hoàn trước ngày', value: 'returnBeforeDate' },
+                        { label: 'Chuyển hoàn khi hết thời gian lưu trữ', value: 'returnWhenStorageExpires' },
+                        { label: 'Hủy', value: 'cancel' },
+                    ].map((option) => (
+                        <label key={option.value} className="flex items-center">
+                        <input
+                            value={option.label}
+                            type="checkbox"
+                            checked={orderDetails?.cannotDelivered === option.label}
+                            className="guides form-checkbox text-blue-600"
+                        />
+                        <span className="ml-2">{option.label}</span>
+                        </label>
+                    ))}
                   </div>
 
                 </div>
@@ -240,32 +252,32 @@ export default function OrderDetails() {
 
                     <div className="grid grid-cols-2">
                       <label>Cước chính</label>
-                      <p className="text-right">0 đ</p>
+                    <p className="text-right">{orderDetails?.mainFee} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2">
                       <label>Phụ phí</label>
-                      <p className="text-right">0 đ</p>
+                    <p className="text-right">{orderDetails?.additionalFee} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2">
                       <label>Cước GTGT</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.GTGTFee} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2">
                       <label>Tổng cước (bao gồm VAT)</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.VAT} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2">
                       <label>Thu khác</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.otherFee} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2 font-bold">
                       <label>Tổng thu</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.sumFee} đ</p>
                     </div>
                     
                   </div>
@@ -277,17 +289,17 @@ export default function OrderDetails() {
 
                     <div className="grid grid-cols-2">
                       <label>COD</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.COD} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2">
                       <label>Thu khác</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.other} đ</p>
                     </div>
 
                     <div className="grid grid-cols-2 font-bold">
                       <label>Tổng thu</label>
-                      <p className="text-right">0 đ</p>
+                      <p className="text-right">{orderDetails?.sum} đ</p>
                     </div>
                   </div>
                   
@@ -295,7 +307,7 @@ export default function OrderDetails() {
                   <label className="font-bold">Khối lượng (kg)</label>
                   <div className="grid grid-cols-2">
                     <label>Khối lượng thực tế</label>
-                    <p className="text-right">0 g</p>
+                    <p className="text-right">{orderDetails?.weight} g</p>
                   </div>
                 </div>
               </div>
@@ -315,7 +327,9 @@ export default function OrderDetails() {
                       <label className="font-bold">
                         Ngày giờ gửi
                       </label>
-                      <p>---------</p>
+                      <p>
+                        {formattedDate}
+                      </p>
                     </div>
 
                     <div>
@@ -329,8 +343,8 @@ export default function OrderDetails() {
                 
                 <div className="p-4">
                   <div>
-                    <label>Ngày giờ nhận</label>
-                    <p className="mb-8">---------</p>
+                    <label className="font-bold">Ngày giờ nhận</label>
+                    <p className="mb-8">--/--/----, --:--:-- </p>
 
                     <p className="font-bold text-center pb-16">Chữ ký người nhận</p>
                   </div>
@@ -362,3 +376,5 @@ export default function OrderDetails() {
     </div>
   );
 }
+
+export default OrderDetails;

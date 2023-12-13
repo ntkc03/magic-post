@@ -5,19 +5,75 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { createOrder, updateOrder } from "../../../features/axios/api/order/createOrder";
-import { orderInterface } from "../../../types/OrderInterface";
-import SenderInformation from "./elements/senderInformation";
-import ReceiverInformation from "./elements/receiverInformation";
-import GoodsInformation from "./elements/goodsInformation";
-import { costCalcu} from "./calculation";
-import { orderValidationSchema } from "../../../utils/validation";
+import { createOrder, orderData, updateOrder } from "../../../../features/axios/api/order/createOrder";
+import { orderInterface } from "../../../../types/OrderInterface";
+import SenderInformation from "../../create/elements/senderInformation";
+import ReceiverInformation from "../../create/elements/receiverInformation";
+import GoodsInformation from "../../create/elements/goodsInformation";
+import { costCalcu} from "../../create/calculation";
+import { orderValidationSchema } from "../../../../utils/validation";
 
 
-export default function CreateOrder() {
+interface OrderDetailsProps {
+    code: string;
+  }
+  
+const EditOrderDetails: React.FC<OrderDetailsProps> = ({ code }) => {
   const navigate = useNavigate();
+  const [orderDetails, setOrderDetails] = useState<orderInterface>();
 
-  let code = '';
+  const senderName = document.getElementById("senderName") as HTMLInputElement;
+  const senderCity = document.getElementById("senderCity") as HTMLSelectElement;
+  const senderCountry = document.getElementById("senderCountry") as HTMLSelectElement;
+  const senderDistrict = document.getElementById("senderDistrict") as HTMLSelectElement;
+  const senderVillage = document.getElementById("senderVillage") as HTMLSelectElement;
+  const senderHouseNumber = document.getElementById("senderHouseNumber") as HTMLInputElement;
+  const senderPhone = document.getElementById("senderPhone") as HTMLInputElement;
+
+  const receiverName = document.getElementById("receiverName") as HTMLInputElement;
+  const receiverCity = document.getElementById("receiverCity") as HTMLSelectElement;
+  const receiverCountry = document.getElementById("receiverCountry") as HTMLSelectElement;
+  const receiverDistrict = document.getElementById("receiverDistrict") as HTMLSelectElement;
+  const receiverVillage = document.getElementById("receiverVillage") as HTMLSelectElement;
+  const receiverHouseNumber = document.getElementById("receiverHouseNumber") as HTMLInputElement;
+  const receiverPhone = document.getElementById("receiverPhone") as HTMLInputElement;
+
+  const types = document.querySelectorAll<HTMLInputElement>('.type');
+
+
+  const features = document.querySelectorAll<HTMLInputElement>('.features');
+  const specialServices: string[] = [];
+
+  const guides = document.querySelectorAll<HTMLInputElement>('.guides');
+  const cannotDelivered: string[] = [];
+
+  const itemsElement = document.querySelectorAll<HTMLInputElement>('.items');
+  const items: string[] = [];
+
+  const cod = document.getElementById("COD") as HTMLInputElement;
+  const totalCod = document.getElementById("total-cod") as HTMLElement;
+
+  const weight = document.getElementById("total-weight") as HTMLInputElement;
+  const cost = document.getElementById("total-cost") as HTMLInputElement;
+  const note = document.getElementById("note") as HTMLInputElement;
+
+
+
+  useEffect(() => {
+    const userInfo = async () => {
+      const data = await orderData(code);
+      setOrderDetails(data);
+    };
+    userInfo();
+  }, []);
+
+  useEffect(() => {
+    const setSavedValue = async () => {
+      
+    };
+    setSavedValue();
+  }, []);
+
 
   useEffect(() => {
     const handleDocumentChange = () => {
@@ -59,40 +115,6 @@ export default function CreateOrder() {
   });
 
   const setFormValue = async () =>{
-    const senderName = document.getElementById("senderName") as HTMLInputElement;
-    const senderCity = document.getElementById("senderCity") as HTMLSelectElement;
-    const senderCountry = document.getElementById("senderCountry") as HTMLSelectElement;
-    const senderDistrict = document.getElementById("senderDistrict") as HTMLSelectElement;
-    const senderVillage = document.getElementById("senderVillage") as HTMLSelectElement;
-    const senderHouseNumber = document.getElementById("senderHouseNumber") as HTMLInputElement;
-    const senderPhone = document.getElementById("senderPhone") as HTMLInputElement;
-
-    const receiverName = document.getElementById("receiverName") as HTMLInputElement;
-    const receiverCity = document.getElementById("receiverCity") as HTMLSelectElement;
-    const receiverCountry = document.getElementById("receiverCountry") as HTMLSelectElement;
-    const receiverDistrict = document.getElementById("receiverDistrict") as HTMLSelectElement;
-    const receiverVillage = document.getElementById("receiverVillage") as HTMLSelectElement;
-    const receiverHouseNumber = document.getElementById("receiverHouseNumber") as HTMLInputElement;
-    const receiverPhone = document.getElementById("receiverPhone") as HTMLInputElement;
-
-    const types = document.querySelectorAll<HTMLInputElement>('.type');
-    
-
-    const features = document.querySelectorAll<HTMLInputElement>('.features');
-    const specialServices: string[] = [];
-
-    const guides = document.querySelectorAll<HTMLInputElement>('.guides');
-    const cannotDelivered: string[] = [];
-
-    const itemsElement = document.querySelectorAll<HTMLInputElement>('.items');
-    const items: string[] = [];
-
-    const cod = document.getElementById("COD") as HTMLInputElement;
-    const totalCod = document.getElementById("total-cod") as HTMLElement;
-
-    const weight = document.getElementById("total-weight") as HTMLInputElement;
-    const cost = document.getElementById("total-cost") as HTMLInputElement;
-    const note = document.getElementById("note") as HTMLInputElement;
 
     setValue('senderName', senderName.value)
     setValue('senderCountry', senderCountry.value)
@@ -289,3 +311,5 @@ export default function CreateOrder() {
     </div>
   );
 }
+
+export default EditOrderDetails

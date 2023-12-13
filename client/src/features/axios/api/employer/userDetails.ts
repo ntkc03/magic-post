@@ -1,14 +1,14 @@
 import { AxiosRequestConfig } from "axios";
 import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import apiConfig from "../../../../utils/apiConfig";
-import { UserInterface } from "../../../../types/UserInterface";
+import { employerInterface } from "../../../../types/EmployerInterface";
 
 const api = setupAxiosInterceptors();
 
 export const employerData = async (): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-      url: apiConfig.employerUsername,
+      url: apiConfig.getEmployer,
       method: "get",
     };
     const response = await api(config);

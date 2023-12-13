@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { UserInterface } from "../../../types/UserInterface";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { LoginPayload } from "../../../types/PayloadInterface";
@@ -12,6 +11,9 @@ import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthS
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../features/axios/api/employer/userAuthentication";
+import { employerData } from "../../../features/axios/api/employer/userDetails";
+import { employerInterface } from "../../../types/EmployerInterface";
+
 
 
 export default function UserLogin() {
@@ -20,10 +22,12 @@ export default function UserLogin() {
   const isLoggedIn = useSelector(
     (state: RootState) => state.userAuth.isLoggedIn
   );
+  const [employerDetails, setEmployerDetails] = useState<employerInterface>();
 
-  console.log(isLoggedIn)
+
 
   const token = localStorage.getItem("token");
+
 
   const {
     register,
@@ -41,11 +45,20 @@ export default function UserLogin() {
   useEffect(() => {
     if (token) {
       dispatch(loginSuccess());
+      const employerDetails = async () => {
+        const data = await employerData();
+        setEmployerDetails(data);
+      }
+      employerDetails();
     }
     if (isLoggedIn === true) {
       navigate("/employer/home");
     }
   }, [navigate]);
+
+  const setFormValue = async () => {
+
+  }
 
 
 
@@ -57,9 +70,12 @@ export default function UserLogin() {
         dispatch(loginSuccess());
         notify("Login success", "success");
         setTimeout(() => {
-          navigate("/employer/home");
-          console.log(dispatch)
-        }, 200);
+          if (employerDetails?.role == "director") {
+            navigate("/director/static-points");
+          } else {
+            navigate("/employer/home");
+          }
+        }, 2000);
       })
       .catch((error: any) => {
         notify(error.message, "error");
@@ -106,6 +122,7 @@ export default function UserLogin() {
                 Mật khẩu
               </label>
               <input
+                
                 type="password"
                 placeholder="Nhập mật khẩu"
                 {...register("password")}

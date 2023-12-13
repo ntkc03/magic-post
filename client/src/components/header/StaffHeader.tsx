@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -11,29 +11,41 @@ import {
   fetchUser,
   clearUserDetails,
 } from "../../features/redux/slices/user/userDetailsSlice";
+import { employerInterface } from "../../types/EmployerInterface";
+import { employerData } from "../../features/axios/api/employer/userDetails";
+import { log } from "console";
 
 const navigation = [
   { name: "Thống kê", href: "", current: false },
   { name: "Quản lý đơn hàng", href: "", current: false },
-  { name: "Tạo đơn", href: "/employer/order/new", current: false }
+  { name: "Tạo đơn", href: "/order/new", current: false }
 ];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
+const token = localStorage.getItem("token");
+
 function StaffHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-//   const user = useSelector((state: RootState) => state.userDetails.userDetails);
+  const [employerDetails, setEmployerDetails] = useState<employerInterface>();
 
   useEffect(() => {
-    dispatch(fetchUser());
-
+    if (token) {
+      dispatch(fetchUser());
+      const employerDetails = async () => {
+        const data = await employerData();
+        setEmployerDetails(data);
+    }
+    employerDetails();
+    }
     return () => {
       dispatch(clearUserDetails());
     };
   }, [dispatch]);
+
 
   const handleLogout = () => {
     dispatch(logout());
@@ -99,7 +111,7 @@ function StaffHeader() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src = "https://i.imgur.com/4yMatlX.png"
+                          src="https://i.imgur.com/4yMatlX.png"
                           alt="user"
                         />
                       </Menu.Button>
@@ -115,27 +127,27 @@ function StaffHeader() {
                     >
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-textColor">
                         <Menu.Item>
+                          <text
+                            className={classNames(
+                              "block px-4 py-2 text-sm hover:opacity-50"
+                            )}
+                          >
+                          {employerDetails?.name ?? ""}
+                          </text>
+                        </Menu.Item>
+                        <Menu.Item>
                           <Link to={"/user/profile"}>
                             <button
                               className={classNames(
                                 "block px-4 py-2 text-sm hover:opacity-50"
                               )}
+                              onClick={() => {
+                                handleLogout();
+                              }}
                             >
-                              Hồ sơ
+                              Đăng xuất
                             </button>
                           </Link>
-                        </Menu.Item>
-                        <Menu.Item>
-                          <button
-                            className={classNames(
-                              "block px-4 py-2 text-sm hover:opacity-50"
-                            )}
-                            onClick={() => {
-                              handleLogout();
-                            }}
-                          >
-                            Đăng xuất
-                          </button>
                         </Menu.Item>
                       </Menu.Items>
                     </Transition>
@@ -171,4 +183,4 @@ function StaffHeader() {
 }
 
 export default StaffHeader;
-export{};
+export { };

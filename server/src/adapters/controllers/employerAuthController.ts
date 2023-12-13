@@ -32,10 +32,11 @@ export const employerAuthController = (
     const loginAccount = expressAsyncHandler(
         async (req: Request, res: Response) => {
             const { username, password }: { username: string; password: string } = req.body;
-            await loginAction(username, password, dbRepositoryEmployer, authService);
+            const token = await loginAction(username, password, dbRepositoryEmployer, authService);
             res.json({
                 status: "success",
-                message: "account verified"
+                message: "account verified",
+                token
             })
         }
     )

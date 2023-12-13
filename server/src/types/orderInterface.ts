@@ -4,20 +4,16 @@ export interface orderInterface {
     code?: string,
 
     senderName?: string,
-    senderAddress?: string,
     senderCountry?: string,
     senderCity?: string,
     senderDistrict?: string,
-    senderCommunes?: string,
     senderVillage?: string,
     senderHouseNumber?: string,
     senderPhone?: string,
 
     receiverName?: string,
-    receiverAddress?: string,
     receiverCountry?: string,
     receiverDistrict?: string,
-    receiverNeighborhood?: string,
     receiverVillage?: string,
     receiverHouseNumber?: string,
     receiverCity?: string,
@@ -25,9 +21,12 @@ export interface orderInterface {
 
     type: boolean,
     specialService?: string[],
-    cannotDilvered?: number,
+    cannotDelivered?: string,
 
     items?: string[],
+    
+    estimatedTime: number,
+
     mainFee?: number,
     additionalFee?: number,
     GTGTFee?: number,
@@ -38,7 +37,7 @@ export interface orderInterface {
     other?: number,
     sum?: number,
     weight?: number,
-    transWeight?: number,
+    cost?: number,
     note?: string,
     create_at?: Date,
     sended_at?: Date,

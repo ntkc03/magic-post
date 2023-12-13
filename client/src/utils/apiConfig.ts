@@ -18,7 +18,7 @@ const apiConfig = {
 
     createOrder: `${configKeys.API_URL}order/create`,
     deleteOrder: `${configKeys.API_URL}order/delete`,
-    orderCode: `${configKeys.API_URL}order/find-order/code`,
+    orderCode: `${configKeys.API_URL}order/find-order`,
     orderConsId: `${configKeys.API_URL}order/find-order/consolidation-id`,
     orderTransId: `${configKeys.API_URL}order/find-order/transaction-id`,
     orderDeliverPersonId: `${configKeys.API_URL}order/find-order/deliveryPerson-id`,
@@ -27,7 +27,7 @@ const apiConfig = {
     updaterOrder: `${configKeys.API_URL}order/update-order`,
 
     transactionAddress: `${configKeys.API_URL}transaction/transaction-data/address`,
-    transactionConsId: `${configKeys.API_URL}transaction/transaction-data/consolidation-id`,
+    transactionCons: `${configKeys.API_URL}transaction/transaction-data/consolidation`,
     getTransaction: `${configKeys.API_URL}transaction/transaction-data/:id`,
     allTransactions: `${configKeys.API_URL}transaction/all-transactions`,
 

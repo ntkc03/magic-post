@@ -3,7 +3,7 @@ import { orderDbInterface, orderDbRepository } from "../../app/repositories/orde
 import { transactionDbInterface } from "../../app/repositories/transactionDbRepository";
 import { TransactionModel } from "../../frameworks/database/mongoDb/models/transactionModel";
 import { transactionRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/transactionRepositoryMongoDB";
-import { getAllTransactions, getTransactionByAddress, getTransactionByID, getTransactionsByConsolidationID } from "../../app/useCases/transaction/transaction";
+import { getAllTransactions, getTransactionByAddress, getTransactionByID, getTransactionsByConsolidation } from "../../app/useCases/transaction/transaction";
 import { CustomRequest } from "../../types/expressRequest";
 
 const transactionController = (
@@ -21,10 +21,10 @@ const transactionController = (
         }
     )
 
-    const getTheTransactionByConsolidationID = (
+    const getTheTransactionByConsolidation = (
         async (req: Request, res: Response) => {
-            const { consolidationID } = req.body;
-            const transaction = await getTransactionsByConsolidationID(consolidationID, dbRepositoryTransaction);
+            const { consolidation } = req.body;
+            const transaction = await getTransactionsByConsolidation(consolidation, dbRepositoryTransaction);
             res.json(transaction);
         }
     )
@@ -50,7 +50,7 @@ const transactionController = (
 
     return {
         getTheTransactionByAddress,
-        getTheTransactionByConsolidationID,
+        getTheTransactionByConsolidation,
         getTheTransactionByID,
         findAllTransactions
     }

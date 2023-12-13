@@ -10,7 +10,7 @@ import {
     Card,
     CardBody,
   } from "@material-tailwind/react";
-import { orderInterface } from "../../types/OrderInterface";
+import { orderInterface } from "../../../types/OrderInterface";
 import OrderBrief from "./orderBrief";
 
 export default function OrderList() {

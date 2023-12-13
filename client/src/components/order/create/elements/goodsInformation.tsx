@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { setToken } from "../../../../features/redux/slices/user/tokenSlice";
-import { useSelector, useDispatch } from "react-redux/es/exports";
+import { FieldErrors, useForm } from "react-hook-form";
 
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -13,26 +9,46 @@ import {
 import { orderInterface } from "../../../../types/OrderInterface";
 import ItemDetails from "./itemDetails";
 
-export default function GoodsInformation() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
+interface GoodsInformationProps {
+    errors: FieldErrors<orderInterface>;
+  }
+  
+const GoodsInformation: React.FC<GoodsInformationProps> = ({ errors }) => {
 
-  const {
-    register,
-    formState: { errors },
-  } = useForm<orderInterface>({
-    // resolver: yupResolver(userLoginValidationSchema),
-  });
 
   const [items, setItems] = useState<React.ReactNode[]>([]);
+
+  const checkboxOptions1 = [
+    { value: 'highValue', label: 'Giá trị cao' },
+    { value: 'fragile', label: 'Dễ vỡ' },
+    { value: 'liquid', label: 'Chất lỏng' },
+    { value: 'coldStorage', label: 'Hàng lạnh' },
+  ];
+
+  const checkboxOptions2 = [
+    { value: 'solidBlock', label: 'Nguyên khối' },
+    { value: 'oversized', label: 'Quá khổ' },
+    { value: 'magneticBattery', label: 'Từ tính/Pin' },
+    // Add more checkbox options as needed
+  ];
 
   const handleAddItem = () => {
     setItems([...items, <ItemDetails key={items.length} />]);
   };
-  
 
   
+  const [type, setType] = useState<string | null>(null);
+  const handleTypeChange = (value: string) => {
+    setType(value === type ? null : value);
+  };
+
+  const [guide, setGuide] = useState<string | null>(null);
+  const handleGuideChange = (value: string) => {
+    setGuide(value === type ? null : value);
+  };
+
+
   
   return (
     <div>
@@ -48,25 +64,29 @@ export default function GoodsInformation() {
                             <label className="font-bold">
                                 Loại hàng gửi
                             </label>
-                            <div className="md:space-x-4 my-2 grid md:grid-cols-2">
-                                <label className="inline-flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        className="form-radio text-blue-600"
-                                        {...register("type")}
-                                    />
-                                    <span className="ml-2">Tài liệu</span>
-                                </label>
 
-                                <label className="inline-flex items-center">
-                                <input
-                                    type="checkbox"
-                                    className="form-radio text-blue-600"
-                                    {...register("type")}
-                                />
-                                <span className="ml-2">Hàng hóa</span>
-                                </label>
+                            <div className="md:space-x-4 my-2 grid md:grid-cols-2">
+                                {[
+                                    { label: 'Hàng hóa', value: 'goods' },
+                                    { label: 'Tài liệu', value: 'document' },
+                                ].map((option) => (
+                                    <label key={option.value} className="inline-flex items-center">
+                                    <input
+                                        value={option.label}
+                                        type="checkbox"
+                                        checked={type === option.label}
+                                        onChange={() => handleTypeChange(option.label)}
+                                        className="type form-checkbox text-blue-600"
+                                    />
+                                    <span className="ml-2">{option.label}</span>
+                                    </label>
+                                ))}
                             </div>
+                            {errors.type && (
+                                <p className="text-red-500 text-sm">
+                                {errors.type.message}
+                                </p>
+                            )}
                         </div>
 
                         <div className="border-t border-gray-300 my-4"></div>
@@ -77,14 +97,21 @@ export default function GoodsInformation() {
                                 {items.map((item, index) => (
                                  <div key={index}>{item}</div>
                                 ))}
+                                {errors.items && (
+                                    <p className="text-red-500 text-sm">
+                                    {errors.items.message}
+                                    </p>
+                                )}
                             </div>
+
+            
 
                             <div className="border-t border-gray-300 my-4"></div>
 
                             <div className="flex items-center justify-center">
                                 <button type="button" id="add-items" onClick={handleAddItem} className="inline-flex items-center bg-white hover:bg-gray-100 border-2 text-blue-200 border-blue-200 py-2 px-2 shadow-md rounded">
                                     <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                     </svg>
                                     Thêm hàng hóa
                                 </button>
@@ -101,12 +128,18 @@ export default function GoodsInformation() {
                                         id="total-weight"
                                         className="lg:col-span-2 lg:mx-4 lg:w-auto w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
+                                    {errors.weight && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.weight.message}
+                                        </p>
+                                    )}
                                 </div>
 
                                 <div className="my-4 lg:grid lg:grid-cols-3">
                                     <p className="lg:col-span-1 py-2">Tổng giá trị (đ)</p>
                                     <input
                                         type="text"
+                                        id="total-cost"
                                         placeholder="Nhập tổng giá trị"
                                         className="lg:col-span-2 lg:mx-4 lg:w-auto w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
@@ -122,64 +155,32 @@ export default function GoodsInformation() {
 
                                 <div className="md:space-x-4 my-2 grid md:grid-cols-2">
                                     <div>
-                                        <label className="flex items-center">
+                                        {checkboxOptions1.map((option) => (
+                                            <label key={option.value} className="flex items-center">
                                             <input
+                                                value={option.label}
                                                 type="checkbox"
-                                                className="form-radio text-blue-600"
+                                                className="features form-checkbox text-blue-600"
                                             />
-                                            <span className="ml-2">Giá trị cao</span>
-                                        </label>
-
-                                        <label className="flex items-center">
-                                            <input
-                                                type="checkbox"
-                                                className="form-radio text-blue-600"
-                                            />
-                                            <span className="ml-2">Dễ vỡ</span>
-                                        </label>
-
-                                        <label className="flex items-center">
-                                            <input
-                                                type="checkbox"
-                                                className="form-radio text-blue-600"
-                                            />
-                                            <span className="ml-2">Chất lỏng</span>
-                                        </label>
-
-                                        <label className="flex items-center">
-                                            <input
-                                                type="checkbox"
-                                                className="form-radio text-blue-600"
-                                            />
-                                            <span className="ml-2">Hàng lạnh</span>
-                                        </label>
+                                            <span className="ml-2">{option.label}</span>
+                                            </label>
+                                        ))}
                                     </div>
 
                                     <div>
-                                    <label className="flex items-center">
+                                        {checkboxOptions2.map((option) => (
+                                            <label key={option.value} className="flex items-center">
                                             <input
+                                                value={option.label}
                                                 type="checkbox"
-                                                className="form-radio text-blue-600"
+                                                className="features form-checkbox text-blue-600"
                                             />
-                                            <span className="ml-2">Nguyên khối</span>
-                                        </label>
-
-                                        <label className="flex items-center">
-                                            <input
-                                                type="checkbox"
-                                                className="form-radio text-blue-600"
-                                            />
-                                            <span className="ml-2">Quá khổ</span>
-                                        </label>
-
-                                        <label className="flex items-center">
-                                            <input
-                                                type="checkbox"
-                                                className="form-radio text-blue-600"
-                                            />
-                                            <span className="ml-2">Từ tính/Pin</span>
-                                        </label>
+                                            <span className="ml-2">{option.label}</span>
+                                            </label>
+                                        ))}
                                     </div>
+
+                                    
 
                                 </div>
                             </div>
@@ -190,53 +191,46 @@ export default function GoodsInformation() {
                                 <label className="font-bold">Chỉ dẫn của người gửi khi không phát được bưu gửi</label>
                                 <div className="md:space-x-4 my-2 grid md:grid-cols-2">
                                     <div>
-                                        <label className="flex items-center">
+                                        {[
+                                            { label: 'Chuyển hoàn ngay', value: 'returnImmediately' },
+                                            { label: 'Gọi điện cho người gửi', value: 'callSender' },
+                                            { label: 'Chuyển hoàn trước ngày', value: 'returnBeforeDate' },
+                                        ].map((option) => (
+                                            <label key={option.value} className="flex items-center">
                                             <input
+                                                value={option.label}
                                                 type="checkbox"
-                                                className="form-radio text-blue-600"
-                                                // {...register("page2q2")}
+                                                checked={guide === option.label}
+                                                onChange={() => handleGuideChange(option.label)}
+                                                className="guides form-checkbox text-blue-600"
                                             />
-                                            <span className="ml-2">Chuyển hoàn ngay</span>
-                                        </label>
-
-                                        <label className="flex items-center">
-                                            <input
-                                                type="checkbox"
-                                                className="form-radio text-blue-600"
-                                                // {...register("page2q2")}
-                                            />
-                                            <span className="ml-2">Gọi điện cho người gửi</span>
-                                        </label>
-
-                                        <label className="flex items-center">
-                                            <input
-                                                type="checkbox"
-                                                className="form-radio text-blue-600"
-                                                // {...register("page2q2")}
-                                            />
-                                            <span className="ml-2">Chuyển hoàn trước ngày</span>
-                                        </label>
+                                            <span className="ml-2">{option.label}</span>
+                                            </label>
+                                        ))}
                                     </div>
 
                                     <div>
-                                    <label className="flex items-center">
+                                        {[
+                                            { label: 'Chuyển hoàn khi hết thời gian lưu trữ', value: 'returnWhenStorageExpires' },
+                                            { label: 'Hủy', value: 'cancel' },
+                                        ].map((option) => (
+                                            <label key={option.value} className="flex items-center">
                                             <input
+                                                value={option.label}
                                                 type="checkbox"
-                                                className="form-radio text-blue-600"
-                                                // {...register("page2q2")}
+                                                checked={guide === option.label}
+                                                onChange={() => handleGuideChange(option.label)}
+                                                className="guidles form-checkbox text-blue-600"
                                             />
-                                            <span className="ml-2">Chuyển hoàn khi hết thời gian lưu trữ</span>
-                                        </label>
-
-                                        <label className="flex items-center">
-                                            <input
-                                                type="checkbox"
-                                                className="form-radio text-blue-600"
-                                                // {...register("page2q2")}
-                                            />
-                                            <span className="ml-2">Hủy</span>
-                                        </label>
+                                            <span className="ml-2">{option.label}</span>
+                                            </label>
+                                        ))}
                                     </div>
+                                    {errors.cannotDelivered && (
+                                        <p className="text-red-500 text-sm">
+                                        {errors.cannotDelivered.message}
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -261,8 +255,8 @@ export default function GoodsInformation() {
 
                     <input
                         type="text"
+                        id="COD"
                         placeholder="Nhập tiền thu hộ"
-                        {...register("COD")}
                         className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                     />
 
@@ -272,51 +266,12 @@ export default function GoodsInformation() {
                         <label className="text-sm font-bold" htmlFor="name">
                             Ghi chú
                         </label>
-                        <textarea className="resize-none border rounded w-full p-2 focus:outline-none focus:border-blue-500"
+                        <textarea 
+                        id="note"
+                        className="resize-none border rounded w-full p-2 focus:outline-none focus:border-blue-500"
                         placeholder="Nhập ghi chú"
-                        {...register("note")}>
+                        >
                         </textarea>
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="text-sm font-bold" htmlFor="name">
-                            Chỉ dẫn của người gửi khi không phát được bưu gửi:
-                        </label>
-
-                        <div>
-                            <label className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    className="form-radio text-blue-600"
-                                />
-                                <span className="ml-2">Chuyển hoàn ngay</span>
-                            </label>
-
-                            <label className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    className="form-radio text-blue-600"
-                                />
-                                <span className="ml-2">Gọi điện cho người gửi/bưu cục gửi</span>
-                            </label>
-
-                            <label className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    className="form-radio text-blue-600"
-                                />
-                                <span className="ml-2">Chuyển hoàn khi hết thời gian lưu trữ</span>
-                            </label>
-
-                            <label className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    className="form-radio text-blue-600"
-                                />
-                                <span className="ml-2">Hủy</span>
-                            </label>
-                        </div>
-                        
                     </div>
                 </div>
             </CardBody>
@@ -325,3 +280,5 @@ export default function GoodsInformation() {
   );
 
 }
+
+export default GoodsInformation;
