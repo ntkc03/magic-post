@@ -1,6 +1,7 @@
 import { type } from "os";
 import { TransactionEntity } from "../../../../entities/TransactionEntity";
 import { TransactionModel } from "../models/transactionModel";
+import { transactionInterface } from "../../../../types/transactionInterface";
 
 export const transactionRepositoryMongoDB = (model: TransactionModel) => {
     const transactionEntity = new TransactionEntity(model);
@@ -22,11 +23,17 @@ export const transactionRepositoryMongoDB = (model: TransactionModel) => {
         return transactions;
     }
 
+    const updateManager = async (transactionID: string, updates: Partial<transactionInterface>) =>{
+        const transaction = await transactionEntity.updateManager(transactionID,updates);
+        return transaction;
+    }
+
     return {
         getTransactionByAddress,
         getTransactionByID,
         getTransactionsByConsolidation,
-        getAllTransactions
+        getAllTransactions,
+        updateManager
     }
 }
 

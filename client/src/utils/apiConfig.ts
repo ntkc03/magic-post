@@ -27,7 +27,7 @@ const apiConfig = {
     updaterOrder: `${configKeys.API_URL}order/update-order`,
 
     transactionAddress: `${configKeys.API_URL}transaction/transaction-data/address`,
-    transactionCons: `${configKeys.API_URL}transaction/transaction-data/consolidation`,
+    transactionCons: `${configKeys.API_URL}transaction/transaction-data`,
     getTransaction: `${configKeys.API_URL}transaction/transaction-data/:id`,
     allTransactions: `${configKeys.API_URL}transaction/all-transactions`,
 

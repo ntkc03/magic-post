@@ -1,3 +1,6 @@
+import { ConsolidationInterface } from "./ConsolidationInterface";
+import { TransactionInterface } from "./TransactionInterface";
+
 export interface LoginPayload {
   username: string;
   password: string;
@@ -9,3 +12,7 @@ export interface SignupPayload extends LoginPayload {
   confirmPassword: string;
 }
 
+export interface StatisticsPointsPayload{
+  consolidation: ConsolidationInterface,
+  transactions: TransactionInterface[]
+}

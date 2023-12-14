@@ -19,10 +19,16 @@ export const consolidationDbRepository = (repository: ReturnType<consolidationRe
         return consolidations;
     }
 
+    const updateManager = async(consolidationID: string, updates: Partial<consolidationInterface>) =>{
+        const consolidation = await repository.updateManager(consolidationID,updates);
+        return consolidation;
+    }
+
     return {
         getConsolidationByAddress,
         getConsolidationByID,
-        getAllConsolidations
+        getAllConsolidations,
+        updateManager
     }
 }
 

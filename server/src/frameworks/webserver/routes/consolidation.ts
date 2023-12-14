@@ -3,7 +3,6 @@ import consolidationController from '../../../adapters/controllers/consolidation
 import { consolidationDbRepository } from '../../../app/repositories/consolidationDbRepository';
 import { consolidationRepositoryMongoDB } from '../../database/mongoDb/repositories/consolidationRepositoryMongoDB';
 import { Consolidation } from '../../database/mongoDb/models/consolidationModel';
-import roleMiddleware from '../middleware/roleMiddleware';
 
 
 const consolidationRoute = () => {
@@ -19,6 +18,7 @@ const consolidationRoute = () => {
     route.get('/consolidation-data/cons-id',controller.getConsolidationByID);
     route.get('/consolidation-data/:id',controller.getConsolidationByIDParam);
     route.get('/all-consolidations',controller.getAllConsolidations);
+    route.put('/update-consolidation',controller.setTheManager);
 
 return route;
 }

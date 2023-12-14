@@ -6,6 +6,9 @@ const transactionSchema = new Schema({
     },
     consolidation: {
         type: String
+    },
+    manager: {
+        type: String
     }
 })
 

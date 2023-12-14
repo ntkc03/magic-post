@@ -15,10 +15,11 @@ const transactionRoute = () => {
         Transaction
     );
 
-    route.get('transaction-data/address', controller.getTheTransactionByAddress);
-    route.get('transaction-data/consolidation', controller.getTheTransactionByConsolidation);
-    route.get('transaction-data/:id', controller.getTheTransactionByID);
-    route.get('all-transactions', controller.findAllTransactions);
+    route.get('/transaction-data/address', controller.getTheTransactionByAddress);
+    route.get('/transaction-data/:consolidation', controller.getTheTransactionByConsolidation);
+    route.get('/transaction-data/:id', controller.getTheTransactionByID);
+    route.get('/all-transactions', controller.findAllTransactions);
+    route.put('/update-transaction',controller.setTheManager);
 
     return route;
 }

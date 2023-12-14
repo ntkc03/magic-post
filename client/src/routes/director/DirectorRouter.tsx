@@ -1,15 +1,15 @@
 import { Route, Routes } from "react-router-dom";
-import StaticPointsPage from "../../pages/director/StaticPointsPage";
+import StatisticsPointsPage from "../../pages/director/StatisticsPointsPage";
 
 
 const DirectorRouter = () => {
-    return (
-      <div>
-        <Routes>
-          <Route path="/static-points" element={<StaticPointsPage />} />
-        </Routes>
-      </div>
-    );
-  };
-  
-  export default DirectorRouter;
+  return (
+    <div>
+      <Routes>
+        <Route path="/static-points" element={<StatisticsPointsPage />} />
+      </Routes>
+    </div>
+  );
+};
+
+export default DirectorRouter;

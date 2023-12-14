@@ -6,7 +6,7 @@ import { HttpStatus } from "../../../types/httpStatus";
 const roleMiddleware = (role: string) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const customReq = req as CustomRequest;
-
+    console.log("role:",customReq.role);
     // Check if the role matches the required role
     if (customReq.role !== role) {
       throw new AppError("Unauthorized user", HttpStatus.UNAUTHORIZED);

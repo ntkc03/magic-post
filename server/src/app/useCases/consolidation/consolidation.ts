@@ -1,3 +1,4 @@
+import { consolidationInterface } from "../../../types/consolidationInterface";
 import { HttpStatus } from "../../../types/httpStatus";
 import AppError from "../../../utils/appError";
 import { consolidationDbInterface } from "../../repositories/consolidationDbRepository";
@@ -39,6 +40,20 @@ export const findAllConsolidations = async (
 ) => {
     try {
         const result = await consolidationRepository.getAllConsolidations();
+        return result;
+    } catch (error) {
+        console.log(error)
+        throw new Error("failed to get all consolidation points")
+    }
+}
+
+export const setManager = async (
+    id: string,
+    updates: Partial<consolidationInterface>,
+    consolidationRepository: ReturnType<consolidationDbInterface>,
+)=>{
+    try {
+        const result = await consolidationRepository.updateManager(id,updates);
         return result;
     } catch (error) {
         console.log(error)
