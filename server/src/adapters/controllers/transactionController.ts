@@ -3,8 +3,12 @@ import { orderDbInterface, orderDbRepository } from "../../app/repositories/orde
 import { transactionDbInterface } from "../../app/repositories/transactionDbRepository";
 import { TransactionModel } from "../../frameworks/database/mongoDb/models/transactionModel";
 import { transactionRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/transactionRepositoryMongoDB";
-import { getAllTransactions, getTransactionByAddress, getTransactionByID, getTransactionsByConsolidation } from "../../app/useCases/transaction/transaction";
+import { getAllTransactions, getTransactionByAddress, getTransactionByID, getTransactionsByConsolidation, setManager } from "../../app/useCases/transaction/transaction";
 import { CustomRequest } from "../../types/expressRequest";
+import expressAsyncHandler from "express-async-handler";
+import AppError from "../../utils/appError";
+import { HttpStatus } from "../../types/httpStatus";
+import { transactionInterface } from "../../types/transactionInterface";
 
 const transactionController = (
     transactionDbRepository: transactionDbInterface,
@@ -23,9 +27,9 @@ const transactionController = (
 
     const getTheTransactionByConsolidation = (
         async (req: Request, res: Response) => {
-            const { consolidation } = req.body;
-            const transaction = await getTransactionsByConsolidation(consolidation, dbRepositoryTransaction);
-            res.json(transaction);
+            const {consolidation} = req.params;
+            const transactions = await getTransactionsByConsolidation(consolidation, dbRepositoryTransaction);
+            res.json(transactions);
         }
     )
 
@@ -48,11 +52,36 @@ const transactionController = (
         }
     )
 
+    const setTheManager = expressAsyncHandler(
+        async (req: Request, res: Response) => {
+            const customReq = req as CustomRequest;
+            const id = customReq.payload ?? "";
+            if (!id) {
+                throw new AppError(
+                    "unauthorized request, invalid token",
+                    HttpStatus.UNAUTHORIZED
+                );
+            }
+            const updates: transactionInterface = req.body;
+            const updateTransactionData = await setManager(
+                id,
+                updates,
+                dbRepositoryTransaction
+            );
+
+            res.json({
+                status: "success",
+                updateTransactionData,
+            });
+        }
+    )
+
     return {
         getTheTransactionByAddress,
         getTheTransactionByConsolidation,
         getTheTransactionByID,
-        findAllTransactions
+        findAllTransactions,
+        setTheManager
     }
 }
 

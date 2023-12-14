@@ -4,5 +4,6 @@ export interface consolidationInterface {
     _id?: Types.ObjectId,
     address?: string,
     city?: string,
-    country?: string
+    country?: string,
+    manager?: string
 }

@@ -4,7 +4,10 @@ import { ConsolidationModel } from "../../frameworks/database/mongoDb/models/con
 import { consolidationRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/consolidationRepositoryMongoDB";
 import { Request, Response } from "express";
 import { CustomRequest } from "../../types/expressRequest";
-import { findConsolidationByAddress, findConsolidationByID, findAllConsolidations } from "../../app/useCases/consolidation/consolidation";
+import { findConsolidationByAddress, findConsolidationByID, findAllConsolidations, setManager } from "../../app/useCases/consolidation/consolidation";
+import AppError from "../../utils/appError";
+import { HttpStatus } from "../../types/httpStatus";
+import { consolidationInterface } from "../../types/consolidationInterface";
 
 const consolidationController = (
     consolidationDbRepository: consolidationDbInterface,
@@ -48,11 +51,36 @@ const consolidationController = (
         }
     )
 
+    const setTheManager = expressAsyncHandler(
+        async (req: Request, res: Response) => {
+            const customReq = req as CustomRequest;
+            const id = customReq.payload ?? "";
+            if (!id) {
+                throw new AppError(
+                    "unauthorized request, invalid token",
+                    HttpStatus.UNAUTHORIZED
+                );
+            }
+            const updates: consolidationInterface = req.body;
+            const updateConsolidationData = await setManager(
+                id,
+                updates,
+                dbRepositoryConsolidation
+            );
+
+            res.json({
+                status: "success",
+                updateConsolidationData,
+            });
+        }
+    );
+
     return {
         getConsolidationByAddress,
         getConsolidationByID,
         getConsolidationByIDParam,
-        getAllConsolidations
+        getAllConsolidations,
+        setTheManager
     }
 };
 

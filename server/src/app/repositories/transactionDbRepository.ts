@@ -1,5 +1,6 @@
 import { type } from "os";
 import { transactionRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/transactionRepositoryMongoDB";
+import { transactionInterface } from "../../types/transactionInterface";
 
 export const transactionDbRepository = (
     repository: ReturnType<transactionRepositoryMongoDB>
@@ -21,11 +22,17 @@ export const transactionDbRepository = (
         return transactions;
     }
 
+    const updateManager = async(transactionID: string, updates: Partial<transactionInterface>) =>{
+        const transaction = await repository.updateManager(transactionID,updates);
+        return transaction;
+    }
+
     return {
         getTransactionByAddress,
         getTransactionByID,
         getTransactionsByConsolidation,
-        getAllTransactions
+        getAllTransactions,
+        updateManager
     }
 }
 

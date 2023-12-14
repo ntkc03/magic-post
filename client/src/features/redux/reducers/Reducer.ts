@@ -7,12 +7,16 @@ import tokenReducer from '../slices/user/tokenSlice';
 // import employerJobDetailReducer from '../slices/employer/employerJobDetailsSlice';
 // import employerTokenReducer from '../slices/employer/employerTokenSlice';
 import userLoginAuthReducer from '../slices/user/userLoginAuthSlice';
+import allConsolidationReducer from '../slices/user/allConsolidationSlice';
+import allTransactionReducer from '../slices/user/allTransactionSlide';
 // import userDetailsReducer from '../slices/user/userDetailsSlice';
 // import userAllApplicationReducer from '../slices/user/allApplicationSlice';
 // import userApplicationDetailsReducer from '../slices/user/userApplicationDetailsSlice';
 
 const rootReducer = combineReducers({
   token: tokenReducer,
+  allConsolidation: allConsolidationReducer,
+  allTransaction: allTransactionReducer,
   // employerToken: employerTokenReducer,
   // employerJobs: employerJobsReducer,
   // employerDetails: employerDetailsReducer,

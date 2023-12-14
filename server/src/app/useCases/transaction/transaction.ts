@@ -1,4 +1,5 @@
 import { HttpStatus } from "../../../types/httpStatus";
+import { transactionInterface } from "../../../types/transactionInterface";
 import AppError from "../../../utils/appError";
 import { transactionDbInterface } from "../../repositories/transactionDbRepository";
 
@@ -61,4 +62,19 @@ export const getAllTransactions = async (
         throw new Error("failed to get all transaction points")
     }
 }
+
+export const setManager = async (
+    id: string,
+    updates: Partial<transactionInterface>,
+    transactionRepository: ReturnType<transactionDbInterface>,
+)=>{
+    try {
+        const result = await transactionRepository.updateManager(id,updates);
+        return result;
+    } catch (error) {
+        console.log(error)
+        throw new Error("failed to get all consolidation points")
+    }
+}
+
 

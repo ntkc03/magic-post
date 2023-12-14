@@ -9,6 +9,9 @@ const consolidationSchema = new Schema({
     },
     country: {
         type: String
+    },
+    manager: {
+        type: String
     }
 })
 

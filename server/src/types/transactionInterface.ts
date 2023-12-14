@@ -4,4 +4,5 @@ export interface transactionInterface {
     _id?: Types.ObjectId,
     address?: string,
     consolidation?: string,
+    manager?: string
 }
