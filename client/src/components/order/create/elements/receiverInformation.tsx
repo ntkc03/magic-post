@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { setToken } from "../../../../features/redux/slices/user/tokenSlice";
-import { useSelector, useDispatch } from "react-redux/es/exports";
-// import { RootState } from "../../../features/redux/reducers/Reducer";
-// import { loginSuccess } from "../../../features/redux/slices/user/userLoginAuthSlice";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
     Card,
     CardBody,
   } from "@material-tailwind/react";
-import { updateOrder } from "../../../../features/axios/api/order/createOrder";
-import { orderInterface } from "../../../../types/OrderInterface";
 import { useAddressSelector } from "../getAddressSelector";
+import { FieldErrors } from "react-hook-form";
+import { orderInterface } from "../../../../types/OrderInterface";
 
-export default function ReceiverInformation() {
+interface ReceiverInformationProps {
+    errors: FieldErrors<orderInterface>;
+  }
+  
+const ReceiverInformation: React.FC<ReceiverInformationProps> = ({ errors }) => {
+
 
   const { fetching } = useAddressSelector();
   
@@ -52,6 +49,11 @@ useEffect(() => {
                             placeholder="Nhập tên người nhận"
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                         />
+                        {errors.receiverName && (
+                            <p className="text-red-500 text-sm">
+                            {errors.receiverName.message}
+                            </p>
+                        )}
                     </div>
 
                     <div className="mb-4">
@@ -64,6 +66,11 @@ useEffect(() => {
                             placeholder="Nhập số điện thoại của người nhận"
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                         />
+                        {errors.receiverPhone && (
+                            <p className="text-red-500 text-sm">
+                            {errors.receiverPhone.message}
+                            </p>
+                        )}
                     </div>
 
                     <label className="text-sm font-bold" htmlFor="address">
@@ -72,30 +79,50 @@ useEffect(() => {
                     <div className="grid lg:grid-cols-2 ">
                         <div className="lg:mr-2 my-2">
                             <select id="receiverCountry" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="" selected>Quốc gia</option>  
-                                <option value="">Việt Nam</option>         
+                                <option value="">Quốc gia</option>  
+                                <option value="Việt Nam">Việt Nam</option>         
                             </select>
+                            {errors.receiverCountry && (
+                                <p className="text-red-500 text-sm">
+                                {errors.receiverCountry.message}
+                                </p>
+                            )}
                         </div>
                         
                         <div className="lg:ml-2 my-2">
                             <select id="receiverCity" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="" selected>Tỉnh/Thành phố</option>     
+                                <option value="">Tỉnh/Thành phố</option>     
                             </select>
+                            {errors.receiverCity && (
+                            <p className="text-red-500 text-sm">
+                            {errors.receiverCity.message}
+                            </p>
+                        )}
                         </div>
                     </div>
 
                     <div className="grid lg:grid-cols-2">
                         <div className="lg:mr-2 my-2">
                             <select id="receiverDistrict" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3"  aria-label=".form-select-sm">
-                                <option value="" selected>Quận/Huyện</option>     
+                                <option value="">Quận/Huyện</option>     
                             </select>
+                            {errors.receiverDistrict && (
+                            <p className="text-red-500 text-sm">
+                            {errors.receiverDistrict.message}
+                            </p>
+                        )}
                         </div>
 
                         
                         <div className="lg:ml-2 my-2">
                             <select id="receiverVillage" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="" selected>Phường/Xã</option>     
+                                <option value="">Phường/Xã</option>     
                             </select>
+                            {errors.receiverVillage && (
+                            <p className="text-red-500 text-sm">
+                            {errors.receiverVillage.message}
+                            </p>
+                        )}
                         </div>
                     </div>
 
@@ -106,11 +133,11 @@ useEffect(() => {
                             placeholder="Nhập số nhà/tên đường/thôn ..."
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                         />
-                        {/* {errors.confirmPassword && (
+                        {errors.receiverHouseNumber && (
                             <p className="text-red-500 text-sm">
-                            {errors.confirmPassword.message}
+                            {errors.receiverHouseNumber.message}
                             </p>
-                        )} */}
+                        )}
                     </div>
 
                 </div>
@@ -120,3 +147,5 @@ useEffect(() => {
   );
 
 }
+
+export default ReceiverInformation;

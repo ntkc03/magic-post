@@ -25,7 +25,6 @@ export default function UserLogin() {
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
 
 
-
   const token = localStorage.getItem("token");
 
 
@@ -55,6 +54,10 @@ export default function UserLogin() {
       navigate("/employer/home");
     }
   }, [navigate]);
+
+  const setFormValue = async () => {
+
+  }
 
 
 
@@ -118,6 +121,7 @@ export default function UserLogin() {
                 Mật khẩu
               </label>
               <input
+                
                 type="password"
                 placeholder="Nhập mật khẩu"
                 {...register("password")}

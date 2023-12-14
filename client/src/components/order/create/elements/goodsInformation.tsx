@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -10,7 +10,12 @@ import { orderInterface } from "../../../../types/OrderInterface";
 import ItemDetails from "./itemDetails";
 
 
-export default function GoodsInformation() {
+interface GoodsInformationProps {
+    errors: FieldErrors<orderInterface>;
+  }
+  
+const GoodsInformation: React.FC<GoodsInformationProps> = ({ errors }) => {
+
 
   const [items, setItems] = useState<React.ReactNode[]>([]);
 
@@ -30,6 +35,17 @@ export default function GoodsInformation() {
 
   const handleAddItem = () => {
     setItems([...items, <ItemDetails key={items.length} />]);
+  };
+
+  
+  const [type, setType] = useState<string | null>(null);
+  const handleTypeChange = (value: string) => {
+    setType(value === type ? null : value);
+  };
+
+  const [guide, setGuide] = useState<string | null>(null);
+  const handleGuideChange = (value: string) => {
+    setGuide(value === type ? null : value);
   };
 
 
@@ -58,12 +74,19 @@ export default function GoodsInformation() {
                                     <input
                                         value={option.label}
                                         type="checkbox"
+                                        checked={type === option.label}
+                                        onChange={() => handleTypeChange(option.label)}
                                         className="type form-checkbox text-blue-600"
                                     />
                                     <span className="ml-2">{option.label}</span>
                                     </label>
                                 ))}
                             </div>
+                            {errors.type && (
+                                <p className="text-red-500 text-sm">
+                                {errors.type.message}
+                                </p>
+                            )}
                         </div>
 
                         <div className="border-t border-gray-300 my-4"></div>
@@ -74,14 +97,21 @@ export default function GoodsInformation() {
                                 {items.map((item, index) => (
                                  <div key={index}>{item}</div>
                                 ))}
+                                {errors.items && (
+                                    <p className="text-red-500 text-sm">
+                                    {errors.items.message}
+                                    </p>
+                                )}
                             </div>
+
+            
 
                             <div className="border-t border-gray-300 my-4"></div>
 
                             <div className="flex items-center justify-center">
                                 <button type="button" id="add-items" onClick={handleAddItem} className="inline-flex items-center bg-white hover:bg-gray-100 border-2 text-blue-200 border-blue-200 py-2 px-2 shadow-md rounded">
                                     <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                     </svg>
                                     Thêm hàng hóa
                                 </button>
@@ -98,6 +128,11 @@ export default function GoodsInformation() {
                                         id="total-weight"
                                         className="lg:col-span-2 lg:mx-4 lg:w-auto w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
+                                    {errors.weight && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.weight.message}
+                                        </p>
+                                    )}
                                 </div>
 
                                 <div className="my-4 lg:grid lg:grid-cols-3">
@@ -145,6 +180,8 @@ export default function GoodsInformation() {
                                         ))}
                                     </div>
 
+                                    
+
                                 </div>
                             </div>
 
@@ -163,7 +200,9 @@ export default function GoodsInformation() {
                                             <input
                                                 value={option.label}
                                                 type="checkbox"
-                                                className="guidles form-checkbox text-blue-600"
+                                                checked={guide === option.label}
+                                                onChange={() => handleGuideChange(option.label)}
+                                                className="guides form-checkbox text-blue-600"
                                             />
                                             <span className="ml-2">{option.label}</span>
                                             </label>
@@ -179,12 +218,19 @@ export default function GoodsInformation() {
                                             <input
                                                 value={option.label}
                                                 type="checkbox"
+                                                checked={guide === option.label}
+                                                onChange={() => handleGuideChange(option.label)}
                                                 className="guidles form-checkbox text-blue-600"
                                             />
                                             <span className="ml-2">{option.label}</span>
                                             </label>
                                         ))}
                                     </div>
+                                    {errors.cannotDelivered && (
+                                        <p className="text-red-500 text-sm">
+                                        {errors.cannotDelivered.message}
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -234,3 +280,5 @@ export default function GoodsInformation() {
   );
 
 }
+
+export default GoodsInformation;

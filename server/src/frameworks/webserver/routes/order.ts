@@ -19,7 +19,7 @@ const orderRoute = () => {
 
     route.post('/create',controller.orderCreate);
     route.delete('/delete',employerMiddleware,controller.orderDelete);
-    route.get('/find-order/code',controller.getTheOrderByCode);
+    route.get('/find-order/:code',controller.getTheOrderByCode);
     route.get('/find-order/consolidation-id',controller.getTheOrderByConsolidationID);
     route.get('/find-order/transactions-id',controller.getTheOrderByTransactionID);
     route.get('/find-order/deliveryPerson-id',controller.getTheOrderByDeliveryPersonID);

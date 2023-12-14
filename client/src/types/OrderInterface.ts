@@ -3,7 +3,6 @@ export interface orderInterface {
     code?: string,
 
     senderName?: string,
-    senderAddress?: string,
     senderCountry?: string,
     senderCity?: string,
     senderDistrict?: string,
@@ -12,7 +11,6 @@ export interface orderInterface {
     senderPhone?: string,
 
     receiverName?: string,
-    receiverAddress?: string,
     receiverCountry?: string,
     receiverDistrict?: string,
     receiverVillage?: string,
@@ -26,13 +24,14 @@ export interface orderInterface {
 
     items?:string[],
 
-
     mainFee?: number,
     additionalFee?: number,
     GTGTFee?: number,
     VAT?: number,
     otherFee?: number,
     sumFee?: number,
+
+    estimatedTime: number,
 
     COD?: number,
     other?: number,
@@ -42,10 +41,16 @@ export interface orderInterface {
     cost?: number,
 
     note?: string,
+    
     create_at?: Date,
     sended_at?: Date,
-    status?: string[],
-    consolidationID?: string,
-    transactionID?: string,
-    deliveryPersonID?: string
+    status?: Array<Status>,
+}
+
+export interface Status {
+    action?: string;
+    consolidation?: string;
+    transaction?: string;
+    date?: Date;
+    staff?: string;
 }

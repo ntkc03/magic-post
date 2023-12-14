@@ -2,75 +2,83 @@ import { Schema, model } from "mongoose";
 
 const orderSchema = new Schema({
     code: {
-        type: String
+        type: String,
+        unique: [true],
     },
-
     senderName: {
-        type: String
-    },
-    senderAddress: {
-        type: String
+        type: String,
+        require: [true,"please enter sender name"]
     },
     senderCountry: {
-        type: String
+        type: String,
+        require: [true,"please enter sender country"]
     },
     senderCity: {
-        type: String
+        type: String,
+        require: [true,"please enter sender city"]
     },
     senderDistrict: {
-        type: String
-    },
-    senderCommunes: {
-        type: String
+        type: String,
+        require: [true,"please enter sender district"]
     },
 
     senderVillage: {
-        type: String
+        type: String,
+        require: [true,"please enter sender villages"]
     },
     senderHouseNumber: {
-        type: String
+        type: String,
+        require: [true,"please enter sender house number"]
     },
     senderPhone: {
-        type: String
+        type: String,
+        require: [true,"please enter sender phone"]
     },
     receiverName: {
-        type: String
-    },
-    receiverAddress: {
-        type: String
+        type: String,
+        require: [true,"please enter receiver name"]
     },
     receiverCountry: {
-        type: String
+        type: String,
+        require: [true,"please enter receiver country"]
     },
     receiverDistrict: {
-        type: String
-    },
-    receiverNeighborhood: {
-        type: String
+        type: String,
+        require: [true,"please enter receiver district"]
     },
     receiverVillage: {
-        type: String
+        type: String,
+        require: [true,"please enter village"]
     },
     receiverHouseNumber: {
-        type: String
+        type: String,
+        require: [true,"please enter receiver house number"]
     },
     receiverCity: {
-        type: String
+        type: String,
+        require: [true,"please enter receiver city"]
     },
     receiverPhone: {
-        type: String
+        type: String,
+        require: [true,"please enter receiver phone"]
     },
     type: {
-        type: Boolean
+        type: Boolean,
+        require: [true,"please enter type"]
     },
     specialService: {
-        type: Array
+        type: Array,
     },
     cannotDelivered: {
-        type: String
+        type: String,
+        require: [true,"please enter guides"]
     },
     items: {
-        type: Array
+        type: Array,
+        require: [true,"please enter items"]
+    },
+    estimatedTime: {
+        type: Number
     },
     mainFee: {
         type: Number
@@ -91,7 +99,7 @@ const orderSchema = new Schema({
         type: Number
     },
     COD: {
-        type: Number
+        type: Number,
     },
     other: {
         type: Number
@@ -100,7 +108,8 @@ const orderSchema = new Schema({
         type: Number
     },
     weight: {
-        type: Number
+        type: Number,
+        require: [true,"please enter total weight"]
     },
     cost: {
         type: Number
@@ -116,17 +125,9 @@ const orderSchema = new Schema({
         type: Date
     },
     status: {
-        type: Array
-    },
-    consolidationID: {
-        type: String
-    },
-    transactionID: {
-        type: String
-    },
-    deliveryPersonID: {
-        type: String
-    },
+        type: Array,
+        require: [true,"please enter status"]
+    }
 
 })
 

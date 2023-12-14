@@ -4,20 +4,16 @@ export interface orderInterface {
     code?: string,
 
     senderName?: string,
-    senderAddress?: string,
     senderCountry?: string,
     senderCity?: string,
     senderDistrict?: string,
-    senderCommunes?: string,
     senderVillage?: string,
     senderHouseNumber?: string,
     senderPhone?: string,
 
     receiverName?: string,
-    receiverAddress?: string,
     receiverCountry?: string,
     receiverDistrict?: string,
-    receiverNeighborhood?: string,
     receiverVillage?: string,
     receiverHouseNumber?: string,
     receiverCity?: string,
@@ -28,6 +24,9 @@ export interface orderInterface {
     cannotDelivered?: string,
 
     items?: string[],
+    
+    estimatedTime: number,
+
     mainFee?: number,
     additionalFee?: number,
     GTGTFee?: number,
@@ -42,8 +41,13 @@ export interface orderInterface {
     note?: string,
     create_at?: Date,
     sended_at?: Date,
-    status?: string[],
-    consolidationID?: string,
-    transactionID?: string,
-    deliveryPersonID?: string
+    status?: Array <Status>,
+}
+
+export interface Status {
+    action?: string;
+    consolidation?: string;
+    transaction?: string;
+    date?: Date;
+    staff?: string;
 }

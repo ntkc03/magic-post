@@ -34,8 +34,6 @@
         }
   
         const { updatedEstimatedTime, updatedTotalFee } = fee(feeData, totalWeight);
-  
-        console.log('After Fetch: updatedTotalFee and updatedEstimatedTime', updatedTotalFee, updatedEstimatedTime);
         return { totalFee: updatedTotalFee, estimatedTime: updatedEstimatedTime };
       }
     } catch (error) {

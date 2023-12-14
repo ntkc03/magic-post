@@ -49,7 +49,7 @@ export const orderController = (
 
     const getTheOrderByCode = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { code } = req.body;
+            const { code } = req.params;
             const order = await getOrderByCode(code, dbRepositoryOrder);
             res.json(order);
         }
@@ -57,7 +57,7 @@ export const orderController = (
 
     const getTheOrderByConsolidationID = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { consolidationID } = req.body;
+            const { consolidationID } = req.params;
             const order = await getOrderByConsolidationID(consolidationID, dbRepositoryOrder);
             res.json(order);
         }
@@ -65,7 +65,7 @@ export const orderController = (
 
     const getTheOrderByTransactionID = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { transactionID } = req.body;
+            const { transactionID } = req.params;
             const order = await getOrderByTransationID(transactionID, dbRepositoryOrder);
             res.json(order);
         }
@@ -73,7 +73,7 @@ export const orderController = (
 
     const getTheOrderByDeliveryPersonID = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { deliveryPersonID } = req.body;
+            const { deliveryPersonID } = req.params;
             const order = await getOrderByDeliveryPersonID(deliveryPersonID, dbRepositoryOrder);
             res.json(order);
         }
