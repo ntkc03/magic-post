@@ -3,6 +3,7 @@ import CreateOrderPage from "../../pages/order/CreateOrderPage";
 import OrderDetailsPage from "../../pages/order/orderDetailsPage";
 import OrderPrintFormPage from "../../pages/order/OrderPrintPage";
 import OrderListPage from "../../pages/order/orderListPage";
+import SearchPage from "../../pages/order/searchPage";
 
 function OrderDetailsPageWrapper() {
   const { code } = useParams();
@@ -24,6 +25,7 @@ const OrderRouter = () => {
         <Route path="/details/:code" element={<OrderDetailsPageWrapper/>} />
         <Route path="/print/:code" element={<OrderPrintFormPageWrapper/>} />
         <Route path="/list" element={<OrderListPage/>} />
+        <Route path="/search" element={<SearchPage/>} />
       </Routes>
     </div>
   );
