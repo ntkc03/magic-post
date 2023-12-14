@@ -25,12 +25,24 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const token = localStorage.getItem("token");
 
 function StaffHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.userAuth.isLoggedIn
+  );
+
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (!isLoggedIn){
+      navigate('/');
+    }
+  }, []);
+  
 
   useEffect(() => {
     if (token) {
@@ -38,8 +50,8 @@ function StaffHeader() {
       const employerDetails = async () => {
         const data = await employerData();
         setEmployerDetails(data);
-    }
-    employerDetails();
+      }
+      employerDetails();
     }
     return () => {
       dispatch(clearUserDetails());

@@ -127,18 +127,7 @@ const orderSchema = new Schema({
     status: {
         type: Array,
         require: [true,"please enter status"]
-    },
-    consolidationID: {
-        type: String,
-        require: [true,"please enter consolidationID"]
-    },
-    transactionID: {
-        type: String,
-        require: [true,"please enter transactionID"]
-    },
-    deliveryPersonID: {
-        type: String
-    },
+    }
 
 })
 

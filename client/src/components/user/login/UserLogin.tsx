@@ -25,7 +25,6 @@ export default function UserLogin() {
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
 
 
-
   const token = localStorage.getItem("token");
 
 

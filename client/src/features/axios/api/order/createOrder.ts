@@ -44,7 +44,7 @@ export const updateOrder = async (payload: orderInterface): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
     url: `${apiConfig.updaterOrder}`,
-    method: "post",
+    method: "put",
     data: payload,
     };
     const response = await axios(config);

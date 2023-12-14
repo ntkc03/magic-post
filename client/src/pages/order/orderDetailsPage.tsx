@@ -1,8 +1,7 @@
 import React from 'react'
-import OrderDetails from '../../components/order/details/orderDetails'
 import StaffHeader from '../../components/header/StaffHeader'
 import UserSideFooter from '../../components/footer/UserSideFooter'
-import OrderList from '../../components/order/list/orderList'
+import OrderDetailsForm from '../../components/order/details/OrderDetailsForm';
 
 interface OrderDetailsPageProps {
   code: string;
@@ -12,7 +11,7 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = ({ code }) => {
   return (
     <div>
       <StaffHeader/>
-      <OrderDetails code={code}/>
+      <OrderDetailsForm code={code}/>
       <UserSideFooter/>
     </div>
   )

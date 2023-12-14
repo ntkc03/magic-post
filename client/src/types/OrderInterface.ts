@@ -44,8 +44,13 @@ export interface orderInterface {
     
     create_at?: Date,
     sended_at?: Date,
-    status?: string[],
-    consolidationID?: string,
-    transactionID?: string,
-    deliveryPersonID?: string
+    status?: Array<Status>,
+}
+
+export interface Status {
+    action?: string;
+    consolidation?: string;
+    transaction?: string;
+    date?: Date;
+    staff?: string;
 }

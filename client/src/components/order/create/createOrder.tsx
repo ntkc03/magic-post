@@ -6,30 +6,29 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { createOrder, updateOrder } from "../../../features/axios/api/order/createOrder";
-import { orderInterface } from "../../../types/OrderInterface";
+import { Status, orderInterface } from "../../../types/OrderInterface";
 import SenderInformation from "./elements/senderInformation";
 import ReceiverInformation from "./elements/receiverInformation";
 import GoodsInformation from "./elements/goodsInformation";
 import { costCalcu} from "./calculation";
 import { orderValidationSchema } from "../../../utils/validation";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../features/redux/reducers/Reducer";
+import { employerData } from "../../../features/axios/api/employer/userDetails";
+import { fetchUser, clearUserDetails } from "../../../features/redux/slices/user/userDetailsSlice";
+import { employerInterface} from "../../../types/EmployerInterface";
+
+
+
+
+
+const token = localStorage.getItem("token");
+const code = String(Math.floor(Math.random() * 1000000000) + 10000000000);
 
 
 export default function CreateOrder() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  let code = '';
-
-  useEffect(() => {
-    const handleDocumentChange = () => {
-      setFormValue();
-      setTotalValue();
-    };
-    document.addEventListener("change", handleDocumentChange);
-    return () => {
-      document.removeEventListener("change", handleDocumentChange);
-    };
-  }, []);
-
   const {
     setValue,
     handleSubmit,
@@ -38,24 +37,35 @@ export default function CreateOrder() {
     resolver: yupResolver(orderValidationSchema)
   });
 
+
+  const [employerDetails, setEmployerDetails] = useState<employerInterface>();
+  const [employerDetailsLoaded, setEmployerDetailsLoaded] = useState(false);
+
   useEffect(() => {
-    function setPadding(){
-      let padding: HTMLElement | null = document.getElementById('padding');
-      let fixed: HTMLElement | null  = document.getElementById('fixed');
-
-      let header: HTMLElement | null  = document.getElementById('fixed-header');
-      let container: HTMLElement | null  = document.getElementById('container');
-  
-      if(padding) {
-          padding.style.height = fixed?.offsetHeight + 'px';
-      }
-
-      if(container) {
-        container.style.marginTop = header?.offsetHeight + "px";
-      }
+    if (token) {
+      dispatch(fetchUser());
+      const employerDetails = async () => {
+        const data = await employerData();
+        setEmployerDetails(data);
+        setEmployerDetailsLoaded(true); // Make sure this line is here
+      };
+      employerDetails();
     }
-    setPadding();
-    window.addEventListener('resize', setPadding);
+    return () => {
+      dispatch(clearUserDetails());
+    };
+  }, [dispatch]);
+
+
+  useEffect(() => { 
+    const handleDocumentChange = () => {
+      setFormValue();
+      setTotalValue();
+    };
+    document.addEventListener("change", handleDocumentChange);
+    return () => {
+      document.removeEventListener("change", handleDocumentChange);
+    };
   });
 
   const setFormValue = async () =>{
@@ -121,7 +131,6 @@ export default function CreateOrder() {
     setValue('cost', parseInt(cost.value))
     setValue('note', note.value)
 
-    code =  String(Math.floor(Math.random() * 1000000000) + 10000000000);
     setValue('code', code);
 
     if (types[0].checked) {
@@ -148,6 +157,20 @@ export default function CreateOrder() {
     setValue('specialService', specialServices)
     setValue('cannotDelivered', cannotDelivered[0])
     setValue('items', items)
+
+    if (employerDetailsLoaded) {
+      let status: Status = {
+        action: "Tạo đơn hàng",
+        consolidation: senderDistrict.value,
+        transaction: senderVillage.value,
+        date: new Date(),
+        staff: employerDetails?.name
+      };
+
+      let statuses: Array<Status> = [];
+      statuses.push(status)
+      setValue("status", statuses)
+    }
   }
 
 
@@ -191,6 +214,31 @@ export default function CreateOrder() {
     }
   }
 
+
+  
+
+
+  useEffect(() => {
+    function setPadding(){
+      let padding: HTMLElement | null = document.getElementById('padding');
+      let fixed: HTMLElement | null  = document.getElementById('fixed');
+
+      let header: HTMLElement | null  = document.getElementById('fixed-header');
+      let container: HTMLElement | null  = document.getElementById('container');
+  
+      if(padding) {
+          padding.style.height = fixed?.offsetHeight + 'px';
+      }
+
+      if(container) {
+        container.style.marginTop = header?.offsetHeight + "px";
+      }
+    }
+    setPadding();
+    window.addEventListener('resize', setPadding);
+  });
+
+  
   
 
   const notify = (msg: string, type: string) =>
@@ -204,8 +252,8 @@ export default function CreateOrder() {
       .then((response: any) => {
         notify("Create a new order successfully", "success");
         setTimeout(() => {
-          navigate(`/order/details/${code}`);
-        }, 2000);
+          navigate(`/order/print/${code}`);
+        }, 200);
       })
       .catch((error: any) => {
         notify(error.message, "error");
