@@ -41,23 +41,54 @@ export default function UserLogin() {
       ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
       : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
 
+  const getEmployerDetails = async () => {
+    const data = await employerData();
+    setEmployerDetails(data);
+  }
+
+  // cái này có thể để phòng trường hợp thoát ra nhưng mà chưa đăng xuất khiến token chưa bị xóa
   useEffect(() => {
     if (token) {
       dispatch(loginSuccess());
-      const employerDetails = async () => {
-        const data = await employerData();
-        setEmployerDetails(data);
-      }
-      employerDetails();
+      getEmployerDetails();
     }
     if (isLoggedIn === true) {
-      navigate("/employer/home");
+      if (employerDetails?.role === "director") {
+        navigate("/director/static-points");
+      } else {
+        navigate("/employer/home");
+      }
     }
   }, [navigate]);
 
-  const setFormValue = async () => {
+  // hoạt động sau khi isLoggedIn và employerDetails được cập nhật
+  useEffect(() => {
+    if (isLoggedIn && employerDetails) {
+      // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
+      if (employerDetails?.role === "director") {
+        navigate("/director/static-points");
+      } else {
+        navigate("/employer/home");
+      }
+    }
+  }, [isLoggedIn, employerDetails]);
 
-  }
+  // họat động khi isLoggedIn được cập nhật
+  useEffect(() => {
+    if (isLoggedIn) {
+      // Fetch và cập nhật employerDetails
+      const fetchEmployerDetails = async () => {
+        try {
+          const data = await employerData();
+          setEmployerDetails(data);
+        } catch (error: any) {
+          notify(error.message, "error");
+        }
+      };
+
+      fetchEmployerDetails();
+    }
+  }, [isLoggedIn]);
 
 
 
@@ -69,12 +100,11 @@ export default function UserLogin() {
         dispatch(loginSuccess());
         notify("Login success", "success");
         setTimeout(() => {
-          if (employerDetails?.role == "director") {
-            navigate("/director/static-points");
-          } else {
-            navigate("/employer/home");
+          if (isLoggedIn) {
+            // Gọi employerDetails() để cập nhật dữ liệu
+            getEmployerDetails();
           }
-        }, 2000);
+        }, 0);
       })
       .catch((error: any) => {
         notify(error.message, "error");
@@ -121,7 +151,7 @@ export default function UserLogin() {
                 Mật khẩu
               </label>
               <input
-                
+
                 type="password"
                 placeholder="Nhập mật khẩu"
                 {...register("password")}

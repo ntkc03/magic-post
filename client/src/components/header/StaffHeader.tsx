@@ -35,14 +35,7 @@ function StaffHeader() {
     (state: RootState) => state.userAuth.isLoggedIn
   );
 
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    if (!isLoggedIn){
-      navigate('/');
-    }
-  }, []);
-  
+  const token = localStorage.getItem("token");  
 
   useEffect(() => {
     if (token) {

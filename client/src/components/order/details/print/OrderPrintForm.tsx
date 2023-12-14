@@ -5,12 +5,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import PrintButton from "./printOrder";
-import OrderDetails from "../orderDetails";
 import { orderData } from "../../../../features/axios/api/order/createOrder";
 import { orderInterface } from "../../../../types/OrderInterface";
 import configKeys from "../../../../utils/config";
 import { formatDate } from "../format";
 import GenerateQR from "../generateQRCode";
+import OrderDetails from "../orderDetails";
 
 
 interface OrderDetailsProps {

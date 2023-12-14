@@ -26,6 +26,7 @@ const token = localStorage.getItem("token");
 const code = String(Math.floor(Math.random() * 1000000000) + 10000000000);
 
 
+
 export default function CreateOrder() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -157,6 +158,8 @@ export default function CreateOrder() {
     setValue('specialService', specialServices)
     setValue('cannotDelivered', cannotDelivered[0])
     setValue('items', items)
+    console.log("token",token);
+    console.log("data",employerDetails);
 
     if (employerDetailsLoaded) {
       let status: Status = {
