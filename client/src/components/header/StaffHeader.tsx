@@ -29,13 +29,19 @@ function classNames(...classes: string[]) {
 function StaffHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
   const isLoggedIn = useSelector(
     (state: RootState) => state.userAuth.isLoggedIn
   );
 
-  const token = localStorage.getItem("token");  
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/');
+    }
+  }, []);
 
   useEffect(() => {
     if (token) {
@@ -137,7 +143,7 @@ function StaffHeader() {
                               "block px-4 py-2 text-sm hover:opacity-50"
                             )}
                           >
-                          {employerDetails?.name ?? ""}
+                            {employerDetails?.name ?? ""}
                           </text>
                         </Menu.Item>
                         <Menu.Item>
