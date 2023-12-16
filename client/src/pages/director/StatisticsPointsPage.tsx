@@ -1,10 +1,11 @@
 import StatisticsPoints from "../../components/director/StatisPoints";
-import StaffHeader from "../../components/header/StaffHeader";
+import DirectorHeader from "../../components/header/DirectorHeader";
+
 
 function StatisticsPointsPage() {
     return (
         <div>
-            <StaffHeader />
+            <DirectorHeader />
             <StatisticsPoints />
         </div>
     )
