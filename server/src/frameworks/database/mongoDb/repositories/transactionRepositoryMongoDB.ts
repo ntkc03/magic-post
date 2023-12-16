@@ -23,8 +23,8 @@ export const transactionRepositoryMongoDB = (model: TransactionModel) => {
         return transactions;
     }
 
-    const updateManager = async (transactionID: string, updates: Partial<transactionInterface>) =>{
-        const transaction = await transactionEntity.updateManager(transactionID,updates);
+    const updateTheTransaction = async (transactionID: string, updates: Partial<transactionInterface>) =>{
+        const transaction = await transactionEntity.updateTheTransaction(transactionID,updates);
         return transaction;
     }
 
@@ -33,7 +33,7 @@ export const transactionRepositoryMongoDB = (model: TransactionModel) => {
         getTransactionByID,
         getTransactionsByConsolidation,
         getAllTransactions,
-        updateManager
+        updateTheTransaction
     }
 }
 

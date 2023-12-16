@@ -28,7 +28,7 @@ export class TransactionEntity {
         return allTransactions;
     }
 
-    public async updateManager(transactionID: string, updates: Partial<transactionInterface>): Promise<transactionInterface | null> {
+    public async updateTheTransaction(transactionID: string, updates: Partial<transactionInterface>): Promise<transactionInterface | null> {
         try {
             const transaction = await this.model.findById(transactionID);
 

@@ -5,5 +5,6 @@ export interface consolidationInterface {
     address?: string,
     city?: string,
     country?: string,
-    manager?: string
+    manager?: string,
+    quantity?: number
 }

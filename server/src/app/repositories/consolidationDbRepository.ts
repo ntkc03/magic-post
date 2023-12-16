@@ -19,8 +19,8 @@ export const consolidationDbRepository = (repository: ReturnType<consolidationRe
         return consolidations;
     }
 
-    const updateManager = async(consolidationID: string, updates: Partial<consolidationInterface>) =>{
-        const consolidation = await repository.updateManager(consolidationID,updates);
+    const updateConsolidation = async(consolidationID: string, updates: Partial<consolidationInterface>) =>{
+        const consolidation = await repository.updateConsolidation(consolidationID,updates);
         return consolidation;
     }
 
@@ -28,7 +28,7 @@ export const consolidationDbRepository = (repository: ReturnType<consolidationRe
         getConsolidationByAddress,
         getConsolidationByID,
         getAllConsolidations,
-        updateManager
+        updateConsolidation
     }
 }
 

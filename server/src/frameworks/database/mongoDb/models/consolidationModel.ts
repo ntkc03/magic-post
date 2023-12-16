@@ -12,6 +12,9 @@ const consolidationSchema = new Schema({
     },
     manager: {
         type: String
+    },
+    quantity: {
+        type: Number
     }
 })
 

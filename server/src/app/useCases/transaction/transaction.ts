@@ -63,13 +63,13 @@ export const getAllTransactions = async (
     }
 }
 
-export const setManager = async (
+export const updateTransaction = async (
     id: string,
     updates: Partial<transactionInterface>,
     transactionRepository: ReturnType<transactionDbInterface>,
 )=>{
     try {
-        const result = await transactionRepository.updateManager(id,updates);
+        const result = await transactionRepository.updateTheTransaction(id,updates);
         return result;
     } catch (error) {
         console.log(error)

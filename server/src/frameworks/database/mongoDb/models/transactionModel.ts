@@ -9,6 +9,9 @@ const transactionSchema = new Schema({
     },
     manager: {
         type: String
+    },
+    quantity: {
+        type: Number
     }
 })
 

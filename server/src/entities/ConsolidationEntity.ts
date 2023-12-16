@@ -23,7 +23,7 @@ export class ConsolidationEntity {
         return allConsolidations;
     }
 
-    public async updateManager(consolidationID: string, updates: Partial<consolidationInterface>): Promise<consolidationInterface | null> {
+    public async updateConsolidation(consolidationID: string, updates: Partial<consolidationInterface>): Promise<consolidationInterface | null> {
         try {
             const consolidation = await this.model.findById(consolidationID);
 

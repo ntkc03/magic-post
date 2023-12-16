@@ -16,3 +16,8 @@ export interface StatisticsPointsPayload{
   consolidation: ConsolidationInterface,
   transactions: TransactionInterface[]
 }
+
+export interface FilterPayload{
+  consolidation: ConsolidationInterface,
+  transaction: TransactionInterface
+}

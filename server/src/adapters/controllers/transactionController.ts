@@ -3,7 +3,7 @@ import { orderDbInterface, orderDbRepository } from "../../app/repositories/orde
 import { transactionDbInterface } from "../../app/repositories/transactionDbRepository";
 import { TransactionModel } from "../../frameworks/database/mongoDb/models/transactionModel";
 import { transactionRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/transactionRepositoryMongoDB";
-import { getAllTransactions, getTransactionByAddress, getTransactionByID, getTransactionsByConsolidation, setManager } from "../../app/useCases/transaction/transaction";
+import { getAllTransactions, getTransactionByAddress, getTransactionByID, getTransactionsByConsolidation, updateTransaction } from "../../app/useCases/transaction/transaction";
 import { CustomRequest } from "../../types/expressRequest";
 import expressAsyncHandler from "express-async-handler";
 import AppError from "../../utils/appError";
@@ -52,7 +52,7 @@ const transactionController = (
         }
     )
 
-    const setTheManager = expressAsyncHandler(
+    const updateTheTransaction = expressAsyncHandler(
         async (req: Request, res: Response) => {
             const customReq = req as CustomRequest;
             const id = customReq.payload ?? "";
@@ -63,7 +63,7 @@ const transactionController = (
                 );
             }
             const updates: transactionInterface = req.body;
-            const updateTransactionData = await setManager(
+            const updateTransactionData = await updateTransaction(
                 id,
                 updates,
                 dbRepositoryTransaction
@@ -81,7 +81,7 @@ const transactionController = (
         getTheTransactionByConsolidation,
         getTheTransactionByID,
         findAllTransactions,
-        setTheManager
+        updateTheTransaction
     }
 }
 

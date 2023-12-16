@@ -3,5 +3,6 @@ export interface TransactionInterface {
     _id?: any,
     address?: string,
     consolidation?: string,
-    manager?: string
+    manager?: string,
+    quantity?: number
 }

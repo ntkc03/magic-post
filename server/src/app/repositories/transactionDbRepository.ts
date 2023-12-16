@@ -22,8 +22,8 @@ export const transactionDbRepository = (
         return transactions;
     }
 
-    const updateManager = async(transactionID: string, updates: Partial<transactionInterface>) =>{
-        const transaction = await repository.updateManager(transactionID,updates);
+    const updateTheTransaction = async(transactionID: string, updates: Partial<transactionInterface>) =>{
+        const transaction = await repository.updateTheTransaction(transactionID,updates);
         return transaction;
     }
 
@@ -32,7 +32,7 @@ export const transactionDbRepository = (
         getTransactionByID,
         getTransactionsByConsolidation,
         getAllTransactions,
-        updateManager
+        updateTheTransaction
     }
 }
 

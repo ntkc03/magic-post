@@ -19,7 +19,7 @@ const transactionRoute = () => {
     route.get('/transaction-data/:consolidation', controller.getTheTransactionByConsolidation);
     route.get('/transaction-data/:id', controller.getTheTransactionByID);
     route.get('/all-transactions', controller.findAllTransactions);
-    route.put('/update-transaction',controller.setTheManager);
+    route.put('/update-transaction',controller.updateTheTransaction);
 
     return route;
 }

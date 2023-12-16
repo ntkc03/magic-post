@@ -47,13 +47,13 @@ export const findAllConsolidations = async (
     }
 }
 
-export const setManager = async (
+export const updateConsolidation = async (
     id: string,
     updates: Partial<consolidationInterface>,
     consolidationRepository: ReturnType<consolidationDbInterface>,
 )=>{
     try {
-        const result = await consolidationRepository.updateManager(id,updates);
+        const result = await consolidationRepository.updateConsolidation(id,updates);
         return result;
     } catch (error) {
         console.log(error)

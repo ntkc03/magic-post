@@ -12,7 +12,7 @@ export const allTransactionsData = async (): Promise<any> => {
       method: "get",
     };
     const response = await api(config);
-    return response?.data;
+    return response?.data.allTransactions;
   } catch (error) {
     throw new Error("error while getting transactions data");
   }

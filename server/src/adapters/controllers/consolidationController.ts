@@ -4,7 +4,7 @@ import { ConsolidationModel } from "../../frameworks/database/mongoDb/models/con
 import { consolidationRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/consolidationRepositoryMongoDB";
 import { Request, Response } from "express";
 import { CustomRequest } from "../../types/expressRequest";
-import { findConsolidationByAddress, findConsolidationByID, findAllConsolidations, setManager } from "../../app/useCases/consolidation/consolidation";
+import { findConsolidationByAddress, findConsolidationByID, findAllConsolidations, updateConsolidation } from "../../app/useCases/consolidation/consolidation";
 import AppError from "../../utils/appError";
 import { HttpStatus } from "../../types/httpStatus";
 import { consolidationInterface } from "../../types/consolidationInterface";
@@ -51,7 +51,7 @@ const consolidationController = (
         }
     )
 
-    const setTheManager = expressAsyncHandler(
+    const updateTheConsolidation = expressAsyncHandler(
         async (req: Request, res: Response) => {
             const customReq = req as CustomRequest;
             const id = customReq.payload ?? "";
@@ -62,7 +62,7 @@ const consolidationController = (
                 );
             }
             const updates: consolidationInterface = req.body;
-            const updateConsolidationData = await setManager(
+            const updateConsolidationData = await updateConsolidation(
                 id,
                 updates,
                 dbRepositoryConsolidation
@@ -80,7 +80,7 @@ const consolidationController = (
         getConsolidationByID,
         getConsolidationByIDParam,
         getAllConsolidations,
-        setTheManager
+        updateTheConsolidation
     }
 };
 

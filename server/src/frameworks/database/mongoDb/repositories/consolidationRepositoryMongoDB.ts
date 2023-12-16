@@ -25,8 +25,8 @@ export const consolidationRepositoryMongoDB = (model: ConsolidationModel) => {
         return consolidations;
     }
 
-    const updateManager = async (consolidationID: string, updates: Partial<consolidationInterface>) =>{
-        const consolidation = await consolidationEntity.updateManager(consolidationID,updates);
+    const updateConsolidation = async (consolidationID: string, updates: Partial<consolidationInterface>) =>{
+        const consolidation = await consolidationEntity.updateConsolidation(consolidationID,updates);
         return consolidation;
     }
 
@@ -34,7 +34,7 @@ export const consolidationRepositoryMongoDB = (model: ConsolidationModel) => {
         getConsolidationByAddress,
         getConsolidationByID,
         getAllConsolidations,
-        updateManager
+        updateConsolidation
     }
 }
 
