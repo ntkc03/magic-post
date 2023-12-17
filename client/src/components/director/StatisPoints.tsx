@@ -103,6 +103,7 @@ function StaticPoints() {
 
     useEffect(() => {
         dispatch(fetchAllConsolidations());
+        dispatch(fetchAllTransactions());
         const getPoints = async () => {
             const result: StatisticsPointsPayload[] = [];
             const consolidations: ConsolidationInterface[] = await allConsolidationsData();
@@ -119,7 +120,7 @@ function StaticPoints() {
             }
         }
         getPoints();
-    }, [dispatch]);
+    }, []);
 
     const totalCount = statisticsList ? statisticsList.length : 0;
 
