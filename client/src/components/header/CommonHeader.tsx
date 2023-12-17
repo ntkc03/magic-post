@@ -32,9 +32,9 @@ function CommonHeader() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="sm:flex-1 sm:justify-start flex w-full justify-center text-bold text-2xl font-logo">
+              <a href="/homepage" className="sm:flex-1 sm:justify-start flex w-full justify-center text-bold text-2xl font-logo">
                 MagicPost
-              </div>
+              </a>
               <div className="flex-4 hidden sm:block">
                 <div className="flex space-x-4">
                   {navigation.map((item) => (
