@@ -1,8 +1,6 @@
 export interface employerInterface {
-    _id?: any,
     name?: string,
-    username?: string,
-    password?: string,
+    username: string,
     role?: string,
     phone?: string,
     transaction?: string,

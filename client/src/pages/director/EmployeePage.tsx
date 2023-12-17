@@ -4,8 +4,8 @@ import DirectorHeader from "../../components/header/DirectorHeader";
 function EmployeePage() {
     return (
         <div>
-            <DirectorHeader/>
-            <Employee/>
+            <DirectorHeader />
+            <Employee />
         </div>
     )
 }
