@@ -163,12 +163,13 @@ export default function CreateOrder() {
 
     if (employerDetailsLoaded) {
       let status: Status = {
-        action: "Tạo đơn hàng",
+        action: "Nhận đơn hàng",
         consolidation: senderDistrict.value,
         transaction: senderVillage.value,
         date: new Date(),
         staff: employerDetails?.name
       };
+
 
       let statuses: Array<Status> = [];
       statuses.push(status)

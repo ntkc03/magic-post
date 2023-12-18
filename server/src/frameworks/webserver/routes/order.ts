@@ -23,9 +23,9 @@ const orderRoute = () => {
     route.get('/find-order/consolidation-id',controller.getTheOrderByConsolidationID);
     route.get('/find-order/transactions-id',controller.getTheOrderByTransactionID);
     route.get('/find-order/deliveryPerson-id',controller.getTheOrderByDeliveryPersonID);
-    route.get('/all-orders',employerMiddleware,controller.findAllJOrders);
+    route.get('/all-orders',controller.findAllJOrders);
     route.post('/filter-orders',employerMiddleware ,controller.filterTheOrders);
-    route.put('/update-order',employerMiddleware,upload,controller.updateOrderStatus);
+    route.put('/update-order',controller.updateOrderStatus);
 
 
 return route;

@@ -1,8 +1,6 @@
-import exp from "constants";
 import { OrderEntity } from "../../../../entities/OrderEntity";
 import { orderInterface } from "../../../../types/orderInterface";
 import { OrderModel } from "../models/orderModel";
-import { SpecialPathVariables } from "mongoose";
 
 export const orderRepositoryMongoDB = (model: OrderModel) => {
     const orderEntity = new OrderEntity(model);

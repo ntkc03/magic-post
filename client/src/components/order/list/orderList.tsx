@@ -2,16 +2,10 @@ import { useEffect, useState } from "react";
 
 import "react-toastify/dist/ReactToastify.css";
 
-import OrderBrief from "./orderBrief";
+import OrderTable from "./orderTable";
 
 export default function OrderList() {
 
-  const [items, setItems] = useState<React.ReactNode[]>([]);
-
-  const handleAddItem = () => {
-    setItems([...items, <OrderBrief key={items.length} />]);
-  };
-  
 
   useEffect(() => {
     function setPadding(){
@@ -37,12 +31,7 @@ export default function OrderList() {
 
         {/* List of items */}
         <div className="mt-8">
-          <OrderBrief />
-          <div id="items-list">
-            {items.map((item, index) => (
-              <div key={index}>{item}</div>
-            ))}
-          </div>
+          <OrderTable />
         </div>
       </div>
     </div>

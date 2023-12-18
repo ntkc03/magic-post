@@ -104,7 +104,7 @@ export const orderController = (
     const updateOrderStatus = expressAsyncHandler(
         async (req: Request, res: Response) => {
             const customReq = req as CustomRequest;
-            const orderId = customReq.payload ?? "";
+            const orderId = customReq.body ?? "";
             if (!orderId) {
                 throw new AppError(
                     "unauthorized request, invalid token",

@@ -189,6 +189,12 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ code }) => {
             </table>
           </div>
 
+
+          <div className="py-4 border-b-2 border-grey">
+            <label className="font-bold">Danh sách hàng hóa</label>
+            <p>{orderDetails?.items?.join(', ')}</p>
+          </div>
+          
           <div className="py-4 border-b-2 border-grey">
             <label className="font-bold">Dịch vụ cộng thêm</label>
             <p>{orderDetails?.specialService?.join(', ')}</p>

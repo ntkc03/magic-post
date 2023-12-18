@@ -39,6 +39,19 @@ export const createOrder = async (payload: orderInterface): Promise<any> => {
   }
 };
 
+export const getOrderList = async (): Promise<any> => {
+  try {
+    const config: AxiosRequestConfig = {
+      url: `${apiConfig.allOrders}`, // Adjust to your actual endpoint for fetching all data
+      method: "get",
+    };
+    const response = await api(config);
+    return response.data;
+  } catch (error) {
+    throw new Error("Error while getting all data");
+  }
+};
+
 
 export const updateOrder = async (payload: orderInterface): Promise<any> => {
   try {
@@ -47,6 +60,7 @@ export const updateOrder = async (payload: orderInterface): Promise<any> => {
     method: "put",
     data: payload,
     };
+    console.log('hi')
     const response = await axios(config);
     return response.data;
   } catch (error) {
