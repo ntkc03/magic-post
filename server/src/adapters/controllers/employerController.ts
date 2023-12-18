@@ -58,7 +58,8 @@ export const employerController = (
 
     const deleteTheEmployer = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { username } = req.body;
+            const { username } = req.params;
+            console.log(username);
             await deleteEmployer(username, dbRepositoryEmployer);
 
             res.json({

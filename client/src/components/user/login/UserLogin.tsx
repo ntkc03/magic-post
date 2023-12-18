@@ -52,26 +52,30 @@ export default function UserLogin() {
       dispatch(loginSuccess());
       getEmployerDetails();
     }
-    if (isLoggedIn === true) {
-      if (employerDetails?.role === "director") {
-        navigate("/director/static-points");
-      } else {
-        navigate("/employer/home");
+    setTimeout(() => {
+      if (isLoggedIn === true) {
+        if (employerDetails?.role === "director") {
+          navigate("/director/static-points");
+        } else {
+          navigate("/employer/home");
+        }
       }
-    }
+    }, 2000);
   }, [navigate]);
 
   // hoạt động sau khi isLoggedIn và employerDetails được cập nhật
   useEffect(() => {
-    if (isLoggedIn && employerDetails) {
-      // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
-      if (employerDetails?.role === "director") {
-        navigate("/director/static-points");
-      } else {
-        navigate("/employer/home");
+    setTimeout(() => {
+      if (isLoggedIn && employerDetails) {
+        // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
+        if (employerDetails?.role === "director") {
+          navigate("/director/static-points");
+        } else {
+          navigate("/employer/home");
+        }
       }
-    }
-  }, [isLoggedIn, employerDetails]);
+    }, 2000);
+  }, [employerDetails]);
 
   // họat động khi isLoggedIn được cập nhật
   useEffect(() => {
@@ -104,7 +108,7 @@ export default function UserLogin() {
             // Gọi employerDetails() để cập nhật dữ liệu
             getEmployerDetails();
           }
-        }, 0);
+        }, 2000);
       })
       .catch((error: any) => {
         notify(error.message, "error");

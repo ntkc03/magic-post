@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userRegisterValidationSchema } from "../../../utils/validation";
 import { SignupPayload } from "../../../types/PayloadInterface";
@@ -6,6 +7,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import { createAccount } from "../../../features/axios/api/employer/userAuthentication";
+import { employerInterface } from "../../../types/EmployerInterface";
+import { employerData } from "../../../features/axios/api/employer/userDetails";
 
 export default function UserSignUp() {
   const navigate = useNavigate();
@@ -16,6 +19,20 @@ export default function UserSignUp() {
   } = useForm<SignupPayload>({
     resolver: yupResolver(userRegisterValidationSchema),
   });
+
+
+  const token = localStorage.getItem("token");
+  const [employerDetails, setEmployerDetails] = useState<employerInterface>();
+
+
+  const getEmployerDetails = async () => {
+    const data = await employerData();
+    setEmployerDetails(data);
+  }
+
+  useEffect(() => {
+    getEmployerDetails();
+  }, []);
 
   const notify = (msg: string, type: string) =>
     type === "error"
@@ -28,7 +45,13 @@ export default function UserSignUp() {
         notify("User registered successfully", "success");
 
         setTimeout(() => {
-          navigate("/employer/login");
+          if (token) {
+            if (employerDetails?.role === "director") {
+              navigate("/director/static-points");
+            } else {
+              navigate("/employer/login");
+            }
+          }
         }, 2000);
       })
       .catch((error: any) => {
@@ -54,7 +77,7 @@ export default function UserSignUp() {
       </div>
       <div className="flex flex-wrap justify-center items-center ">
         <div className="w-screen h-screen md:w-96 md:h-auto p-8 bg-white border border-gray-300 rounded-xl shadow-lg">
-          <h2 className="text-3xl font-bold mb-4">Đăng ký</h2>
+          <h2 className="text-3xl font-bold mb-4">Tạo tài khoản</h2>
           <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
             <div>
               <label className="text-sm" htmlFor="email">

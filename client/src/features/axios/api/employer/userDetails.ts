@@ -56,10 +56,10 @@ export const employerData = async (): Promise<any> => {
 //   }
 // };
 
-export const deleteEmployer = async (): Promise<any> => {
+export const deleteEmployer = async (username: string): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-      url: apiConfig.deleteEmployer,
+      url: `${apiConfig.deleteEmployer}/${username}`,
       method: "delete",
     };
     await api(config);
