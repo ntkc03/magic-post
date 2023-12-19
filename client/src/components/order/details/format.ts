@@ -1,15 +1,21 @@
 
 export function formatDate(date: Date) {
-    const formattedDate = new Date(date.toString() ?? "").toLocaleString('en-ID', {
-        timeZone: 'Asia/Jakarta',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-    });
+    date = new Date(date);
+    return (
+      [
+        date.getFullYear(),
+        padTo2Digits(date.getMonth() + 1),
+        padTo2Digits(date.getDate()),
+      ].join('/') +
+      ' ' +
+      [
+        padTo2Digits(date.getHours()),
+        padTo2Digits(date.getMinutes()),
+        padTo2Digits(date.getSeconds()),
+      ].join(':')
+    );
+  }
 
-    return formattedDate
-
+function padTo2Digits(num: number) {
+    return num.toString().padStart(2, '0');
 }

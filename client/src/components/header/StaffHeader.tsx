@@ -17,7 +17,7 @@ import { log } from "console";
 
 const navigation = [
   { name: "Thống kê", href: "", current: false },
-  { name: "Quản lý đơn hàng", href: "", current: false },
+  { name: "Quản lý đơn hàng", href: "/order/list", current: false },
   { name: "Tạo đơn", href: "/order/new", current: false }
 ];
 

@@ -55,7 +55,7 @@ const transactionController = (
     const updateTheTransaction = expressAsyncHandler(
         async (req: Request, res: Response) => {
             const customReq = req as CustomRequest;
-            const id = customReq.payload ?? "";
+            const id = customReq.body ?? "";
             if (!id) {
                 throw new AppError(
                     "unauthorized request, invalid token",
