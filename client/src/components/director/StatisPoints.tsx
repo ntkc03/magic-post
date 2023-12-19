@@ -27,10 +27,14 @@ import { FilterPayload, StatisticsPointsPayload } from '../../types/PayloadInter
 import { allConsolidationsData } from '../../features/axios/api/consolidation/consolidationPointDetails';
 import { ConsolidationInterface } from '../../types/ConsolidationInterface';
 import { TransactionInterface } from '../../types/TransactionInterface';
-import { allTransactionsData, getTransactionsByConsolidation } from '../../features/axios/api/transaction/transactionPointDetails';
+import { allTransactionsData } from '../../features/axios/api/transaction/transactionPointDetails';
 import StatisticsPointShimmer from '../shimmer/StatisticsPointShimmer';
 import { fetchAllTransactions } from '../../features/redux/slices/user/allTransactionSlide';
-import { isMapIterator } from 'util/types';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import { width } from '@mui/system';
+import { employerInterface } from '../../types/EmployerInterface';
+
 
 function StaticPoints() {
     const dispatch = useDispatch();
@@ -39,10 +43,11 @@ function StaticPoints() {
     const [allList, setAllList] = useState<StatisticsPointsPayload[]>();
     const [statisticsList, setStatisticsList] = useState<StatisticsPointsPayload[]>();
     const [filterList, setFilterList] = useState<StatisticsPointsPayload[]>();
-    const [selectedConsolidation, setSelectedConsolidation] = useState("");
-    const [selectedConsolidation2, setSelectedConsolidation2] = useState("");
-    const [selectedTransaction, setSelectedTransaction] = useState("");
-    const [filter, setFilter] = useState<FilterPayload>();
+    const [loading, setLoading] = useState(true);
+
+    const [consolidationSearch, setConsolidationSearch] = useState<string>('');
+    const [transactionSearch, setTransactionSearch] = useState<string>('');
+    const [citySearch, setCitySearch] = useState<string>('');
 
 
     const [page, setPage] = React.useState(0);
@@ -56,6 +61,92 @@ function StaticPoints() {
         setPage(0);
     };
 
+    const handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        // Kiểm tra ID của trường nhập để xác định là trường nào đang thay đổi
+        if (event.target.id === 'consolidation') {
+            setConsolidationSearch(event.target.value);
+        } else if (event.target.id === 'city') {
+            setCitySearch(event.target.value);
+        } else if (event.target.id === 'transaction') {
+            setTransactionSearch(event.target.value);
+        }
+    };
+
+    const filterByCity = () => {
+        if (citySearch !== "") {
+            let list = allList?.filter((result: StatisticsPointsPayload) =>
+                result?.consolidation?.city?.toLowerCase().includes(citySearch.toLowerCase())
+            )
+            if (list) {
+                setStatisticsList(list)
+            } else {
+                setStatisticsList(allList)
+            }
+        } else {
+            setStatisticsList(allList)
+        }
+    }
+
+    const filterByCons = () => {
+        if (consolidationSearch !== "") {
+            if (statisticsList) {
+                let list = statisticsList?.filter((result: StatisticsPointsPayload) =>
+                    result?.consolidation?.address?.toLowerCase().includes(consolidationSearch.toLowerCase())
+                )
+                if (list?.length != 0) {
+                    setStatisticsList(list);
+                } else {
+                    filterByCity();
+                }
+            } else {
+                filterByCity();
+            }
+        } else {
+            filterByCity();
+        }
+    }
+
+    const filterByTrans = () => {
+        if (transactionSearch !== "") {
+            if (statisticsList) {
+                const list: StatisticsPointsPayload[] = [];
+                for (const item of statisticsList) {
+                    const transactions = item.transactions.filter((result: TransactionInterface) =>
+                        result?.address?.toLowerCase().includes(transactionSearch.toLowerCase())
+                    )
+                    if (transactions.length !== 0) {
+                        const consolidation = item.consolidation;
+                        list.push({ consolidation: consolidation, transactions: transactions });
+                    }
+                }
+
+                if (list.length !== 0) {
+                    setStatisticsList(list);
+                } else {
+                    filterByCity();
+                    filterByCons();
+                }
+            } else {
+                filterByCity();
+                filterByCons();
+            }
+        } else {
+            filterByCity();
+            filterByCons();
+        }
+    }
+
+    useEffect(() => {
+        filterByCity();
+    }, [citySearch])
+
+    useEffect(() => {
+        filterByCons();
+    }, [consolidationSearch])
+
+    useEffect(() => {
+        filterByTrans();
+    }, [transactionSearch])
 
     const consState = useSelector((state: RootState) => state.allConsolidation.status);
     const transState = useSelector((state: RootState) => state.allTransaction.status);
@@ -63,42 +154,9 @@ function StaticPoints() {
     const transError = useSelector((state: RootState) => state.allTransaction.error);
 
 
-    useEffect(() => {
-        if (selectedConsolidation !== "") {
-            let list = allList?.filter((result: StatisticsPointsPayload) =>
-                result?.consolidation?.address?.includes(selectedConsolidation)
-            )
-            setStatisticsList(list)
-        } else {
-            setStatisticsList(allList)
-        }
-    }, [selectedConsolidation]);
 
-    useEffect(() => {
-        if (selectedConsolidation2 !== "") {
-            let list = allList?.filter((result: StatisticsPointsPayload) =>
-                result?.consolidation?.address?.includes(selectedConsolidation2)
-            )
-            setFilterList(list)
-        }
-    }, [selectedConsolidation2]);
 
-    useEffect(() => {
-        if (selectedTransaction !== "" && filterList) {
-            let transList = filterList[0].transactions;
-            let result = transList.find((transaction: TransactionInterface) => transaction.address === selectedTransaction);
-            console.log("check", result)
-            if (result) {
-                let re: FilterPayload = {
-                    consolidation: filterList[0].consolidation,
-                    transaction: result
-                };
 
-                setFilter(re)
-            }
-
-        }
-    }, [selectedTransaction])
 
 
     useEffect(() => {
@@ -116,6 +174,7 @@ function StaticPoints() {
                     result.push({ consolidation, transactions });
                     setAllList(result);
                     setStatisticsList(result);
+                    setLoading(false);
                 }
             }
         }
@@ -126,7 +185,7 @@ function StaticPoints() {
 
 
 
-    if (consState === "loading" || transState === "loading") {
+    if (consState === "loading" || transState === "loading" || loading === true) {
         return (
             <div>
                 <StatisticsPointShimmer />
@@ -149,27 +208,22 @@ function StaticPoints() {
                 <text className='text-2xl'>Danh sách các điểm tập kết</text>
             </div>
             <Box component={Paper}>
-                <div className='float-left pr-4 pl-20'>
-                    <FormControl sx={{ m: 1, width: 200 }} size="small">
-                        <InputLabel id="demo-select-small-label">Chọn điểm tập kết</InputLabel>
-                        <Select
-                            labelId="demo-select-small-label"
-                            id="demo-select-small"
-                            value={selectedConsolidation}
-                            label="Consolidation"
-                            onChange={(e) => setSelectedConsolidation(e.target.value as string)}
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            {statisticsList?.map((item) => (
-                                <MenuItem key={item.consolidation.address} value={item.consolidation.address}>
-                                    {item.consolidation.address}
-                                </MenuItem>
+                <div className='float-left pr-4 mt-3'>
+                    <Stack direction="row" spacing={3} sx={{ width: "100%"}} style={{ paddingLeft: 80 }}>
+                        <TextField id="city"
+                            variant="standard"
+                            label="Tỉnh/Thành phố"
+                            onChange={handleInputChange} />
+                        <TextField id="consolidation"
+                            variant="standard"
+                            label="Điểm tập kết"
+                            onChange={handleInputChange} />
+                        <TextField id="transaction"
+                            variant="standard"
+                            label="Điểm giao dịch"
+                            onChange={handleInputChange} />
+                    </Stack>
 
-                            ))}
-                        </Select>
-                    </FormControl>
                 </div>
                 <div className="items-center justify-center bg-background text-center text-textColor">
                     <Paper sx={{ width: '100%' }}>
@@ -178,19 +232,19 @@ function StaticPoints() {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell />
-                                        <TableCell>
-                                            <Typography fontWeight="bold">Điểm tập kết</Typography>
-                                        </TableCell>
-                                        <TableCell align="left">
+                                        <TableCell sx={{ width: '20%' }} align="left">
                                             <Typography fontWeight="bold">Tỉnh/Thành phố</Typography>
                                         </TableCell>
-                                        <TableCell align="left">
+                                        <TableCell sx={{ width: '20%' }} align="left">
+                                            <Typography fontWeight="bold">Điểm tập kết</Typography>
+                                        </TableCell>
+                                        <TableCell sx={{ width: '20%' }} align="left">
                                             <Typography fontWeight="bold">Quốc gia</Typography>
                                         </TableCell>
-                                        <TableCell align="left">
+                                        <TableCell sx={{ width: '20%' }} align="left">
                                             <Typography fontWeight="bold">Trưởng điểm tập kết</Typography>
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell sx={{ width: '20%' }} align="right">
                                             <Typography fontWeight="bold">Tổng đơn hàng</Typography>
                                         </TableCell>
                                     </TableRow>
@@ -214,90 +268,7 @@ function StaticPoints() {
                     </Paper>
                 </div>
             </Box>
-            <div className="justify-center bg-background text-center text-textColor pt-20">
-                <div className='pl-1 pb-5'>
-                    <text className='text-2xl'>Tra cứu</text>
-                    <Box component={Paper} sx={{ minWidth: 650, minHeight: 133 }}>
-                        <div className='float-left pr-2 pl-1'>
-                            <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
-                                <InputLabel id="demo-select-small-label">Chọn điểm tập kết</InputLabel>
-                                <Select
-                                    labelId="demo-select-small-label"
-                                    id="demo-select-small"
-                                    value={selectedConsolidation2}
-                                    label="Consolidation"
-                                    onChange={(e) => setSelectedConsolidation2(e.target.value as string)}
-                                >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    {allList?.map((item) => (
-                                        <MenuItem key={item.consolidation.address} value={item.consolidation.address}>
-                                            {item.consolidation.address}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </div>
-
-                        <div className='float-left'>
-                            <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-                                <InputLabel id="demo-select-small-label">Chọn điểm giao dịch</InputLabel>
-                                <Select
-                                    labelId="demo-select-small-label"
-                                    id="demo-select-small"
-                                    value={selectedTransaction}
-                                    label="Transaction"
-                                    onChange={(e) => setSelectedTransaction(e.target.value as string)}
-                                >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    {filterList?.map((row) => (
-                                        row.transactions.map((transaction) => (
-                                            <MenuItem key={transaction.address} value={transaction.address}>
-                                                {transaction.address}
-                                            </MenuItem>
-                                        ))
-                                    ))}
-                                </Select>
-                                <FormHelperText>Required</FormHelperText>
-                            </FormControl>
-                        </div>
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Điểm tập kết</TableCell>
-                                        <TableCell align="left">Điểm giao dịch</TableCell>
-                                        <TableCell align="left">Trưởng điểm giao dịch</TableCell>
-                                        <TableCell align="left">Trưởng điểm tập kết</TableCell>
-                                        <TableCell align="left">Số đơn hàng</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow
-                                        key={filter?.consolidation?.address ?? "--"}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                        <TableCell component="th" scope="row">
-                                            {filter?.consolidation?.address ?? "--"}
-                                        </TableCell>
-                                        <TableCell align="left">{filter?.transaction?.address ?? "--"}</TableCell>
-                                        <TableCell align="left">{filter?.consolidation?.manager ?? "--"}</TableCell>
-                                        <TableCell align="left">{filter?.transaction?.manager ?? "--"}</TableCell>
-                                        <TableCell align="left">{filter?.transaction?.quantity ?? "--"}</TableCell>
-                                    </TableRow>
-
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Box>
-                </div>
-            </div>
         </div>
-
-
     );
 }
 
@@ -319,17 +290,17 @@ function Row(props: { row: StatisticsPointsPayload }) {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-                <TableCell component="th" scope="row">
-                    {row.consolidation.address}
+                <TableCell sx={{ width: '20%' }} component="th" scope="row">
+                    {row.consolidation.city}
                 </TableCell>
-                <TableCell align="left">{row.consolidation.city}</TableCell>
-                <TableCell align="left">{row.consolidation.country}</TableCell>
-                <TableCell align="left">{row.consolidation.manager}</TableCell>
-                <TableCell align="right">{row.consolidation.quantity}</TableCell>
+                <TableCell sx={{ width: '20%' }} align="left">{row.consolidation.address}</TableCell>
+                <TableCell sx={{ width: '20%' }} align="left">{row.consolidation.country}</TableCell>
+                <TableCell sx={{ width: '20%' }} align="left">{row.consolidation.manager}</TableCell>
+                <TableCell sx={{ width: '20%' }} align="right">{row.consolidation.quantity}</TableCell>
 
             </TableRow>
-            <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <TableRow >
+                <TableCell  style={{ paddingBottom: 0, paddingTop: 0 } } colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
                             <Typography variant="h6" gutterBottom component="div">
@@ -338,13 +309,13 @@ function Row(props: { row: StatisticsPointsPayload }) {
                             <Table size="small" stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>
+                                        <TableCell sx={{ width: '33%' }}>
                                             <span style={{ fontWeight: 'bold' }}>Điểm giao dịch</span>
                                         </TableCell>
-                                        <TableCell align="left">
+                                        <TableCell sx={{ width: '33%' }} align="left">
                                             <span style={{ fontWeight: 'bold' }}>Trưởng điểm giao dịch</span>
                                         </TableCell>
-                                        <TableCell align="right">
+                                        <TableCell sx={{ width: '33%' }} align="right">
                                             <span style={{ fontWeight: 'bold' }}>Tổng đơn hàng</span>
                                         </TableCell>
                                     </TableRow>

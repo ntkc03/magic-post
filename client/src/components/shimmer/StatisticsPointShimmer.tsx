@@ -14,6 +14,9 @@ import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import TableBody from '@mui/material/TableBody';
 import TablePagination from '@mui/material/TablePagination';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+
 
 function StatisticsPointShimmer() {
 
@@ -35,21 +38,21 @@ function StatisticsPointShimmer() {
         <text className='text-2xl'>Danh sách các điểm tập kết</text>
       </div>
       <Box component={Paper}>
-        <div className='float-left pr-4 pl-20'>
-          <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-            <InputLabel id="demo-select-small-label">Chọn điểm tập kết</InputLabel>
-            <Select
-              labelId="demo-select-small-label"
-              id="demo-select-small"
-              //value={age}
-              label="Consolidation"
-            //onChange={handleChange}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-            </Select>
-          </FormControl>
+        <div className='float-left pr-4 mt-3'>
+          <Stack direction="row" spacing={3} sx={{ width: 600 }} style={{ paddingLeft: 80 }}>
+            <TextField id="city"
+              variant="standard"
+              label="Tỉnh/Thành phố"
+              />
+            <TextField id="consolidation"
+              variant="standard"
+              label="Điểm tập kết"
+               />
+            <TextField id="transaction"
+              variant="standard"
+              label="Điểm tập kết"
+               />
+          </Stack>
         </div>
         <div className="items-center justify-center bg-background text-center text-textColor">
           <Paper sx={{ width: '100%' }}>
@@ -58,11 +61,11 @@ function StatisticsPointShimmer() {
                 <TableHead>
                   <TableRow>
                     <TableCell />
-                    <TableCell align="center">
-                      <Typography fontWeight="bold">Điểm tập kết</Typography>
+                    <TableCell align="center" sx={{ width: 190 }}>
+                      <Typography fontWeight="bold">Tỉnh/Thành phố</Typography>
                     </TableCell>
                     <TableCell align="center">
-                      <Typography fontWeight="bold">Tỉnh/Thành phố</Typography>
+                      <Typography fontWeight="bold">Điểm tập kết</Typography>
                     </TableCell>
                     <TableCell align="center">
                       <Typography fontWeight="bold">Quốc gia</Typography>
