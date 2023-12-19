@@ -14,7 +14,7 @@ const consolidationRoute = () => {
         Consolidation
     );
 
-    route.get('/consolidation-data/address',controller.getConsolidationByAddress);
+    route.get('/consolidation-data/:address',controller.getConsolidationByAddress);
     route.get('/consolidation-data/cons-id',controller.getConsolidationByID);
     route.get('/consolidation-data/:id',controller.getConsolidationByIDParam);
     route.get('/all-consolidations',controller.getAllConsolidations);

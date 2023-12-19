@@ -1,9 +1,10 @@
 import configKeys from "./config";
 
 const apiConfig = {
-    consolidationAddress: `${configKeys.API_URL}consolidation/consolidation-data/address`,
+    consolidationAddress: `${configKeys.API_URL}consolidation/consolidation-data`,
     getConsolidation: `${configKeys.API_URL}consolidation/consolidation-data/cons-id`,
     allConsolidations: `${configKeys.API_URL}consolidation/all-consolidations`,
+    updateConsolidation: `${configKeys.API_URL}consolidation/update-consolidation`,
 
     employerUsername: `${configKeys.API_URL}employer/employer-data/username`,
     getEmployer: `${configKeys.API_URL}employer/employer-data/emp-id`,
@@ -26,10 +27,11 @@ const apiConfig = {
     filterOrder: `${configKeys.API_URL}order/filter-orders`,
     updaterOrder: `${configKeys.API_URL}order/update-order`,
 
-    transactionAddress: `${configKeys.API_URL}transaction/transaction-data/address`,
+    transactionAddress: `${configKeys.API_URL}transaction/transaction-data`,
     transactionCons: `${configKeys.API_URL}transaction/transaction-data`,
     getTransaction: `${configKeys.API_URL}transaction/transaction-data/:id`,
     allTransactions: `${configKeys.API_URL}transaction/all-transactions`,
+    updateTransaction: `${configKeys.API_URL}transaction/update-transaction`,
 
 }
 

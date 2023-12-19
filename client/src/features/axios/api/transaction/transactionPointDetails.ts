@@ -1,7 +1,7 @@
-import { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import apiConfig from "../../../../utils/apiConfig";
-import { ConsolidationInterface } from "../../../../types/ConsolidationInterface";
+import { TransactionInterface } from "../../../../types/TransactionInterface";
 
 const api = setupAxiosInterceptors();
 
@@ -18,15 +18,43 @@ export const allTransactionsData = async (): Promise<any> => {
   }
 };
 
-export const getTransactionsByConsolidation = async (consolidation: string): Promise<any> => {
+export const getTransactionsByConsolidation = async (transaction: string): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-      url: `${apiConfig.transactionCons}/${consolidation}`,
+      url: `${apiConfig.transactionCons}/${transaction}`,
       method: "get",
     };
     const response = await api(config);
     return response.data;
   } catch (error) {
     throw new Error("error getting transactions");
+  }
+};
+
+export const getTransactionByAddress = async (address: string): Promise<any> => {
+  try {
+    const config: AxiosRequestConfig = {
+      url: `${apiConfig.transactionAddress}/${address}`,
+      method: "get",
+    };
+    const response = await api(config);
+    return response.data;
+  } catch (error) {
+    throw new Error("error getting transactions");
+  }
+};
+
+
+export const updateTransaction = async (payload: TransactionInterface): Promise<any> => {
+  try {
+    const config: AxiosRequestConfig = {
+    url: `${apiConfig.updateTransaction}`,
+    method: "put",
+    data: payload,
+    };
+    const response = await axios(config);
+    return response.data;
+  } catch (error) {
+    throw new Error("error while updating user");
   }
 };

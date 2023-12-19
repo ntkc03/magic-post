@@ -13,14 +13,16 @@ import Paper from '@mui/material/Paper';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
-import { getOrderList } from '../../../features/axios/api/order/createOrder';
-import { orderInterface } from '../../../types/OrderInterface';
 import { formatDate } from '../details/format';
 import { Button } from '@material-tailwind/react';
 import SendToSenderConsolidation from '../send/sendToSenderConsolidation';
-import ReactDOM from 'react-dom';
 import { useState } from 'react';
+import { orderInterface } from '../../../types/OrderInterface';
+import ConfirmSenderConsolidation from '../send/confirmSenderConsolidation';
 
+interface OrderTableProps {
+  allOrders: orderInterface[]
+}
 
 interface Data {
   code: string;
@@ -95,7 +97,6 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 
 interface HeadCell {
   id: keyof Data;
-  disablePadding: boolean;
   label: string;
 }
 
@@ -103,42 +104,34 @@ const headCells: readonly HeadCell[] = [
   {
     id: 'code',
     label: 'Mã vận đơn',
-    disablePadding: false,
   },
   {
     id: 'senderName',
     label: 'Người gửi',
-    disablePadding: false,
   },
   {
     id: 'receiverName',
     label: 'Người nhận',
-    disablePadding: false,
   },
   {
     id: 'items',
     label: 'Hàng gửi',
-    disablePadding: false,
   },
   {
     id: 'date',
     label: 'Ngày tạo đơn',
-    disablePadding: false,
   },
   {
     id: 'status',
     label: 'Trạng thái',
-    disablePadding: false,
   },
   {
     id: 'cod',
     label: 'Thu hộ',
-    disablePadding: false,
   },
   {
     id: 'fee',
     label: 'Tổng cước',
-    disablePadding: false,
   },
 ];
 
@@ -163,8 +156,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={'left'}
-            padding={headCell.disablePadding ? 'none' : "normal"}
+            align={'center'}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
             fontWeight: 'bold'}} 
@@ -189,40 +181,19 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 }
 
 
-export default function OrderTable() {
+const OrderTable: React.FC<OrderTableProps> = ({ allOrders }) => {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('date');
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const [allOrders, setAllOrders] = React.useState<orderInterface[]>([]);
+  
   const [rows, setRows] = React.useState<Data[]>([]);
 
   const [items, setItems] = useState<React.ReactNode>();
 
-React.useEffect(() => {
-  const fetchOrders = async () => {
-    try {
-      const response = await getOrderList();
-      if (response) {
-        const { status, allOrders: fetchedOrders } = response;
 
-        if (status === 'success') {
-          setAllOrders(fetchedOrders);
-        } else {
-          console.error('Error: Unexpected response status');
-        }
-      } else {
-        console.error('Error: Response data is undefined');
-      }
-    } catch (error: any) {
-      console.error('Error fetching orders:', error.message);
-    }
-  };
-
-  fetchOrders();
-}, []);
 
 React.useEffect(() => {
   setRows(
@@ -234,8 +205,8 @@ React.useEffect(() => {
         order.items ? order.items.join(', ') : '',
         order.create_at ? formatDate(order?.create_at ?? new Date()) : '',
         (order.status && order.status.length > 0) ? (order.status[order.status.length - 1]?.action ?? " ") : '',
-        order.COD ? order.COD.toString() + "đ" : "0đ",
-        order.sumFee ? order.sumFee.toString() + "đ" : "0đ",
+        order.COD ? order.COD.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) : "0 VND",
+        order.sumFee ? order.sumFee.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) : "0 VND",
       ),
     ),
   );
@@ -265,16 +236,16 @@ React.useEffect(() => {
   };
 
   const statusColors: Record<string, string> = {
-    'Nhận đơn hàng': '#E5F0FF',
-    'Gửi đến điểm tập kết': '#C2F8FF',
-    'Điểm tập kết đã nhận': 'color-for-this-status',
-    'Gửi đến điểm tập kết đích': 'color-for-this-status',
-    'Điểm tập kết đích đã nhận': 'color-for-this-status',
-    'Gửi đến điểm giao dịch đích': 'color-for-this-status',
-    'Điểm giao dịch đích đã nhận': 'color-for-this-status',
-    'Đang giao hàng': 'color-for-this-status',
-    'Giao hàng thành công': 'color-for-this-status',
-    'Giao hàng không thành công': 'color-for-this-status',
+    'Nhận đơn hàng': '#F0E5FF',
+    'Gửi đến điểm tập kết': '#FFF0E5',
+    'Điểm tập kết đã nhận': '#E5FFF0',
+    'Gửi đến điểm tập kết đích': '#F0FFE5',
+    'Điểm tập kết đích đã nhận': '#E5F0FF',
+    'Gửi đến điểm giao dịch đích': '#FFE5F0',
+    'Điểm giao dịch đích đã nhận': '#F0E5FF',
+    'Đang giao hàng': '#FFF0E5',
+    'Giao hàng thành công': '#E5FFF0',
+    'Giao hàng không thành công': '#F0FFE5',
   };
   
   const getStatusColor = (status: string) => {
@@ -296,19 +267,22 @@ React.useEffect(() => {
     [order, orderBy, page, rowsPerPage, rows],
   );
 
-  if (rows.length === 0) {
-    return <div>Loading...</div>;
-  }
 
   const handleButtonClick = (row: Data) => {
     const onClose = () => {
       setItems(undefined);
-      window.location.reload()
+      window.location.reload();
+    }
+    const onCloseButt = () => {
+      setItems(undefined);
     }
     if (row.status === 'Nhận đơn hàng') {
-      setItems(<SendToSenderConsolidation code={row.code} onClose={onClose}/>)
-    };
+      setItems(<SendToSenderConsolidation code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
+    } else if (row.status === 'Gửi đến điểm tập kết') {
+      setItems(<ConfirmSenderConsolidation code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
+    }
   }
+
 
   return (
     <Box sx={{ width: '100%' }} id="box">
@@ -339,8 +313,8 @@ React.useEffect(() => {
                     <TableCell align="left">{row.receiverName}</TableCell>
                     <TableCell align="left">{row.items}</TableCell>
                     <TableCell align="left">{row.date}</TableCell>
-                    <TableCell align="left">{row.cod}</TableCell>
-                    <TableCell align="left">{row.fee}</TableCell>
+                    <TableCell align="right">{row.cod}</TableCell>
+                    <TableCell align="right">{row.fee}</TableCell>
                     <TableCell align="left">
                     <Button
                       style={{
@@ -390,3 +364,5 @@ React.useEffect(() => {
     </Box>
   );
 }
+
+export default OrderTable;

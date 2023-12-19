@@ -18,15 +18,13 @@ interface PrintButtonProps {
 
 const token = localStorage.getItem('token');
 
-const SendToSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, onCloseButt }) => {
+const ConfirmSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, onCloseButt }) => {
   const [orderDetails, setOrderDetails] = useState<orderInterface>();
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const {
     setValue,
-    handleSubmit,
     formState: { errors },
   } = useForm<orderInterface>();
 
@@ -56,7 +54,7 @@ const SendToSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, 
     // Access the necessary information from your component's state or props
     if (orderDetails && employerDetails) {
       let status: Status = {
-        action: 'Gửi đến điểm tập kết',
+        action: 'Điểm tập kết đã nhận',
         consolidation: orderDetails.senderDistrict,
         transaction: orderDetails.senderVillage,
         date: new Date(),
@@ -81,7 +79,7 @@ const SendToSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, 
           <span onClick={onCloseButt}>&times;</span>
         </div>
         <div className='flex justify-center mb-4'>
-          <label className='text-[20px] font-bold'>Xác nhận đơn đi</label>
+          <label className='text-[15px] font-bold'>Xác nhận điểm tập kết đã nhận đơn</label>
         </div>
         <div className='mb-4'>
           <label className='font-bold'>Gửi từ điểm giao dịch</label>
@@ -119,4 +117,5 @@ const SendToSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, 
   );
 };
 
-export default SendToSenderConsolidation;
+export default ConfirmSenderConsolidation
+    ;

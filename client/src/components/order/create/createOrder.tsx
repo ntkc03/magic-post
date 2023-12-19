@@ -17,6 +17,10 @@ import { RootState } from "../../../features/redux/reducers/Reducer";
 import { employerData } from "../../../features/axios/api/employer/userDetails";
 import { fetchUser, clearUserDetails } from "../../../features/redux/slices/user/userDetailsSlice";
 import { employerInterface} from "../../../types/EmployerInterface";
+import { getConsolidationByAddress, updateConsolidation } from "../../../features/axios/api/consolidation/consolidationPointDetails";
+import { ConsolidationInterface } from "../../../types/ConsolidationInterface";
+import { getTransactionByAddress, updateTransaction } from "../../../features/axios/api/transaction/transactionPointDetails";
+import { TransactionInterface } from "../../../types/TransactionInterface";
 
 
 
@@ -158,8 +162,6 @@ export default function CreateOrder() {
     setValue('specialService', specialServices)
     setValue('cannotDelivered', cannotDelivered[0])
     setValue('items', items)
-    console.log("token",token);
-    console.log("data",employerDetails);
 
     if (employerDetailsLoaded) {
       let status: Status = {
@@ -252,6 +254,32 @@ export default function CreateOrder() {
 
 
   const submitHandler = async (formData: orderInterface) => {
+    
+    const update = async () => {
+      if (formData.senderDistrict ) {
+        const data: ConsolidationInterface = await getConsolidationByAddress(formData.senderDistrict);
+        if (data && data.quantity !== undefined) {
+          data.quantity = data.quantity + 1;
+          console.log(data.quantity)
+        } else {
+          data.quantity = 1;
+        }
+        updateConsolidation(data);
+      }
+
+      if (formData.senderVillage ) {
+        const data: TransactionInterface = await getTransactionByAddress(formData.senderVillage);
+        if (data && data.quantity !== undefined) {
+          data.quantity = data.quantity + 1;
+          console.log(data.quantity)
+        } else {
+          data.quantity = 1;
+        }
+        updateTransaction(data);
+      }
+    };
+    update();
+
     createOrder(formData)
       .then((response: any) => {
         notify("Create a new order successfully", "success");

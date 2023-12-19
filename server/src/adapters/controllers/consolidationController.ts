@@ -18,7 +18,7 @@ const consolidationController = (
 
     const getConsolidationByAddress = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { address } = req.body;
+            const { address } = req.params;
             const consolidation = await findConsolidationByAddress(address, dbRepositoryConsolidation);
             res.json(consolidation);
         }
@@ -54,7 +54,7 @@ const consolidationController = (
     const updateTheConsolidation = expressAsyncHandler(
         async (req: Request, res: Response) => {
             const customReq = req as CustomRequest;
-            const id = customReq.payload ?? "";
+            const id = customReq.body ?? "";
             if (!id) {
                 throw new AppError(
                     "unauthorized request, invalid token",

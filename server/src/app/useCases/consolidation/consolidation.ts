@@ -10,7 +10,7 @@ export const findConsolidationByAddress = async (
     try {
         const result = await consolidationRepository.getConsolidationByAddress(address);
         if (!result) {
-            throw new AppError("consolidation point not found", HttpStatus.BAD_REQUEST);
+            throw new AppError("Consolidation point not found", HttpStatus.BAD_REQUEST);
         }
         return result;
     } catch (error: any) {
