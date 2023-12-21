@@ -1,13 +1,13 @@
 import React from 'react'
 import CommonHeader from '../../components/header/CommonHeader'
-import OrderStatus from '../../components/order/search/orderStatus'
+import SearchBox from '../../components/order/search/searchBox'
 import UserSideFooter from '../../components/footer/UserSideFooter'
 
 function SearchPage() {
   return (
     <div>
         <CommonHeader/>
-        <OrderStatus/>
+        <SearchBox/>
         <UserSideFooter/>
     </div>
   )
