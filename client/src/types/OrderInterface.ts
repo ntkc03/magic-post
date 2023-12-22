@@ -53,4 +53,5 @@ export interface Status {
     transaction?: string;
     date?: Date;
     staff?: string;
+    place?: string;
 }

@@ -5,8 +5,8 @@ import { transactionInterface } from "../../types/transactionInterface";
 export const transactionDbRepository = (
     repository: ReturnType<transactionRepositoryMongoDB>
 ) => {
-    const getTransactionByAddress = async (address: string) => {
-        const transaction = repository.getTransactionByAddress(address);
+    const getTransactionByAddress = async (address: string, consolidation: string) => {
+        const transaction = repository.getTransactionByAddress(address, consolidation);
         return transaction;
     }
     const getTransactionByID = async (id: string) => {

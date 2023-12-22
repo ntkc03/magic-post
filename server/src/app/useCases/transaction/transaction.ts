@@ -5,10 +5,11 @@ import { transactionDbInterface } from "../../repositories/transactionDbReposito
 
 export const getTransactionByAddress = async (
     address: string,
+    consolidation: string,
     transactionRepository: ReturnType<transactionDbInterface>
 ) => {
     try {
-        const result = await transactionRepository.getTransactionByAddress(address);
+        const result = await transactionRepository.getTransactionByAddress(address, consolidation);
         if (!result) {
             throw new AppError("transaction point not found", HttpStatus.BAD_REQUEST);
         }

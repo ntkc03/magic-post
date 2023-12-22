@@ -8,8 +8,8 @@ export class TransactionEntity {
         this.model = model;
     }
 
-    public async getTransactionByAddress(address: string): Promise<transactionInterface | null> {
-        const transaction = await this.model.findOne({ address: address });
+    public async getTransactionByAddress(address: string, consolidation: string): Promise<transactionInterface | null> {
+        const transaction = await this.model.findOne({ address: address, consolidation: consolidation });
         return transaction;
     }
 

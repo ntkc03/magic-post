@@ -61,6 +61,7 @@ const SendToSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, 
         transaction: orderDetails.senderVillage,
         date: new Date(),
         staff: employerDetails?.name,
+        place: "transaction"
       };
 
       let statuses: Status[] = orderDetails.status ? orderDetails.status : [];

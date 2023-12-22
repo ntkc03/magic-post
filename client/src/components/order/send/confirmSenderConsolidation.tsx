@@ -9,6 +9,10 @@ import { employerInterface } from '../../../types/EmployerInterface';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { getConsolidationByAddress, updateConsolidation } from '../../../features/axios/api/consolidation/consolidationPointDetails';
+import { ConsolidationInterface } from '../../../types/ConsolidationInterface';
+import { getTransactionByAddress, updateTransaction } from '../../../features/axios/api/transaction/transactionPointDetails';
+import { TransactionInterface } from '../../../types/TransactionInterface';
 
 interface PrintButtonProps {
   code: string;
@@ -59,12 +63,32 @@ const ConfirmSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose,
         transaction: orderDetails.senderVillage,
         date: new Date(),
         staff: employerDetails?.name,
+        place: "consolidation",
       };
 
       let statuses: Status[] = orderDetails.status ? orderDetails.status : [];
       statuses.push(status);
       setValue('status', statuses);
       await updateOrder(orderDetails);
+      
+      if (orderDetails.senderDistrict) {
+        const data: ConsolidationInterface = await getConsolidationByAddress(orderDetails.senderDistrict);
+        if (data && data.quantity !== undefined) {
+          data.quantity = data.quantity + 1;
+        } else {
+          data.quantity = 1;
+        }
+        updateConsolidation(data);
+      }
+
+      if (orderDetails.senderDistrict && orderDetails.senderVillage) {
+        const data: TransactionInterface = await getTransactionByAddress(orderDetails.senderVillage, orderDetails.senderDistrict);
+        if (data && data.quantity !== undefined) {
+          data.quantity = data.quantity - 1;
+        } 
+        updateTransaction(data);
+      }
+
       onClose(); // Close the component after updating the order
     }
   };

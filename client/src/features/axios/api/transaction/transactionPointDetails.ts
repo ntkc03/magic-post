@@ -31,10 +31,10 @@ export const getTransactionsByConsolidation = async (transaction: string): Promi
   }
 };
 
-export const getTransactionByAddress = async (address: string): Promise<any> => {
+export const getTransactionByAddress = async (address: string, consolidation: string): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-      url: `${apiConfig.transactionAddress}/${address}`,
+      url: `${apiConfig.transactionAddress}/${consolidation}/${address}`,
       method: "get",
     };
     const response = await api(config);
