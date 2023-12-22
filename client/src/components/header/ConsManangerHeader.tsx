@@ -18,7 +18,6 @@ import { log } from "console";
 const navigation = [
   { name: "Quản lý tài khoản", href: "/director/employee", current: false },
   { name: "Quản lý đơn hàng", href: "/director/statistics-orders", current: false },
-  { name: "Quản lý các điểm trạm", href: "/director/statistics-points", current: false }
 ];
 
 function classNames(...classes: string[]) {
@@ -26,7 +25,7 @@ function classNames(...classes: string[]) {
 }
 
 
-function DirectorHeader() {
+function ConsManangerHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -186,5 +185,5 @@ function DirectorHeader() {
   );
 }
 
-export default DirectorHeader;
+export default ConsManangerHeader;
 export { };

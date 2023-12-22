@@ -11,19 +11,13 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import FormHelperText from '@mui/material/FormHelperText';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../features/redux/reducers/Reducer';
 import { useEffect, useState } from 'react';
 import { fetchAllConsolidations } from '../../features/redux/slices/user/allConsolidationSlice';
-import { FilterPayload, StatisticsPointsPayload } from '../../types/PayloadInterface';
+import { StatisticsPointsPayload } from '../../types/PayloadInterface';
 import { allConsolidationsData } from '../../features/axios/api/consolidation/consolidationPointDetails';
 import { ConsolidationInterface } from '../../types/ConsolidationInterface';
 import { TransactionInterface } from '../../types/TransactionInterface';
@@ -32,17 +26,13 @@ import StatisticsPointShimmer from '../shimmer/StatisticsPointShimmer';
 import { fetchAllTransactions } from '../../features/redux/slices/user/allTransactionSlide';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-import { width } from '@mui/system';
-import { employerInterface } from '../../types/EmployerInterface';
 
 
 function StaticPoints() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const [allList, setAllList] = useState<StatisticsPointsPayload[]>();
     const [statisticsList, setStatisticsList] = useState<StatisticsPointsPayload[]>();
-    const [filterList, setFilterList] = useState<StatisticsPointsPayload[]>();
     const [loading, setLoading] = useState(true);
 
     const [consolidationSearch, setConsolidationSearch] = useState<string>('');

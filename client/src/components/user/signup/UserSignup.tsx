@@ -47,7 +47,7 @@ export default function UserSignUp() {
         setTimeout(() => {
           if (token) {
             if (employerDetails?.role === "director") {
-              navigate("/director/static-points");
+              navigate("/director/statistics-points");
             } else {
               navigate("/employer/login");
             }
