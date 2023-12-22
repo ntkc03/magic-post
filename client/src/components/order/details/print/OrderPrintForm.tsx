@@ -11,7 +11,7 @@ import configKeys from "../../../../utils/config";
 import { formatDate } from "../format";
 import GenerateQR from "../generateQRCode";
 import OrderDetails from "../orderDetails";
-import SendButton from "../../send/sendToSenderConsolidation";
+import SendButton from "../../status/sendToSenderConsolidation";
 
 
 interface OrderDetailsProps {
