@@ -12,12 +12,19 @@ export interface SignupPayload extends LoginPayload {
   confirmPassword: string;
 }
 
-export interface StatisticsPointsPayload{
+export interface StatisticsPointsPayload {
   consolidation: ConsolidationInterface,
   transactions: TransactionInterface[]
 }
 
-export interface FilterPayload{
-  consolidation: ConsolidationInterface,
-  transaction: TransactionInterface
+export interface StatisticsOrdersPayload {
+code: string,
+address: string,
+senderAddress: string,
+receiverAddress: string,
+status: string,
+created_at: Date,
+sended_at: Date,
+transaction: string,
+consolidation: string
 }

@@ -10,27 +10,46 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { deleteEmployer } from "../../features/axios/api/employer/userDetails";
 import ConfirmDelete from "./ConfirmDelete";
+import SearchFilterBar from "./searchFilterBar.tsx/searchFilterBar";
 
 export function Employee() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [allEmployers, setAllEmployers] = useState<employerInterface[]>();
+    const [allEmployers, setAllEmployers] = useState<employerInterface[]>([]);
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const [filteredEmployers, setFilteredEmployers] = useState([...allEmployers]);
 
 
 
     let rows: employerInterface[] = [];
-    if (allEmployers) {
+    if (filteredEmployers) {
         // Use allEmployers if it's defined
-        rows = allEmployers;/* logic to convert allEmployers to GridValidRowModel */;
+        rows = filteredEmployers;/* logic to convert allEmployers to GridValidRowModel */;
     }
 
+    const handleSearch = (query: string) => {
+        if (query === '') {
+            setFilteredEmployers(allEmployers);
+            return;
+        }
+        const lowercaseQuery = query.toLowerCase();
+        // Filter employers based on the search query
+        const filtered = allEmployers.filter(
+            (employer) =>
+                employer.name?.toLowerCase().includes(lowercaseQuery) ||
+                employer.username?.toLowerCase().includes(lowercaseQuery) ||
+                employer.role?.toLowerCase().includes(lowercaseQuery) ||
+                employer.phone?.toLowerCase().includes(lowercaseQuery) ||
+                employer.transaction?.toLowerCase().includes(lowercaseQuery) ||
+                employer.consolidation?.toLowerCase().includes(lowercaseQuery)
+        );
+        setFilteredEmployers(filtered);
+    };
 
 
 
@@ -82,15 +101,18 @@ export function Employee() {
                 <div className='pl-1 pb-4 text-center' >
                     <text className='text-2xl'>Danh sách Nhân viên</text>
                 </div>
+                <div className="lg:mx-[15%] mt-8">
+                    <SearchFilterBar onSearch={handleSearch}/>
+                </div>
                 <div className="pb-3 flex justify-end">
                     <Stack direction="row" spacing={2}>
-                        <Button size="small"
+                        {/* <Button size="small"
                             variant="outlined"
                             startIcon={<EditIcon />}
                             disabled={rowSelectionModel.length !== 1}
                         >
                             Chỉnh sửa
-                        </Button>
+                        </Button> */}
                         <Button size="small"
                             variant="outlined"
                             startIcon={<DeleteIcon />}

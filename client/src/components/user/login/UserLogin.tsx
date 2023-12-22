@@ -55,7 +55,7 @@ export default function UserLogin() {
     setTimeout(() => {
       if (isLoggedIn === true) {
         if (employerDetails?.role === "director") {
-          navigate("/director/static-points");
+          navigate("/director/statistics-points");
         } else {
           navigate("/employer/home");
         }
@@ -69,7 +69,7 @@ export default function UserLogin() {
       if (isLoggedIn && employerDetails) {
         // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
         if (employerDetails?.role === "director") {
-          navigate("/director/static-points");
+          navigate("/director/statistics-points");
         } else {
           navigate("/employer/home");
         }

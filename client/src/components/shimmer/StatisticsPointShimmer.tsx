@@ -39,7 +39,7 @@ function StatisticsPointShimmer() {
       </div>
       <Box component={Paper}>
         <div className='float-left pr-4 mt-3'>
-          <Stack direction="row" spacing={3} sx={{ width: 600 }} style={{ paddingLeft: 80 }}>
+          <Stack direction="row" spacing={3} sx={{ width: "100%"}} style={{ paddingLeft: 80 }}>
             <TextField id="city"
               variant="standard"
               label="Tỉnh/Thành phố"
