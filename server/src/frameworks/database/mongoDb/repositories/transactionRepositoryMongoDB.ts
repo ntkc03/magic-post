@@ -6,8 +6,8 @@ import { transactionInterface } from "../../../../types/transactionInterface";
 export const transactionRepositoryMongoDB = (model: TransactionModel) => {
     const transactionEntity = new TransactionEntity(model);
 
-    const getTransactionByAddress = async (address: string) => {
-        const transaction = transactionEntity.getTransactionByAddress(address);
+    const getTransactionByAddress = async (address: string, consolidation: string) => {
+        const transaction = transactionEntity.getTransactionByAddress(address, consolidation);
         return transaction;
     }
     const getTransactionByID = async (id: string) => {

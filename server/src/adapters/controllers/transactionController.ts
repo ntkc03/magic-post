@@ -19,8 +19,9 @@ const transactionController = (
 
     const getTheTransactionByAddress = (
         async (req: Request, res: Response) => {
-            const { address } = req.body;
-            const transaction = await getTransactionByAddress(address, dbRepositoryTransaction);
+            const { address} = req.params;
+            const {consolidation} = req.params;
+            const transaction = await getTransactionByAddress(address,consolidation, dbRepositoryTransaction);
             res.json(transaction);
         }
     )

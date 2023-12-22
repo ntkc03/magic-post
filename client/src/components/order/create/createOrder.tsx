@@ -126,6 +126,9 @@ export default function CreateOrder() {
     setValue('receiverPhone', receiverPhone.value)
 
 
+    if (Number.isNaN(parseInt(cod.value))) {
+      cod.value = '0';
+    }
     setValue('COD', parseInt(cod.value))
     totalCod.innerText =  `${parseInt(cod.value).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}`;
 
@@ -169,7 +172,8 @@ export default function CreateOrder() {
         consolidation: senderDistrict.value,
         transaction: senderVillage.value,
         date: new Date(),
-        staff: employerDetails?.name
+        staff: employerDetails?.name,
+        place: "transaction",
       };
 
 
@@ -256,19 +260,9 @@ export default function CreateOrder() {
   const submitHandler = async (formData: orderInterface) => {
     
     const update = async () => {
-      if (formData.senderDistrict ) {
-        const data: ConsolidationInterface = await getConsolidationByAddress(formData.senderDistrict);
-        if (data && data.quantity !== undefined) {
-          data.quantity = data.quantity + 1;
-          console.log(data.quantity)
-        } else {
-          data.quantity = 1;
-        }
-        updateConsolidation(data);
-      }
 
-      if (formData.senderVillage ) {
-        const data: TransactionInterface = await getTransactionByAddress(formData.senderVillage);
+      if (formData.senderVillage && formData.senderDistrict) {
+        const data: TransactionInterface = await getTransactionByAddress(formData.senderVillage, formData.senderDistrict);
         if (data && data.quantity !== undefined) {
           data.quantity = data.quantity + 1;
           console.log(data.quantity)
