@@ -18,10 +18,10 @@ export const allTransactionsData = async (): Promise<any> => {
   }
 };
 
-export const getTransactionsByConsolidation = async (transaction: string): Promise<any> => {
+export const getTransactionsByConsolidation = async (consolidation: string): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {
-      url: `${apiConfig.transactionCons}/${transaction}`,
+      url: `${apiConfig.transactionCons}/${consolidation}`,
       method: "get",
     };
     const response = await api(config);

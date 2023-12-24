@@ -143,12 +143,6 @@ function StaticPoints() {
     const consError = useSelector((state: RootState) => state.allConsolidation.error);
     const transError = useSelector((state: RootState) => state.allTransaction.error);
 
-
-
-
-
-
-
     useEffect(() => {
         dispatch(fetchAllConsolidations());
         dispatch(fetchAllTransactions());
@@ -195,11 +189,11 @@ function StaticPoints() {
     return (
         <div className="relative overflow-hidden bg-background py-24 sm:py-32 pl-10 pr-10">
             <div className='pl-1 pb-4 text-center' >
-                <text className='text-2xl'>Danh sách các điểm tập kết</text>
+                <text className='text-3xl'>Danh sách các điểm tập kết</text>
             </div>
             <Box component={Paper}>
                 <div className='float-left pr-4 mt-3'>
-                    <Stack direction="row" spacing={3} sx={{ width: "100%"}} style={{ paddingLeft: 80 }}>
+                    <Stack direction="row" spacing={3} sx={{ width: "100%" }} style={{ paddingLeft: 80 }}>
                         <TextField id="city"
                             variant="standard"
                             label="Tỉnh/Thành phố"
@@ -290,7 +284,7 @@ function Row(props: { row: StatisticsPointsPayload }) {
 
             </TableRow>
             <TableRow >
-                <TableCell  style={{ paddingBottom: 0, paddingTop: 0 } } colSpan={6}>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
                             <Typography variant="h6" gutterBottom component="div">

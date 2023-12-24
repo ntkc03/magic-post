@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { employerInterface } from "../../types/EmployerInterface";
 import { useDispatch } from "react-redux";
 import { fetchAllEmployers } from "../../features/redux/slices/user/allEmployersSlide";
-import { allEmployersData } from "../../features/axios/api/employer/EmployersDetail";
+import { allEmployersData, getEmployersByCons } from "../../features/axios/api/employer/EmployersDetail";
 import { DataGrid, GridRowSelectionModel } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
@@ -12,17 +12,19 @@ import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { deleteEmployer } from "../../features/axios/api/employer/userDetails";
-import ConfirmDelete from "./ConfirmDelete";
-import SearchFilterBar from "./searchFilterBar.tsx/searchFilterBar";
+import { deleteEmployer, employerData } from "../../features/axios/api/employer/userDetails";
+import ConfirmDelete from "../director/ConfirmDelete";
+import SearchFilterBar from "../director/searchFilterBar.tsx/searchFilterBar";
+
+
 
 export function Employee() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [allEmployers, setAllEmployers] = useState<employerInterface[]>([]);
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [filteredEmployers, setFilteredEmployers] = useState([...allEmployers]);
+    const [employerDetails, setEmployerDetails] = useState<employerInterface>();
 
 
 
@@ -43,25 +45,42 @@ export function Employee() {
             (employer) =>
                 employer.name?.toLowerCase().includes(lowercaseQuery) ||
                 employer.username?.toLowerCase().includes(lowercaseQuery) ||
-                employer.role?.toLowerCase().includes(lowercaseQuery) ||
-                employer.phone?.toLowerCase().includes(lowercaseQuery) ||
-                employer.transaction?.toLowerCase().includes(lowercaseQuery) ||
-                employer.consolidation?.toLowerCase().includes(lowercaseQuery)
+                employer.phone?.toLowerCase().includes(lowercaseQuery)
         );
         setFilteredEmployers(filtered);
     };
-
+    const token = localStorage.getItem("token");
 
 
     useEffect(() => {
-        dispatch(fetchAllEmployers);
-        const getAllEmployersData = async () => {
-            const allEmployers: employerInterface[] = await allEmployersData();
-            setAllEmployers(allEmployers);
-            setFilteredEmployers(allEmployers);
+        if (token) {
+            const fetchEmployerDetails = async () => {
+                try {
+                    const data = await employerData();
+                    setEmployerDetails(data);
+                } catch (error: any) {
+                    notify(error.message, "error");
+                }
+            };
+            fetchEmployerDetails();
         }
-        getAllEmployersData();
+
     }, []);
+
+    useEffect(() => {
+        if (employerDetails) {
+            const getAllEmployersData = async () => {
+                const allEmployers: employerInterface[] = await allEmployersData();
+                const data: employerInterface[] = allEmployers.filter((employer) => {
+                    return employerDetails.consolidation === employer.consolidation &&
+                        employerDetails.transaction === employer.transaction;
+                })
+                setAllEmployers(data);
+                setFilteredEmployers(data);
+            }
+            getAllEmployersData();
+        }
+    }, [employerDetails]);
 
     const deleteEmployerAction = () => {
         rowSelectionModel.map((selected) => {
@@ -88,7 +107,7 @@ export function Employee() {
     }
 
     const addHandle = () => {
-        navigate("/director/create-account");
+        navigate("/manager/create-account");
     }
 
 
@@ -105,6 +124,14 @@ export function Employee() {
                 </div>
                 <div className="lg:mx-[15%] mt-8">
                     <SearchFilterBar onSearch={handleSearch} />
+                </div>
+                <div className="text-base pt-5 pb-5">
+                    {employerDetails?.transaction !== "" && (
+                        <span>Điểm giao dịch: {employerDetails?.transaction}</span>
+                    )}
+                    {employerDetails?.transaction === "" && (
+                        <span>Điểm tập kết: {employerDetails?.consolidation}</span>
+                    )}
                 </div>
                 <div className="pb-3 flex justify-end">
                     <Stack direction="row" spacing={2}>
@@ -137,12 +164,10 @@ export function Employee() {
                             getRowId={(row) => row.username}
                             rows={rows}
                             columns={[
-                                { field: 'name', headerName: 'Tên', width: 210 },
-                                { field: 'username', headerName: 'Tên đăng nhập', width: 200 },
-                                { field: 'role', headerName: 'Vai trò', width: 200 },
-                                { field: 'phone', headerName: 'Số điện thoại', width: 200 },
-                                { field: 'transaction', headerName: 'Điểm giao dịch', width: 200 },
-                                { field: 'consolidation', headerName: 'Điểm tập kết', width: 200 },
+                                { field: 'name', headerName: 'Tên', maxWidth: 600, minWidth: 200, width: 300 },
+                                { field: 'username', headerName: 'Tên đăng nhập', maxWidth: 600, minWidth: 200, width: 300 },
+                                { field: 'role', headerName: 'Vai trò', maxWidth: 600, minWidth: 200, width: 300 },
+                                { field: 'phone', headerName: 'Số điện thoại', maxWidth: 600, minWidth: 200, width: 250 },
                             ]}
                             initialState={{
                                 pagination: {

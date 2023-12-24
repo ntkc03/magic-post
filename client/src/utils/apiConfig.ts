@@ -8,8 +8,8 @@ const apiConfig = {
 
     employerUsername: `${configKeys.API_URL}employer/employer-data/username`,
     getEmployer: `${configKeys.API_URL}employer/employer-data/emp-id`,
-    employerTransId: `${configKeys.API_URL}employer/employer-data/transaction-id`,
-    employerConsId: `${configKeys.API_URL}employer/employer-data/consolidation-id`,
+    employerTrans: `${configKeys.API_URL}employer/employer-data/transaction`,
+    employerCons: `${configKeys.API_URL}employer/employer-data/consolidation`,
     allEmployers: `${configKeys.API_URL}employer/all-employers`,
     deleteEmployer: `${configKeys.API_URL}employer/delete-employer`,
     deleteEmployerId: `${configKeys.API_URL}employer/delete-employer/:id`,

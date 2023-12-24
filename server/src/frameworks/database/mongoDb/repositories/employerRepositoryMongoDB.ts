@@ -16,12 +16,12 @@ export const employerRepositoryMongoDB = (model: EmployerModel) => {
     }
 
     const getEmployerByTransationID = async (transactionID: string) => {
-        const employers = await employerEntity.getEmployerById(transactionID);
+        const employers = await employerEntity.getEmployerByTransationID(transactionID);
         return employers;
     }
 
     const getEmployerByConsolidationID = async (consolidationID: string) => {
-        const employers = await employerEntity.getEmployerById(consolidationID);
+        const employers = await employerEntity.getEmployerByConsolidationID(consolidationID);
         return employers;
     }
     const getAllEmployers = async () => {

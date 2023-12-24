@@ -3,11 +3,8 @@ import { employerDbInterface } from "../../app/repositories/employerDbRepository
 import { EmployerModel } from "../../frameworks/database/mongoDb/models/employerModel";
 import { employerRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/employerRepositoryMongoDB";
 import { Request, Response } from "express";
-import { deleteEmployer, deleteEmployerById, findAllEmployers, findEmployerById, findEmployerByTransationID, findEmployerByUsername } from "../../app/useCases/employer/employer";
+import { deleteEmployer, deleteEmployerById, findAllEmployers, findEmployerByConsolidation, findEmployerById, findEmployerByTransation, findEmployerByUsername } from "../../app/useCases/employer/employer";
 import { CustomRequest } from "../../types/expressRequest";
-import { employerInterface } from "../../types/employerInterface";
-import AppError from "../../utils/appError";
-import { HttpStatus } from "../../types/httpStatus";
 
 export const employerController = (
     employerDbRepository: employerDbInterface,
@@ -32,17 +29,17 @@ export const employerController = (
             res.json(employer);
         }
     )
-    const getEmployerByTransationID = expressAsyncHandler(
+    const getEmployerByTransation = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { transactionID } = req.body;
-            const employer = await findEmployerByTransationID(transactionID, dbRepositoryEmployer);
+            const { transaction } = req.params;
+            const employer = await findEmployerByTransation(transaction, dbRepositoryEmployer);
             res.json(employer);
         }
     )
-    const getEmployerByConsolidationID = expressAsyncHandler(
+    const getEmployerByConsolidation = expressAsyncHandler(
         async (req: Request, res: Response) => {
-            const { consolidationID } = req.body;
-            const employer = await findEmployerByTransationID(consolidationID, dbRepositoryEmployer);
+            const { consolidation } = req.params;
+            const employer = await findEmployerByConsolidation(consolidation, dbRepositoryEmployer);
             res.json(employer);
         }
     )
@@ -84,8 +81,8 @@ export const employerController = (
     return{
         getEmployerByUsername,
         getEmployerById,
-        getEmployerByTransationID,
-        getEmployerByConsolidationID,
+        getEmployerByTransation,
+        getEmployerByConsolidation,
         getAllEmployers,
         deleteTheEmployer,
         deleteTheEmployerById

@@ -21,11 +21,11 @@ const employerSchema = new Schema({
         type: String,
         require: [true, "please add phone number"]
     },
-    transactionID: {
+    transaction: {
         type: String,
         require: false
     },
-    consolidationID: {
+    consolidation: {
         type: String,
         require: false
     }
