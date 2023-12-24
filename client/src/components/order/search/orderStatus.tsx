@@ -69,7 +69,7 @@ const OrderStatus: React.FC<SearchBoxProps> = ({ result }) => {
                     <a href="#!" className="font-medium text-bgBlue hover:text-purple-700 focus:text-purple-800 duration-300 transition ease-in-out text-sm">{status.action}</a>
                     <a href="#!" className="font-medium text-bgBlue hover:text-purple-700 focus:text-purple-800 duration-300 transition ease-in-out text-sm">{formatDate(status.date ?? new Date())}</a>
                   </div>
-                  <p className="text-gray-700">Nhân viên: {status.staff}. Bưu cục: {status.consolidation}               </p>
+                  <p className="text-gray-700">Nhân viên: {status.staff}. Bưu cục: {status.consolidation}</p>
                 </div>
               </div>
             </li>

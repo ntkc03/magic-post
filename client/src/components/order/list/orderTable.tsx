@@ -15,10 +15,16 @@ import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 import { formatDate } from '../details/format';
 import { Button } from '@material-tailwind/react';
-import SendToSenderConsolidation from '../send/sendToSenderConsolidation';
+import SendToSenderConsolidation from '../status/sendToSenderConsolidation';
 import { useState } from 'react';
 import { orderInterface } from '../../../types/OrderInterface';
-import ConfirmSenderConsolidation from '../send/confirmSenderConsolidation';
+import ConfirmSenderConsolidation from '../status/confirmSenderConsolidation';
+import SendToReceiverConsolidation from '../status/sendToReceiverConsolidation';
+import ConfirmReceiverConsolidation from '../status/confirmReceiverConsolidation';
+import SendToReceiverTransaction from '../status/sendToReceiverTransaction';
+import ConfirmReceiverTransaction from '../status/confirmReceiverTransaction';
+import Shipping from '../status/shipping';
+import ShippingStatus from '../status/shippingStatus';
 
 interface OrderTableProps {
   allOrders: orderInterface[]
@@ -280,6 +286,18 @@ React.useEffect(() => {
       setItems(<SendToSenderConsolidation code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
     } else if (row.status === 'Gửi đến điểm tập kết') {
       setItems(<ConfirmSenderConsolidation code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
+    } else if (row.status === 'Điểm tập kết đã nhận') {
+      setItems(<SendToReceiverConsolidation code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
+    } else if (row.status === 'Gửi đến điểm tập kết đích') {
+      setItems(<ConfirmReceiverConsolidation code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
+    } else if (row.status === 'Điểm tập kết đích đã nhận') {
+      setItems(<SendToReceiverTransaction code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
+    } else if (row.status === 'Gửi đến điểm giao dịch đích') {
+      setItems(<ConfirmReceiverTransaction code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
+    } else if (row.status === 'Điểm giao dịch đích đã nhận') {
+      setItems(<Shipping code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
+    } else if (row.status === 'Đang giao hàng') {
+      setItems(<ShippingStatus code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
     }
   }
 

@@ -9,6 +9,8 @@ import { employerInterface } from '../../../types/EmployerInterface';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { getConsolidationByAddress, updateConsolidation } from '../../../features/axios/api/consolidation/consolidationPointDetails';
+import { ConsolidationInterface } from '../../../types/ConsolidationInterface';
 
 interface PrintButtonProps {
   code: string;
@@ -18,15 +20,13 @@ interface PrintButtonProps {
 
 const token = localStorage.getItem('token');
 
-const SendToSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, onCloseButt }) => {
+const ConfirmReceiverConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, onCloseButt }) => {
   const [orderDetails, setOrderDetails] = useState<orderInterface>();
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const {
     setValue,
-    handleSubmit,
     formState: { errors },
   } = useForm<orderInterface>();
 
@@ -52,22 +52,41 @@ const SendToSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, 
     };
   }, [dispatch]);
 
-  const sentToConsolidation = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const buttonHandle = async (event: React.MouseEvent<HTMLButtonElement>) => {
     // Access the necessary information from your component's state or props
     if (orderDetails && employerDetails) {
       let status: Status = {
-        action: 'Gửi đến điểm tập kết',
-        consolidation: orderDetails.senderDistrict,
-        transaction: orderDetails.senderVillage,
+        action: 'Điểm tập kết đích đã nhận',
+        consolidation: orderDetails.receiverDistrict,
+        transaction: orderDetails.receiverVillage,
         date: new Date(),
         staff: employerDetails?.name,
-        place: "transaction"
+        place: "consolidation",
       };
 
       let statuses: Status[] = orderDetails.status ? orderDetails.status : [];
       statuses.push(status);
       setValue('status', statuses);
       await updateOrder(orderDetails);
+      
+      if (orderDetails.receiverDistrict) {
+        const data: ConsolidationInterface = await getConsolidationByAddress(orderDetails.receiverDistrict);
+        if (data && data.quantity !== undefined) {
+          data.quantity = data.quantity + 1;
+        } else {
+          data.quantity = 1;
+        }
+        updateConsolidation(data);
+      }
+
+      if (orderDetails.senderDistrict) {
+        const data: ConsolidationInterface = await getConsolidationByAddress(orderDetails.senderDistrict);
+        if (data && data.quantity !== undefined) {
+          data.quantity = data.quantity - 1;
+        } 
+        updateConsolidation(data);
+      }
+
       onClose(); // Close the component after updating the order
     }
   };
@@ -78,33 +97,33 @@ const SendToSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, 
       <div className="fixed top-0 left-0 w-full h-full bg-gray-700 opacity-25 z-50"></div>
 
       <div className="z-50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white text-black p-4 rounded shadow-md">
-        <div className="fixed top-2 right-2 cursor-pointer text-2xl text-gray-700 hover:text-gray-900">
+        <div className="fixed top-2 right-2 cursor-pointer text-3xl text-gray-700 hover:text-gray-900">
           <span onClick={onCloseButt}>&times;</span>
         </div>
         <div className='flex justify-center mb-4'>
-          <label className='text-[20px] font-bold'>Xác nhận đơn đi</label>
+          <label className='text-[15px] font-bold'>Xác nhận điểm tập kết đích đã nhận đơn</label>
         </div>
         <div className='mb-4'>
-          <label className='font-bold'>Gửi từ điểm giao dịch</label>
+          <label className='font-bold'>Gửi từ điểm tập kết</label>
           <input type="text"
                   placeholder="Điểm giao dịch"
-                  className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                  value={orderDetails?.senderVillage}
-          />
-        </div>
-
-        <div className='mb-4'>
-          <label className='font-bold'>Đến điểm tập kết</label>
-          <input type="text"
-                  placeholder="Điểm tập kết"
                   className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                   value={orderDetails?.senderDistrict}
           />
         </div>
 
+        <div className='mb-4'>
+          <label className='font-bold'>Đến điểm tập kết đích</label>
+          <input type="text"
+                  placeholder="Điểm tập kết"
+                  className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                  value={orderDetails?.receiverDistrict}
+          />
+        </div>
+
         <div className='flex justify-center'> 
           <button
-            onClick={sentToConsolidation}
+            onClick={buttonHandle}
             type="button"
             className="inline-flex items-center bg-blue-400 hover:bg-blue-800 text-white py-2 px-8 shadow-md rounded"
           >
@@ -120,4 +139,5 @@ const SendToSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, 
   );
 };
 
-export default SendToSenderConsolidation;
+export default ConfirmReceiverConsolidation
+    ;
