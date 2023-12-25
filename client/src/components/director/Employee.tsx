@@ -64,15 +64,15 @@ export function Employee() {
             setLoading(false);
         }
         getAllEmployersData();
-    }, []);
+    }, [allEmployers]);
 
     const deleteEmployerAction = () => {
-        rowSelectionModel.map((selected) => {
-            let employer: employerInterface | undefined = allEmployers?.find((employer) => employer.username === selected);
+        for (const selected of rowSelectionModel) {
+            let employers: employerInterface | undefined = allEmployers?.find((employer) => employer.username === selected);
             const updatedEmployers: employerInterface[] | undefined = allEmployers?.filter((employer) => employer.username !== selected);
-            if (employer) {
+            if (employers) {
                 try {
-                    deleteEmployer(employer?.username);
+                    deleteEmployer(employers?.username);
                     setTimeout(() => {
                         setAllEmployers(updatedEmployers);
                         setFilteredEmployers(updatedEmployers);
@@ -82,13 +82,12 @@ export function Employee() {
                     notify(error.message, "error");
                 }
             }
-        })
+        }
     }
 
     const deleteHandle = () => {
 
         setShowDeleteConfirmation(true);
-        console.log(showDeleteConfirmation);
     }
 
     const addHandle = () => {

@@ -51,29 +51,33 @@ export default function UserLogin() {
     if (token) {
       dispatch(loginSuccess());
       getEmployerDetails();
-    }
-    setTimeout(() => {
-      if (isLoggedIn === true) {
-        if (employerDetails?.role === "Giám đốc") {
-          navigate("/director/statistics-points");
-        } else {
-          navigate("/employer/home");
+      setTimeout(() => {
+        if (isLoggedIn === true) {
+          if (employerDetails?.role === "Giám đốc") {
+            navigate("/director/statistics-points");
+          } else if (employerDetails?.role === "Trưởng điểm tập kết" || employerDetails?.role === "Trưởng điểm giao dịch") {
+            navigate("/manager/employee");
+          } else {
+            navigate("/employer/home");
+          }
         }
-      }
-    }, 2000);
+      }, 2000);
+    }
   }, [navigate]);
 
   // hoạt động sau khi isLoggedIn và employerDetails được cập nhật
   useEffect(() => {
     setTimeout(() => {
-      if (isLoggedIn && employerDetails) {
-        // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
-        if (employerDetails?.role === "Giám đốc") {
-          navigate("/director/statistics-points");
-        } else if (employerDetails?.role === "Trưởng điểm tập kết" || employerDetails?.role === "Trưởng điểm giao dịch") {
-          navigate("/manager/employee");
-        } else {
-          navigate("/employer/home");
+      if (employerDetails) {
+        if (isLoggedIn && employerDetails) {
+          // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
+          if (employerDetails?.role === "Giám đốc") {
+            navigate("/director/statistics-points");
+          } else if (employerDetails?.role === "Trưởng điểm tập kết" || employerDetails?.role === "Trưởng điểm giao dịch") {
+            navigate("/manager/employee");
+          } else {
+            navigate("/employer/home");
+          }
         }
       }
     }, 2000);

@@ -57,8 +57,8 @@ const SendToReceiverTransaction: React.FC<PrintButtonProps> = ({ code, onClose, 
     if (orderDetails && employerDetails) {
       let status: Status = {
         action: 'Gửi đến điểm giao dịch đích',
-        consolidation: orderDetails.senderDistrict,
-        transaction: orderDetails.senderVillage,
+        consolidation: orderDetails.receiverDistrict,
+        transaction: orderDetails.receiverVillage,
         date: new Date(),
         staff: employerDetails?.name,
         place: "consolidation"

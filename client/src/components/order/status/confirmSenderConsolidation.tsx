@@ -60,7 +60,7 @@ const ConfirmSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose,
       let status: Status = {
         action: 'Điểm tập kết đã nhận',
         consolidation: orderDetails.senderDistrict,
-        transaction: orderDetails.senderVillage,
+        transaction: '',
         date: new Date(),
         staff: employerDetails?.name,
         place: "consolidation",

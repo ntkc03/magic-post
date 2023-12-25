@@ -12,12 +12,48 @@ import {
   } from "@material-tailwind/react";
 import { orderInterface } from "../../../../types/OrderInterface";
 import { useAddressSelector } from "../getAddressSelector";
+import { employerData } from "../../../../features/axios/api/employer/userDetails";
+import { fetchUser, clearUserDetails } from "../../../../features/redux/slices/user/userDetailsSlice";
+import { employerInterface } from "../../../../types/EmployerInterface";
+import { ConsolidationInterface } from "../../../../types/ConsolidationInterface";
+import { getConsolidationByAddress } from "../../../../features/axios/api/consolidation/consolidationPointDetails";
 
 interface SenderInformationProps {
     errors: FieldErrors<orderInterface>;
   }
   
+const token = localStorage.getItem("token");
+
 const SenderInformation: React.FC<SenderInformationProps> = ({ errors }) => {
+  const dispatch = useDispatch();
+  const [employerDetails, setEmployerDetails] = useState<employerInterface>();
+  const [employerConsolidation, setEmployerConsolidation] = useState<ConsolidationInterface>();
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchUser());
+      const employerDetails = async () => {
+        const data = await employerData();
+        setEmployerDetails(data);
+        const employer: employerInterface = data;
+
+        if (employer.consolidation) {
+        getConsolidationByAddress(employer.consolidation)
+            .then((consolidation: ConsolidationInterface) => {
+            setEmployerConsolidation(consolidation);
+            })
+            .catch((error) => {
+            console.error("Error fetching consolidation:", error);
+            });
+        }
+      };
+      employerDetails();
+    }
+    return () => {
+      dispatch(clearUserDetails());
+    };
+  }, [dispatch]);
+
 
   const { fetching } = useAddressSelector();  
 
@@ -85,8 +121,8 @@ const SenderInformation: React.FC<SenderInformationProps> = ({ errors }) => {
                     <div className="grid lg:grid-cols-2 ">
                         <div className="lg:mr-2 my-2">
                             <select id="senderCountry" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="">Quốc gia</option>  
-                                <option value="Việt Nam">Việt Nam</option>         
+                                <option value="" hidden>Quốc gia</option>  
+                                <option value="Việt Nam" selected>Việt Nam</option>         
                             </select>
                             {errors.senderCountry && (
                                 <p className="text-red-500 text-sm">
@@ -97,7 +133,7 @@ const SenderInformation: React.FC<SenderInformationProps> = ({ errors }) => {
                         
                         <div className="lg:ml-2 my-2">
                             <select id='senderCity' className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="">Tỉnh/Thành phố</option>     
+                                <option value={employerConsolidation?.city} selected hidden>{employerConsolidation?.city}</option>     
                             </select>
                             {errors.senderCity && (
                                 <p className="text-red-500 text-sm">
@@ -110,7 +146,7 @@ const SenderInformation: React.FC<SenderInformationProps> = ({ errors }) => {
                     <div className="grid lg:grid-cols-2">
                         <div className="lg:mr-2 my-2">
                             <select id='senderDistrict'className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="">Quận/Huyện</option>     
+                                <option value={employerConsolidation?.address} selected hidden>{employerConsolidation?.address}</option>     
                             </select>
                             {errors.senderDistrict && (
                                 <p className="text-red-500 text-sm">
@@ -122,7 +158,7 @@ const SenderInformation: React.FC<SenderInformationProps> = ({ errors }) => {
                         
                         <div className="lg:ml-2 my-2">
                             <select id='senderVillage' className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="">Phường/Xã</option>     
+                                <option value={employerDetails?.transaction} selected hidden>{employerDetails?.transaction}</option>     
                             </select>
                             {errors.senderVillage && (
                                 <p className="text-red-500 text-sm">
