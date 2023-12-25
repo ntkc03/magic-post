@@ -127,7 +127,7 @@ export const updateOrder = async (
         const updatedJob = await orderRepository.updateOrderStatus(id, order);
         return updatedJob;
     } catch (error) {
-        throw new Error("failed to update the job");
+        throw new Error("failed to update the update order");
     }
 }
 

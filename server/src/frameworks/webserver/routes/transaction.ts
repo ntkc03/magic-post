@@ -17,11 +17,11 @@ const transactionRoute = () => {
         Transaction
     );
 
-    route.get('/transaction-data/address/:address',authenticationMiddleware,employerMiddleware, controller.getTheTransactionByAddress);
-    route.get('/transaction-data/consolidation/:consolidation',authenticationMiddleware,employerMiddleware, controller.getTheTransactionByConsolidation);
-    route.get('/transaction-data/:id',authenticationMiddleware,employerMiddleware, controller.getTheTransactionByID);
-    route.get('/all-transactions',authenticationMiddleware,employerMiddleware, controller.findAllTransactions);
-    route.put('/update-transaction',authenticationMiddleware,employerMiddleware,controller.updateTheTransaction);
+    route.get('/transaction-data/:consolidation/:address',controller.getTheTransactionByAddress);
+    route.get('/transaction-data-cons/:consolidation',controller.getTheTransactionByConsolidation);
+    route.get('/transaction-data/:id',controller.getTheTransactionByID);
+    route.get('/all-transactions',controller.findAllTransactions);
+    route.put('/update-transaction',controller.updateTheTransaction);
 
     return route;
 }
