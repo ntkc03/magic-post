@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { deleteEmployer } from "../../features/axios/api/employer/userDetails";
 import ConfirmDelete from "./ConfirmDelete";
 import SearchFilterBar from "./searchFilterBar.tsx/searchFilterBar";
+import EmployeeShimmer from "../shimmer/EmployeeShimmer";
 
 export function Employee() {
     const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export function Employee() {
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [filteredEmployers, setFilteredEmployers] = useState([...allEmployers]);
+    const [loading, setLoading] = useState(true);
 
 
 
@@ -59,6 +61,7 @@ export function Employee() {
             const allEmployers: employerInterface[] = await allEmployersData();
             setAllEmployers(allEmployers);
             setFilteredEmployers(allEmployers);
+            setLoading(false);
         }
         getAllEmployersData();
     }, []);
@@ -73,6 +76,7 @@ export function Employee() {
                     setTimeout(() => {
                         setAllEmployers(updatedEmployers);
                         setFilteredEmployers(updatedEmployers);
+                        setLoading(false);
                     }, 1500);
                 } catch (error: any) {
                     notify(error.message, "error");
@@ -91,6 +95,13 @@ export function Employee() {
         navigate("/director/create-account");
     }
 
+    if (loading === true) {
+        return (
+            <div>
+                <EmployeeShimmer />
+            </div>
+        )
+    }
 
     const notify = (msg: string, type: string) =>
         type === "error"

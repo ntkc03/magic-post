@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { deleteEmployer, employerData } from "../../features/axios/api/employer/userDetails";
 import ConfirmDelete from "../director/ConfirmDelete";
 import SearchFilterBar from "../director/searchFilterBar.tsx/searchFilterBar";
+import EmployeeShimmer from "../shimmer/EmployeeShimmer";
 
 
 
@@ -25,6 +26,7 @@ export function Employee() {
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [filteredEmployers, setFilteredEmployers] = useState([...allEmployers]);
     const [employerDetails, setEmployerDetails] = useState<employerInterface>();
+    const [loading, setLoading] = useState(true);
 
 
 
@@ -79,6 +81,7 @@ export function Employee() {
                 setFilteredEmployers(data);
             }
             getAllEmployersData();
+            setLoading(false);
         }
     }, [employerDetails]);
 
@@ -115,6 +118,14 @@ export function Employee() {
         type === "error"
             ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
             : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+
+    if (loading === true) {
+        return (
+            <div>
+                <EmployeeShimmer />
+            </div>
+        )
+    }
 
     return (
         <div className="relative overflow-hidden bg-background py-24 sm:py-32 pl-10 pr-10">

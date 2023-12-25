@@ -13,8 +13,8 @@ import { FormControl, InputLabel, OutlinedInput, Select, SelectChangeEvent } fro
 import { ConsolidationInterface } from "../../types/ConsolidationInterface";
 import { TransactionInterface } from "../../types/TransactionInterface";
 import MenuItem from '@mui/material/MenuItem';
-import { allConsolidationsData } from "../../features/axios/api/consolidation/consolidationPointDetails";
-import { getTransactionsByConsolidation } from "../../features/axios/api/transaction/transactionPointDetails";
+import { allConsolidationsData, getConsolidationByAddress, updateConsolidation } from "../../features/axios/api/consolidation/consolidationPointDetails";
+import { getTransactionByAddress, getTransactionsByConsolidation, updateTransaction } from "../../features/axios/api/transaction/transactionPointDetails";
 
 export function CreateAccount() {
   const navigate = useNavigate();
@@ -33,6 +33,7 @@ export function CreateAccount() {
   const [allTransactions, setAllTransactions] = useState<string[]>([]);
   const [selectedConsolidation, setSelectedConsolidation] = useState("");
   const [selectedTransaction, setSelectedTransaction] = useState("");
+
 
   const getEmployerDetails = async () => {
     const data = await employerData();
@@ -64,7 +65,20 @@ export function CreateAccount() {
     getAllTransactionsData();
   }, [selectedConsolidation]);
 
-
+  // if (formData.transaction) {
+  //   const transaction = await getTransactionByAddress(formData.consolidation, formData.transaction);
+  //   if (transaction) {
+  //     transaction.manager = formData.username;
+  //     updateTransaction(transaction);
+  //   }
+  // } else {
+  //   const consolidation = await getConsolidationByAddress(formData.consolidation);
+  //   if (consolidation) {
+  //     console.log(consolidation);
+  //     consolidation.manager = formData.username;
+  //     updateConsolidation(consolidation);
+  //   }
+  // }
 
   const notify = (msg: string, type: string) =>
     type === "error"
@@ -72,9 +86,9 @@ export function CreateAccount() {
       : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
 
   const submitHandler = async (formData: SignupPayload) => {
-    if(formData.transaction){
+    if (formData.transaction) {
       formData.role = "Trưởng điểm giao dịch";
-    }else{
+    } else {
       formData.role = "Trưởng điểm tập kết";
     }
     createAccount(formData)

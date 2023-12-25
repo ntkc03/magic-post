@@ -59,7 +59,7 @@ export function CreateAccount() {
         notify("User registered successfully", "success");
         setTimeout(() => {
           if (token) {
-            if (employerDetails?.role === "Trưởng điểm tập kết") {
+            if (employerDetails?.role === "Trưởng điểm tập kết" || employerDetails?.role === "Trưởng điểm giao dịch") {
               navigate("/manager/employee");
             } else {
               navigate("/employer/login");

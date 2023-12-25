@@ -50,7 +50,7 @@ function StatisticsPointShimmer() {
             />
             <TextField id="transaction"
               variant="standard"
-              label="Điểm tập kết"
+              label="Điểm giao dịch"
             />
           </Stack>
         </div>
