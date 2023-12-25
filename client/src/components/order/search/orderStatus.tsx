@@ -1,21 +1,21 @@
 import "react-toastify/dist/ReactToastify.css";
-import { orderInterface} from "../../../types/OrderInterface";
+import { orderInterface } from "../../../types/OrderInterface";
 import { formatDate } from "../details/format";
 
 interface SearchBoxProps {
   result: orderInterface
 }
 
-const OrderStatus: React.FC<SearchBoxProps> = ({ result }) =>  {
+const OrderStatus: React.FC<SearchBoxProps> = ({ result }) => {
   if (!result || !result.status) {
     // Handle the case where result or result.Status is undefined
     return null; // or display a loading message or default content
   }
   return (
     <>
-    <h1 className="flex text-2xl font-thin mt-10 mx-12 px-3">
-      TRẠNG THÁI VẬN ĐƠN  
-      <img
+      <h1 className="flex text-3xl font-thin mt-10 mx-12 px-3">
+        TRẠNG THÁI VẬN ĐƠN
+        <img
           src="https://imgur.com/5KtEikT.png"
           alt="Img"
           className="mx-4 w-10 h-full"
@@ -98,9 +98,9 @@ const OrderStatus: React.FC<SearchBoxProps> = ({ result }) =>  {
             </li>
           ))}
         </ol>
-    </div>
+      </div>
     </>
   );
 }
 export default OrderStatus;
-export{};
+export { };

@@ -35,12 +35,12 @@ export const findEmployerById = async (
     }
 }
 
-export const findEmployerByTransationID = async (
-    id: string,
+export const findEmployerByTransation = async (
+    transaction: string,
     employerRepository: ReturnType<employerDbInterface>
 ) => {
     try {
-        const result = await employerRepository.getEmployerByTransationID(id);
+        const result = await employerRepository.getEmployerByTransationID(transaction);
         if (!result) {
             throw new AppError("account not found", HttpStatus.BAD_REQUEST);
         }
@@ -51,12 +51,12 @@ export const findEmployerByTransationID = async (
     }
 }
 
-export const findEmployerByConsolidationID = async (
-    id: string,
+export const findEmployerByConsolidation = async (
+    consolidation: string,
     employerRepository: ReturnType<employerDbInterface>
 ) => {
     try {
-        const result = await employerRepository.getEmployerByConsolidationID(id);
+        const result = await employerRepository.getEmployerByConsolidationID(consolidation);
         if (!result) {
             throw new AppError("account not found", HttpStatus.BAD_REQUEST);
         }

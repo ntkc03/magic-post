@@ -26,6 +26,9 @@ export const userRegisterValidationSchema = yup.object().shape({
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password")], "Mật khẩu không khớp!"),
+  consolidation: yup
+    .string()
+    .required("Vui lòng chọn điểm tập kết")
 });
 
 export const userLoginValidationSchema = yup.object().shape({
@@ -46,7 +49,7 @@ export const orderValidationSchema = yup.object().shape({
   senderCountry: yup
     .string()
     .required("Vui lòng chọn đất nước."),
-  
+
   senderCity: yup
     .string()
     .required("Vui lòng chọn tỉnh/thành phố."),
@@ -58,7 +61,7 @@ export const orderValidationSchema = yup.object().shape({
   senderVillage: yup
     .string()
     .required("Vui lòng chọn xã/phường/thị trấn."),
-  
+
   senderHouseNumber: yup
     .string()
     .required("Vui lòng nhập số nhà/xóm/thôn."),
@@ -75,7 +78,7 @@ export const orderValidationSchema = yup.object().shape({
   receiverCountry: yup
     .string()
     .required("Vui lòng chọn đất nước."),
-  
+
   receiverCity: yup
     .string()
     .required("Vui lòng chọn tỉnh/thành phố."),
@@ -87,7 +90,7 @@ export const orderValidationSchema = yup.object().shape({
   receiverVillage: yup
     .string()
     .required("Vui lòng chọn xã/phường/thị trấn."),
-  
+
   receiverHouseNumber: yup
     .string()
     .required("Vui lòng nhập số nhà/xóm/thôn."),
@@ -111,7 +114,7 @@ export const orderValidationSchema = yup.object().shape({
   weight: yup
     .number()
     .required("Vui lòng nhập tổng khối lượng"),
-  
+
 });
 
 

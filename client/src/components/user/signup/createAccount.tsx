@@ -1,21 +1,22 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { userRegisterValidationSchema } from "../../../utils/validation";
-import { SignupPayload } from "../../../types/PayloadInterface";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
-import { createAccount } from "../../../features/axios/api/employer/userAuthentication";
+import { SignupPayload } from "../../../types/PayloadInterface";
+import { userRegisterValidationSchema } from "../../../utils/validation";
 import { employerInterface } from "../../../types/EmployerInterface";
 import { employerData } from "../../../features/axios/api/employer/userDetails";
+import { createAccount } from "../../../features/axios/api/employer/userAuthentication";
 
-export default function UserSignUp() {
+export function CreateAccount() {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm<SignupPayload>({
     resolver: yupResolver(userRegisterValidationSchema),
   });
@@ -23,7 +24,6 @@ export default function UserSignUp() {
 
   const token = localStorage.getItem("token");
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
-
 
   const getEmployerDetails = async () => {
     const data = await employerData();
@@ -34,20 +34,33 @@ export default function UserSignUp() {
     getEmployerDetails();
   }, []);
 
+  useEffect(() => {
+    if (employerDetails) {
+      setValue("consolidation", employerDetails.consolidation ?? "");
+      setValue("transaction", employerDetails.transaction ?? "");
+    }
+  }, [employerDetails])
+
+
+
   const notify = (msg: string, type: string) =>
     type === "error"
       ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
       : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
 
   const submitHandler = async (formData: SignupPayload) => {
+    if (employerDetails?.role === "Trưởng điểm giao dịch") {
+      formData.role = "nhân viên điểm giao dịch";
+    } else if (employerDetails?.role === "Trưởng điểm tập kết") {
+      formData.role = "nhân viên điểm tập kết";
+    }
     createAccount(formData)
       .then((response: any) => {
         notify("User registered successfully", "success");
-
         setTimeout(() => {
           if (token) {
-            if (employerDetails?.role === "Giám đốc") {
-              navigate("/director/statistics-points");
+            if (employerDetails?.role === "Trưởng điểm tập kết") {
+              navigate("/manager/employee");
             } else {
               navigate("/employer/login");
             }
@@ -59,25 +72,25 @@ export default function UserSignUp() {
       });
   };
   return (
-    <div className="flex justify-center min-h-screen bg-background">
-      <div className="flex justify-center items-center">
-        <div className="lg:block hidden">
+    <div className="flex justify-center min-h-screen">
+      <div className="flex justify-center items-center bg-background">
+        <div className="lg:block hidden ">
           <img
             src="https://i.imgur.com/5KtEikT.png"
             alt="Img"
-            className="max-w-450 max-h-450 w-4/5"
+            className="max-w-450 max-h-450 w-4/5 bg-cover bg-center"
           />
           <img
             src="https://i.imgur.com/7XTdnaF.png"
             alt="Img"
-            className="mt-[-180px] max-w-450 max-h-450 w-1/5"
+            className="mt-[-180px] max-w-450 max-h-450 w-1/5 bg-cover bg-center"
           />
         </div>
-
       </div>
       <div className="flex flex-wrap justify-center items-center ">
-        <div className="w-screen h-screen md:w-96 md:h-auto p-8 bg-white border border-gray-300 rounded-xl shadow-lg">
-          <h2 className="text-2xl font-bold mb-4">Tạo tài khoản</h2>
+        <div className="w-[200%] h-screen md:h-auto p-8 bg-white border border-gray-300 rounded-xl shadow-lg">
+          <h2 className="text-2xl font-bold ">Tạo tài khoản</h2>
+          <p className="text-small text-gray-500 mb-4">Tạo tài khoản cho nhân viên</p>
           <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
             <div>
               <label className="text-sm" htmlFor="email">
@@ -158,27 +171,17 @@ export default function UserSignUp() {
               type="submit"
               className="w-full px-3 py-2 text-sm bg-activeButton text-white rounded hover:bg-buttonPurple flex justify-center items-center"
             >
-              Đăng ký
+              Tạo tài khoản
             </button>
           </form>
-          {/* <span className="mr-2 flex justify-center">or</span> */}
-          <div className="flex items-center justify-center mt-2">
-            <div className="flex items-center mt-2">
 
-            </div>
-          </div>
 
-          <div className="mt-4 text-center">
-            <Link to={"/user/login"}>
-              <span className="text-gray-500">
-                Đã có tài khoản?
-                <p className="text-loginText underline">Đăng nhập</p>
-              </span>
-            </Link>
-          </div>
         </div>
       </div>
       <ToastContainer />
     </div>
   );
 }
+
+export default CreateAccount;
+export { };

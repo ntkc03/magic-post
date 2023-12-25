@@ -27,7 +27,7 @@ export const allConsolidationsData = async (): Promise<any> => {
       const response = await api(config);
       return response.data;
     } catch (error) {
-      throw new Error("error getting transactions");
+      throw new Error("error getting consolidations");
     }
   };
 

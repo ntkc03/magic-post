@@ -19,8 +19,8 @@ const employerRoute = () => {
     );
     route.get('/employer-data/username',authenticationMiddleware,employerMiddleware,controller.getEmployerByUsername);
     route.get('/employer-data/emp-id',authenticationMiddleware,employerMiddleware,controller.getEmployerById);
-    route.get('/employer-data/transaction-id',authenticationMiddleware,employerMiddleware,controller.getEmployerByTransationID);
-    route.get('/employer-data/consolidation-id',authenticationMiddleware,employerMiddleware,controller.getEmployerByConsolidationID);
+    route.get('/employer-data/transaction/:transaction',authenticationMiddleware,employerMiddleware,controller.getEmployerByTransation);
+    route.get('/employer-data/consolidation/:consolidation',authenticationMiddleware,employerMiddleware,controller.getEmployerByConsolidation);
     route.get('/all-employers',authenticationMiddleware,employerMiddleware,controller.getAllEmployers);
     route.delete('/delete-employer/:username',authenticationMiddleware,employerMiddleware,controller.deleteTheEmployer);
     route.delete('/delete-employer/:id',authenticationMiddleware,employerMiddleware,controller.deleteTheEmployerById);

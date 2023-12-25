@@ -16,8 +16,8 @@ import { employerData } from "../../features/axios/api/employer/userDetails";
 import { log } from "console";
 
 const navigation = [
-  { name: "Quản lý tài khoản", href: "/director/employee", current: false },
-  { name: "Quản lý đơn hàng", href: "/director/statistics-orders", current: false },
+  { name: "Quản lý tài khoản", href: "/manager/employee", current: false },
+  { name: "Quản lý đơn hàng", href: "", current: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -25,7 +25,7 @@ function classNames(...classes: string[]) {
 }
 
 
-function ConsManangerHeader() {
+function ManangerHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -185,5 +185,5 @@ function ConsManangerHeader() {
   );
 }
 
-export default ConsManangerHeader;
+export default ManangerHeader;
 export { };

@@ -24,12 +24,12 @@ export class EmployerEntity {
     }
 
     public async getEmployerByTransationID(transactionID: string): Promise<employerInterface[] | null> {
-        const employers: any = await this.model.find({ transactionID: transactionID });
+        const employers: any = await this.model.find({ transaction: transactionID });
         return employers;
     }
 
     public async getEmployerByConsolidationID(consolidationID: string): Promise<employerInterface[] | null> {
-        const employers: any = await this.model.find({ consolidationID: consolidationID });
+        const employers: any = await this.model.find({ consolidation: consolidationID });
         return employers;
     }
 

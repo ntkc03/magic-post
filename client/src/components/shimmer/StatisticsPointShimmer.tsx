@@ -35,23 +35,23 @@ function StatisticsPointShimmer() {
 
     <div className="relative overflow-hidden bg-background py-24 sm:py-32 pl-10 pr-10">
       <div className='pl-1 pb-4 text-center' >
-        <text className='text-2xl'>Danh sách các điểm tập kết</text>
+        <text className='text-3xl'>Danh sách các điểm tập kết</text>
       </div>
       <Box component={Paper}>
         <div className='float-left pr-4 mt-3'>
-          <Stack direction="row" spacing={3} sx={{ width: "100%"}} style={{ paddingLeft: 80 }}>
+          <Stack direction="row" spacing={3} sx={{ width: "100%" }} style={{ paddingLeft: 80 }}>
             <TextField id="city"
               variant="standard"
               label="Tỉnh/Thành phố"
-              />
+            />
             <TextField id="consolidation"
               variant="standard"
               label="Điểm tập kết"
-               />
+            />
             <TextField id="transaction"
               variant="standard"
               label="Điểm tập kết"
-               />
+            />
           </Stack>
         </div>
         <div className="items-center justify-center bg-background text-center text-textColor">

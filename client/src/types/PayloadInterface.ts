@@ -10,6 +10,9 @@ export interface SignupPayload extends LoginPayload {
   name: string;
   phone: string;
   confirmPassword: string;
+  transaction: string;
+  consolidation: string;
+  role: string;
 }
 
 export interface StatisticsPointsPayload {

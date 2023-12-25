@@ -7,6 +7,6 @@ export interface employerInterface {
     password?: string,
     role?: string,
     phone?: string,
-    transactionID?: string,
-    consolidationID?: string,
+    transaction?: string,
+    consolidation?: string,
 }

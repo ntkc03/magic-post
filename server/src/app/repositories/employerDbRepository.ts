@@ -16,12 +16,12 @@ export const employerDbRepository = (
     }
 
     const getEmployerByTransationID = async (transactionID: string) => {
-        const employers = await repository.getEmployerById(transactionID);
+        const employers = await repository.getEmployerByTransationID(transactionID);
         return employers;
     }
 
     const getEmployerByConsolidationID = async (consolidationID: string) => {
-        const employers = await repository.getEmployerById(consolidationID);
+        const employers = await repository.getEmployerByConsolidationID(consolidationID);
         return employers;
     }
     const getAllEmployers = async () => {
