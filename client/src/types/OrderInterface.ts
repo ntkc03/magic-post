@@ -54,4 +54,6 @@ export interface Status {
     date?: Date;
     staff?: string;
     place?: string;
+    note?: string;
+    guide?: string;
 }

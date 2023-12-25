@@ -245,13 +245,6 @@ const GoodsInformation: React.FC<GoodsInformationProps> = ({ errors }) => {
                     Tiền thu hộ
                 </h1>
                 <div className="my-4 ml-2">
-                    <label className="inline-flex items-center">
-                        <input
-                            type="checkbox"
-                            className="form-radio text-blue-600"
-                        />
-                        <span className="ml-2">Thu hộ bằng tiền hàng</span>
-                    </label>
 
                     <input
                         type="text"

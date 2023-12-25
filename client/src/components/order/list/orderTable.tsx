@@ -167,18 +167,27 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             sx={{
             fontWeight: 'bold'}} 
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {headCell.id === "date" && (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  </Box>
+                ) : null}
+              </TableSortLabel>)
+            }
+
+            {headCell.id !== "date" && (
+              <div>
+                {headCell.label}
+              </div>)
+            }
+            
           </TableCell>
         ))}
       </TableRow>
@@ -326,14 +335,16 @@ React.useEffect(() => {
                     tabIndex={-1}
                     sx={{ cursor: 'pointer' }}
                   >
-                    <TableCell align="left">{row.code}</TableCell>
-                    <TableCell align="left">{row.senderName}</TableCell>
-                    <TableCell align="left">{row.receiverName}</TableCell>
-                    <TableCell align="left">{row.items}</TableCell>
-                    <TableCell align="left">{row.date}</TableCell>
-                    <TableCell align="right">{row.cod}</TableCell>
-                    <TableCell align="right">{row.fee}</TableCell>
-                    <TableCell align="left">
+                    <TableCell align="center">{row.code} <br/> 
+                      <a href={`/order/details/${row.code}`} className='text-[12px] text-bgBlue hover:text-blue-700 duration-300 transition ease-in-out'>Xem chi tiết</a>
+                    </TableCell>
+                    <TableCell align="center">{row.senderName}</TableCell>
+                    <TableCell align="center">{row.receiverName}</TableCell>
+                    <TableCell align="center">{row.items}</TableCell>
+                    <TableCell align="center">{row.date}</TableCell>
+                    <TableCell align="center">{row.cod}</TableCell>
+                    <TableCell align="center">{row.fee}</TableCell>
+                    <TableCell align="center">
                     <Button
                       style={{
                         backgroundColor: getStatusColor(row.status),

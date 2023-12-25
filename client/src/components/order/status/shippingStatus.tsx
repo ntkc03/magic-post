@@ -24,6 +24,7 @@ const ShippingStatus: React.FC<PrintButtonProps> = ({ code, onClose, onCloseButt
   const [orderDetails, setOrderDetails] = useState<orderInterface>();
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
   const [isShipping, setIsShipping] = useState<boolean>(true);
+  const [note, setNote] = useState<string>('');
   const dispatch = useDispatch();
 
   const {
@@ -102,21 +103,21 @@ const ShippingStatus: React.FC<PrintButtonProps> = ({ code, onClose, onCloseButt
         transaction: orderDetails.receiverVillage,
         date: new Date(),
         staff: employerDetails?.name,
-        place: "transaction"
+        place: "transaction",
+        note: note,
+        guide: orderDetails.cannotDelivered
       };
 
       let statuses: Status[] = orderDetails.status ? orderDetails.status : [];
       statuses.push(status);
       setValue('status', statuses);
-      setValue("note", document.getElementById('reason')?.innerText);
-
       await updateOrder(orderDetails);
       onClose(); 
     }
   };
 
   return (
-    <div id="send-receiver-consolidation">
+    <div>
       {/* Grey overlay */}
       <div className="fixed top-0 left-0 w-full h-full bg-gray-700 opacity-25 z-50"></div>
 
@@ -139,7 +140,7 @@ const ShippingStatus: React.FC<PrintButtonProps> = ({ code, onClose, onCloseButt
                 <input type="text"
                         placeholder="Lý do"
                         className="w-[280px] flex px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-500"
-                        id='reason'
+                        onChange={(e) => setNote(e.target.value)}
                 />
             </div>
 

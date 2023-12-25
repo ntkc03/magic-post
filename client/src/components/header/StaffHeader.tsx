@@ -13,7 +13,6 @@ import {
 } from "../../features/redux/slices/user/userDetailsSlice";
 import { employerInterface } from "../../types/EmployerInterface";
 import { employerData } from "../../features/axios/api/employer/userDetails";
-import { log } from "console";
 
 const navigation = [
   { name: "Thống kê", href: "", current: false },
@@ -84,7 +83,7 @@ function StaffHeader() {
                 </div>
                 <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                   <div className="flex flex-shrink-0 items-center">
-                    <a href="/homepage" className="block h-8 w-auto text-bold text-2xl font-logo text-textColor">MagicPost</a>
+                    <a href="/employer/home" className="block h-8 w-auto text-bold text-2xl font-logo text-textColor">MagicPost</a>
                   </div>
                 </div>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -140,7 +139,7 @@ function StaffHeader() {
                           </text>
                         </Menu.Item>
                         <Menu.Item>
-                          <Link to={"/user/profile"}>
+                          <Link to={"/"}>
                             <button
                               className={classNames(
                                 "block px-4 py-2 text-sm hover:opacity-50"
