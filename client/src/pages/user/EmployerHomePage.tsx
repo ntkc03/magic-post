@@ -1,12 +1,12 @@
 import React from 'react'
 import StaffHeader from '../../components/header/StaffHeader'
 import UserSideFooter from '../../components/footer/UserSideFooter'
-import HomePage from '../../components/homepage/HomePage'
+import EmployerHome from '../../components/homepage/EmployerHomePage'
 const EmployerHomePage = () => {
   return (
     <div>
       <StaffHeader/>
-      <HomePage/>
+      <EmployerHome/>
       <UserSideFooter/>
     </div>
   )

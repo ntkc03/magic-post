@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import PrintButton from "./printOrder";
 import { orderData } from "../../../../features/axios/api/order/createOrder";
 import { orderInterface } from "../../../../types/OrderInterface";
 import configKeys from "../../../../utils/config";
 import { formatDate } from "../format";
-import GenerateQR from "../generateQRCode";
-import OrderDetails from "../orderDetails";
-import SendButton from "../../status/sendToSenderConsolidation";
+import GenerateQR from "./generateQRCode";
+import OrderDetailsPrint from "./orderDetailsPrint";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 
 interface OrderDetailsProps {
@@ -71,7 +70,7 @@ const OrderPrintForm: React.FC<OrderDetailsProps> = ({ code }) => {
             </div>
 
             <div>
-              <OrderDetails code={code}/>
+              <OrderDetailsPrint code={code}/>
 
               <div className="md:grid md:grid-cols-2 border-2 border-black mt-4 bg-white">
                 <div className="p-4 md:border-r-black md: border-2">
@@ -119,8 +118,12 @@ const OrderPrintForm: React.FC<OrderDetailsProps> = ({ code }) => {
             </div>         
         </div>
         
-        <div className="flex items-center justify-center m-4">
+        <div className="flex items-center justify-center m-4 space-x-4">
           <PrintButton elementId="elementToPrint" />
+          <button type="button" className="inline-flex items-center bg-blue-400 hover:bg-blue-800 text-white py-2 px-8 shadow-md rounded">
+          <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
+              Tạo đơn mới
+          </button>
         </div>
 
         

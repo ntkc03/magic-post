@@ -19,44 +19,44 @@ const OrderStatus: React.FC<SearchBoxProps> = ({ result }) => {
           src="https://imgur.com/5KtEikT.png"
           alt="Img"
           className="mx-4 w-10 h-full"
-        />
-      </h1>
-
-      <div className="sm:flex sm:flex-row  mx-8">
-        <div className="sm:flex-1 bg-white p-3 rounded-lg shadow-lg mx-6 my-6">
-          <div className="px-3">
-            <table className="min-w-full text-base mt-5">
-              <thead>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="pt-2 pr-3">Mã vận đơn:</td>
-                  <td className="text-right text-bgBlue pt-2">{result.code}</td>
-                </tr>
-                <tr>
-                  <td className="pt-2 pr-3">Người gửi:</td>
-                  <td className="text-right text-bgBlue pt-2">{result.senderName} - {result.senderDistrict} - {result.senderCity}</td>
-                </tr>
-                <tr>
-                  <td className="pt-2 pr-3">Người nhận:</td>
-                  <td className="text-right text-bgBlue pt-2">{result.receiverName} - {result.receiverDistrict} - {result.receiverCity}</td>
-                </tr>
-                <tr>
-                  <td className="pt-2 pr-3">Loại hàng gửi:</td>
-                  <td className="text-right text-bgBlue pt-2">{result.type ? "Hàng hóa" : "Tài liệu"}</td>
-                </tr>
-                <tr>
-                  <td className="pt-2 pr-3">Khối lượng:</td>
-                  <td className="text-right text-bgBlue pt-2">{result.weight} g</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
+      />
+    </h1>
+    
+    <div className="lg:flex lg:flex-row  mx-8">
+      <div className="lg:flex-1 bg-white p-3 rounded-lg shadow-lg mx-6 my-6">
+        <div className="px-3">
+          <table className="min-w-full text-base mt-5">
+            <thead>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="pt-2 pr-3">Mã vận đơn:</td>
+                <td className="text-right text-bgBlue pt-2">{result.code}</td>
+              </tr>
+              <tr>
+                <td className="pt-2 pr-3">Người gửi:</td>
+                <td className="text-right text-bgBlue pt-2">{result.senderName} - {result.senderDistrict} - {result.senderCity}</td>
+              </tr>
+              <tr>
+                <td className="pt-2 pr-3">Người nhận:</td>
+                <td className="text-right text-bgBlue pt-2">{result.receiverName} - {result.receiverDistrict} - {result.receiverCity}</td>
+              </tr>
+              <tr>
+                <td className="pt-2 pr-3">Loại hàng gửi:</td>
+                <td className="text-right text-bgBlue pt-2">{result.type? "Hàng hóa" : "Tài liệu"}</td>
+              </tr>
+              <tr>
+                <td className="pt-2 pr-3">Khối lượng:</td>
+                <td className="text-right text-bgBlue pt-2">{result.weight} g</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <ol className="sm:flex-1 bg-white p-10 rounded-lg shadow-lg mx-6 my-6">
-          {result.status.map((status, index) => (
+      </div>
+      
+      <ol className="lg:flex-1 bg-white p-10 rounded-lg shadow-lg mx-6 my-6">
+          {[...result.status].reverse().map((status, index) => (
             <li key={index} className={`border-l-2 border-bgBlue`}>
               <div className="md:flex flex-start">
                 <div className="bg-bgBlue w-6 h-6 flex items-center justify-center rounded-full -ml-3.5">
@@ -65,11 +65,34 @@ const OrderStatus: React.FC<SearchBoxProps> = ({ result }) => {
                   </svg>
                 </div>
                 <div className="block p-6 rounded-lg shadow-lg w-full ml-6 mb-10">
-                  <div className="flex justify-between mb-4">
-                    <a href="#!" className="font-medium text-bgBlue hover:text-purple-700 focus:text-purple-800 duration-300 transition ease-in-out text-sm">{status.action}</a>
-                    <a href="#!" className="font-medium text-bgBlue hover:text-purple-700 focus:text-purple-800 duration-300 transition ease-in-out text-sm">{formatDate(status.date ?? new Date())}</a>
+                  <div className="grid grid-cols-4 mb-4">
+                    <p className="col-span-3 font-medium text-bgBlue hover:text-blue-700 duration-300 transition ease-in-out text-lg">{status.action}</p>
+                    <p className="text-right font-medium text-bgBlue hover:text-blue-700 duration-300 transition ease-in-out text-md">{formatDate(status.date?? new Date())}</p>
                   </div>
-                  <p className="text-gray-700">Nhân viên: {status.staff}. Bưu cục: {status.consolidation}</p>
+                  {(status.action === "Nhận đơn hàng" || status.action === "Gửi đến điểm tập kết") && (
+                    <p className="text-gray-700">Nhân viên: {status.staff}. Điểm giao dịch: {status.transaction}</p>
+                  )}
+
+                  {(status.action === "Điểm tập kết đã nhận" || status.action === "Gửi đến điểm tập kết đích") && (
+                    <p className="text-gray-700">Nhân viên: {status.staff}. Điểm tập kết: {status.consolidation}</p>
+                  )}
+
+                  {(status.action === "Điểm tập kết đích đã nhận" || status.action === "Gửi đến điểm giao dịch đích") && (
+                    <p className="text-gray-700">Nhân viên: {status.staff}. Điểm tập kết: {status.consolidation}</p>
+                  )}
+
+                  {(status.action === "Điểm giao dịch đích đã nhận" || status.action === "Đang giao hàng") && (
+                    <p className="text-gray-700">Nhân viên: {status.staff}. Điểm giao dịch: {status.transaction}</p>
+                  )}
+
+                  {(status.action === "Giao hàng thành công") && (
+                    <p className="text-gray-700">Nhân viên xác nhận: {status.staff}.</p>
+                  )}
+
+                  {(status.action === "Giao hàng không thành công") && (
+                    <p className="text-gray-700">Nhân viên xác nhận: {status.staff}. Lý do: {status.note}. Chỉ dẫn: {status.guide}</p>
+                  )}
+                  
                 </div>
               </div>
             </li>

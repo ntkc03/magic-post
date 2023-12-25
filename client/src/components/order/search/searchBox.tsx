@@ -24,7 +24,7 @@ const SearchBox = () => {
   };
 
   return (
-    <div className="bg-[url('https://i.imgur.com/Jrvywgo.png')] h-[1200px]">
+    <div className="bg-[url('https://i.imgur.com/Jrvywgo.png')] h-auto min-h-[1200px]">
       <div className="flex justify-center items-center mx-auto mt-10">
         <FontAwesomeIcon icon={faSearch} className="text-gray-500 mr-2" />
         <input
@@ -32,6 +32,7 @@ const SearchBox = () => {
         placeholder="Nhập mã vận đơn"
         value={searchCode}
         onChange={(e) => setSearchCode(e.target.value)}
+        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
         className="p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500"
         />
         <button 
@@ -47,12 +48,6 @@ const SearchBox = () => {
       ) : (
         orderDetails && <OrderStatus result={orderDetails} />
       )}
-
-      {/* <img
-        src="https://i.imgur.com/Jrvywgo.png"
-        alt="Img"
-        className=""
-      /> */}
     </div>
   );
 };
