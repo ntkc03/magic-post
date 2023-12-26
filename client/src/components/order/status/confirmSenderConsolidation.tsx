@@ -7,12 +7,7 @@ import { employerData } from '../../../features/axios/api/employer/userDetails';
 import { fetchUser, clearUserDetails } from '../../../features/redux/slices/user/userDetailsSlice';
 import { employerInterface } from '../../../types/EmployerInterface';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { getConsolidationByAddress, updateConsolidation } from '../../../features/axios/api/consolidation/consolidationPointDetails';
-import { ConsolidationInterface } from '../../../types/ConsolidationInterface';
-import { getTransactionByAddress, updateTransaction } from '../../../features/axios/api/transaction/transactionPointDetails';
-import { TransactionInterface } from '../../../types/TransactionInterface';
 
 interface PrintButtonProps {
   code: string;
@@ -59,7 +54,7 @@ const ConfirmSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose,
     if (orderDetails && employerDetails) {
       let status: Status = {
         action: 'Điểm tập kết đã nhận',
-        consolidation: orderDetails.senderDistrict,
+        consolidation: employerDetails.consolidation,
         transaction: '',
         date: new Date(),
         staff: employerDetails?.name,
@@ -70,26 +65,8 @@ const ConfirmSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose,
       statuses.push(status);
       setValue('status', statuses);
       await updateOrder(orderDetails);
-      
-      if (orderDetails.senderDistrict) {
-        const data: ConsolidationInterface = await getConsolidationByAddress(orderDetails.senderDistrict);
-        if (data && data.quantity !== undefined) {
-          data.quantity = data.quantity + 1;
-        } else {
-          data.quantity = 1;
-        }
-        updateConsolidation(data);
-      }
 
-      if (orderDetails.senderDistrict && orderDetails.senderVillage) {
-        const data: TransactionInterface = await getTransactionByAddress(orderDetails.senderVillage, orderDetails.senderDistrict);
-        if (data && data.quantity !== undefined) {
-          data.quantity = data.quantity - 1;
-        } 
-        updateTransaction(data);
-      }
-
-      onClose(); // Close the component after updating the order
+      onClose();
     }
   };
 

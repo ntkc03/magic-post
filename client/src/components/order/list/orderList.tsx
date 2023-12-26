@@ -74,19 +74,6 @@ export default function OrderList() {
     fetchOrders();
   }, [employerDetails]);
 
-  useEffect(() => {
-    function setPadding(){
-      let header: HTMLElement | null  = document.getElementById('fixed-header');
-      let container: HTMLElement | null  = document.getElementById('container');
-
-      if(container) {
-        container.style.marginTop = header?.offsetHeight + "px";
-      }
-    }
-    setPadding();
-    window.addEventListener('resize', setPadding);
-  });
-
   const [filteredOrders, setFilteredOrders] = useState([...allOrders]);
 
   const handleSearch = (query: string) => {
@@ -127,7 +114,7 @@ export default function OrderList() {
         <h1 className="md:text-[30px] mr-[1%] text-[20px] flex justify-center">Danh sách đơn hàng</h1>
         {/* Search Bar and Filter */}
         <div className="lg:mx-[15%] mt-8">
-          <SearchFilterBar onSearch={handleSearch} onFilter={handleFilter}/>
+          <SearchFilterBar onSearch={handleSearch} onFilter={handleFilter} employerRole={employerDetails?.role || ""}/>
         </div>
 
         {/* List of items */}

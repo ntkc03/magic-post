@@ -25,6 +25,7 @@ import SendToReceiverTransaction from '../status/sendToReceiverTransaction';
 import ConfirmReceiverTransaction from '../status/confirmReceiverTransaction';
 import Shipping from '../status/shipping';
 import ShippingStatus from '../status/shippingStatus';
+import { Typography } from '@mui/material';
 
 interface OrderTableProps {
   allOrders: orderInterface[]
@@ -39,6 +40,7 @@ interface Data {
   status: string;
   cod: string;
   fee: string;
+  action: string;
 }
 
 function createData(
@@ -50,6 +52,7 @@ function createData(
   status: string,
   cod: string,
   fee: string,
+  action: string,
 ): Data {
   return {
     code,
@@ -59,7 +62,8 @@ function createData(
     date,
     status,
     cod,
-    fee
+    fee, 
+    action,
   };
 }
 
@@ -128,16 +132,20 @@ const headCells: readonly HeadCell[] = [
     label: 'Ngày tạo đơn',
   },
   {
-    id: 'status',
-    label: 'Trạng thái',
+    id: 'fee',
+    label: 'Tổng cước',
   },
   {
     id: 'cod',
     label: 'Thu hộ',
   },
   {
-    id: 'fee',
-    label: 'Tổng cước',
+    id: 'status',
+    label: 'Trạng thái',
+  },
+  {
+    id: 'action',
+    label: 'Hành động tiếp thep',
   },
 ];
 
@@ -222,6 +230,7 @@ React.useEffect(() => {
         (order.status && order.status.length > 0) ? (order.status[order.status.length - 1]?.action ?? " ") : '',
         order.COD ? order.COD.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) : "0 VND",
         order.sumFee ? order.sumFee.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) : "0 VND",
+        "Hành động tiếp theo",
       ),
     ),
   );
@@ -251,20 +260,39 @@ React.useEffect(() => {
   };
 
   const statusColors: Record<string, string> = {
-    'Nhận đơn hàng': '#F0E5FF',
-    'Gửi đến điểm tập kết': '#FFF0E5',
-    'Điểm tập kết đã nhận': '#E5FFF0',
-    'Gửi đến điểm tập kết đích': '#F0FFE5',
-    'Điểm tập kết đích đã nhận': '#E5F0FF',
-    'Gửi đến điểm giao dịch đích': '#FFE5F0',
-    'Điểm giao dịch đích đã nhận': '#F0E5FF',
-    'Đang giao hàng': '#FFF0E5',
-    'Giao hàng thành công': '#E5FFF0',
-    'Giao hàng không thành công': '#F0FFE5',
+    'Nhận đơn hàng': '#B8E1FF',
+    'Gửi đến điểm tập kết': '#E9C3BB',
+    'Điểm tập kết đã nhận': '#FFDCE3',
+    'Gửi đến điểm tập kết đích': '#F0D6FA',
+    'Điểm tập kết đích đã nhận': '#EEDCCE',
+    'Gửi đến điểm giao dịch đích': '#ADDDCE',
+    'Điểm giao dịch đích đã nhận': '#C8B4BA',
+    'Đang giao hàng': '#C1CD97',
+    'Giao hàng thành công': '#D5C7D9',
+    'Giao hàng không thành công': '#9EBF99',
   };
+
   
   const getStatusColor = (status: string) => {
     return statusColors[status] || 'transparent';
+  };
+
+  const nextAction: Record<string, string> = {
+    'Nhận đơn hàng': 'Gửi đến điểm tập kết',
+    'Gửi đến điểm tập kết': 'Xác nhận đã nhận đơn hàng',
+    'Điểm tập kết đã nhận': 'Gửi đến điểm tập kết đích',
+    'Gửi đến điểm tập kết đích': 'Xác nhận đã nhận đơn hàng',
+    'Điểm tập kết đích đã nhận': 'Gửi đến điểm giao dịch đích',
+    'Gửi đến điểm giao dịch đích': 'Xác nhận đã nhận đơn hàng',
+    'Điểm giao dịch đích đã nhận': 'Giao hàng',
+    'Đang giao hàng': 'Xác nhận tình trạng đơn',
+    'Giao hàng thành công': 'Giao hàng thành công',
+    'Giao hàng không thành công': 'Chuyển hoàn đơn',
+  };
+
+  
+  const getNextAction = (status: string) => {
+    return nextAction[status] || '';
   };
 
 
@@ -345,9 +373,27 @@ React.useEffect(() => {
                     <TableCell align="center">{row.cod}</TableCell>
                     <TableCell align="center">{row.fee}</TableCell>
                     <TableCell align="center">
-                    <Button
+                    <Typography
                       style={{
                         backgroundColor: getStatusColor(row.status),
+                        border: '1px',
+                        borderRadius: '8px',
+                        padding: '8px',
+                        color: "black",
+                        fontSize: "12px",
+                        textTransform: 'uppercase',
+                        fontWeight: "bold",
+                        fontFamily: 'Roboto, sans-serif',
+                      }}
+                    >
+                      {row.status}
+                    </Typography>
+                    {items}
+                    </TableCell>
+                    <TableCell align="center">
+                    <Button
+                      style={{
+                        backgroundColor: "#E5F0FF",
                         border: '1px',
                         borderRadius: '8px',
                         padding: '8px',
@@ -357,7 +403,7 @@ React.useEffect(() => {
                       
                       onClick={() => handleButtonClick(row)}
                     >
-                      {row.status}
+                      {getNextAction(row.status)}
                     </Button>
                     {items}
                     </TableCell>
