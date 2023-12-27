@@ -180,6 +180,7 @@ export default function UserLogin() {
               Đăng nhập
             </button>
           </form>
+
           <div className="flex justify-center lg:hidden">
             <img src="https://i.imgur.com/TSDO2cW.gif"
               alt="img"

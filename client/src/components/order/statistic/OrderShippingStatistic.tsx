@@ -139,6 +139,7 @@ export default function OrderShippingStatistic() {
           }
         }
       }
+      console.log(receiver, send);
       setSuccesses(success);
       setFailures(failure);
       setSend(send);
@@ -212,7 +213,15 @@ export default function OrderShippingStatistic() {
   return (
     <div className="min-h-screen bg-background py-8" id="container">
       <div className="mx-[5%] order-1 md:order-2">
-        <h1 className="md:text-[30px] mr-[1%] text-[20px] flex justify-center mb-8">Thống kê đơn hàng</h1>
+        <div className="mr-[1%] mb-8">
+          <p className="md:text-[30px] text-[20px] flex justify-center mb-4">Thống kê đơn hàng</p>
+          {employerDetails?.role === "Nhân viên điểm giao dịch" && (
+            <p className="flex justify-center">Điểm giao dịch: {employerDetails.transaction}</p>
+          )}
+          {employerDetails?.role === "Nhân viên điểm tập kết" && (
+            <p className="flex justify-center">Điểm tập kết: {employerDetails.consolidation}</p>
+          )}
+        </div>
         <div className="flex justify-end mb-8">
           <select
             value={selectedMonth}
@@ -253,15 +262,17 @@ export default function OrderShippingStatistic() {
         </div>
         <div className="lg:grid lg:grid-cols-2 lg:space-x-8">
           <div className="mb-8 lg:mb-0">
-            <div className="mb-8">
-              <Card className="bg-white p-8">
-                <h1 className="md:text-[20px] mr-[1%] text-[15px]">Tỉ lệ giao thành công/thất bại</h1>
-                <div className="flex justify-center">
-                  <PieChart successes={successes} failures={failures} width='350px' height='auto'/>
-                </div>
-              </Card>
-            </div>
-
+            {employerDetails?.role === "Nhân viên điểm giao dịch" && (
+              <div className="mb-8">
+                <Card className="bg-white p-8">
+                  <h1 className="md:text-[20px] mr-[1%] text-[15px]">Tỉ lệ giao thành công/thất bại</h1>
+                  <div className="flex justify-center">
+                    <PieChart successes={successes} failures={failures} width='350px' height='auto'/>
+                  </div>
+                </Card>
+              </div>
+            )}
+            
             <div>
               <Card className="bg-white p-8">
                 <h1 className="md:text-[20px] mr-[1%] text-[15px]">Lượt hàng đang đi/về</h1>

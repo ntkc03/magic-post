@@ -20,10 +20,10 @@ const BarChart: React.FC<BarChartProps> = ({ send, receive, width, height }) => 
     datasets: [
       {
         data: [send, receive],
-        backgroundColor: ['#3498db', '#e74c3c'], 
-        hoverBackgroundColor: ['#2980b9', '#c0392b'],
+        backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)'], 
+        hoverBackgroundColor: ['rgba(54, 162, 235, 0.8)', 'rgba(255, 99, 132, 0.8)'],
         borderWidth: 2,
-        borderColor: '#fff', 
+        borderColor: ['rgb(54, 162, 235)', 'rgb(255, 99, 132)'], 
         label: 'Số lượng', // Add label for the dataset
       },
     ],
@@ -53,7 +53,9 @@ const BarChart: React.FC<BarChartProps> = ({ send, receive, width, height }) => 
         stacked: true,
         beginAtZero: true,
         type: 'linear' as const,
-        stepSize: 1,
+        ticks: {
+          precision: 0, // Set precision to 0 to display integer values without decimals
+        },
       },
     },
   };

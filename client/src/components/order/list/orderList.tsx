@@ -112,7 +112,15 @@ export default function OrderList() {
   return (
     <div className="min-h-screen bg-background py-8" id="container">
       <div className="mx-[5%] order-1 md:order-2">
-        <h1 className="md:text-[30px] mr-[1%] text-[20px] flex justify-center">Danh sách đơn hàng</h1>
+      <div className="mr-[1%] mb-8">
+          <p className="md:text-[30px] text-[20px] flex justify-center mb-4">Danh sách đơn hàng</p>
+          {employerDetails?.role === "Nhân viên điểm giao dịch" && (
+            <p className="flex justify-center">Điểm giao dịch: {employerDetails.transaction}</p>
+          )}
+          {employerDetails?.role === "Nhân viên điểm tập kết" && (
+            <p className="flex justify-center">Điểm tập kết: {employerDetails.consolidation}</p>
+          )}
+        </div>
         {/* Search Bar and Filter */}
         <div className="lg:mx-[15%] mt-8">
           <SearchFilterBar onSearch={handleSearch} onFilter={handleFilter} employerRole={employerDetails?.role || ""}/>
