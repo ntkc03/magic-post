@@ -55,7 +55,8 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({ onSearch, onFilter, e
           {employerRole === "Nhân viên điểm giao dịch" && (
             <>
               <option value="Nhận đơn hàng">Nhận đơn hàng</option>
-              <option value="Gửi đến điểm giao dịch đích">Gửi đến điểm giao dịch đích</option>
+              <option value="Đang gửi đến điểm tập kết">Đang gửi đến điểm tập kết</option>
+              <option value="Đang gửi đến điểm giao dịch đích">Đang gửi đến điểm giao dịch đích</option>
               <option value="Điểm giao dịch đích đã nhận">Điểm giao dịch đích đã nhận</option>
               <option value="Đang giao hàng">Đang giao hàng</option>
               <option value="Giao hàng thành công">Giao hàng thành công</option>
@@ -65,10 +66,11 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({ onSearch, onFilter, e
 
           {employerRole === "Nhân viên điểm tập kết" && (
             <>
-            <option value="Gửi đến điểm tập kết">Gửi đến điểm tập kết</option>
+            <option value="Đang gửi đến điểm tập kết">Đang gửi đến điểm tập kết</option>
             <option value="Điểm tập kết đã nhận">Điểm tập kết đã nhận</option>
-            <option value="Gửi đến điểm tập kết đích">Gửi đến điểm tập kết đích</option>
+            <option value="Đang gửi đến điểm tập kết đích">Đang gửi đến điểm tập kết đích</option>
             <option value="Điểm tập kết đích đã nhận">Điểm tập kết đích đã nhận</option>
+            <option value="Đang gửi đến điểm giao dịch đích">Đang gửi đến điểm giao dịch đích</option>
             </>
           )}
           

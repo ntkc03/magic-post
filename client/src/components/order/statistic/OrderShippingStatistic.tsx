@@ -8,6 +8,7 @@ import { getOrderList } from "../../../features/axios/api/order/createOrder";
 import { fetchUser, clearUserDetails } from "../../../features/redux/slices/user/userDetailsSlice";
 import { employerInterface } from "../../../types/EmployerInterface";
 import { orderInterface } from "../../../types/OrderInterface";
+import BarChart from "./BarChart";
 
 const token = localStorage.getItem("token");
 
@@ -49,7 +50,8 @@ export default function OrderShippingStatistic() {
                 if (statuses && statuses.length > 0) {
                   let status = statuses[statuses.length - 1];
                   console.log(employerDetails?.consolidation)
-                  if(employerDetails?.consolidation === status.consolidation && employerDetails?.transaction === status.transaction) {
+                  if((employerDetails?.consolidation === status.fromConsolidation && employerDetails?.transaction === status.fromTransaction) 
+                  || (employerDetails?.consolidation === status.toConsolidation && employerDetails?.transaction === status.toTransaction)) {
                     filterOrders.push(orders[i]);
                   }
                 }
@@ -92,10 +94,14 @@ export default function OrderShippingStatistic() {
 
   const [successes, setSuccesses] = useState<number>(0);
   const [failures, setFailures] = useState<number>(0);
+  const [send, setSend] = useState<number>(0);
+  const [receive, setReceive] = useState<number>(0);
   React.useEffect(() => {
     const calculate = async () => {
       let success = 0;
       let failure = 0;
+      let send = 0;
+      let receiver = 0;
       for (let i = 0; i < filteredOrders.length; i++) {
         if (filteredOrders[i]?.status) {
           let statuses = filteredOrders[i].status;
@@ -105,12 +111,38 @@ export default function OrderShippingStatistic() {
               success += 1;
             } else if (status.action === "Giao hàng không thành công") {
               failure += 1;
+            } 
+
+            if (employerDetails?.role === "Nhân viên điểm tập kết") {
+              if (status.action === "Đang gửi đến điểm tập kết") {
+                receiver += 1;
+              }
+              if (status.action === "Đang gửi đến điểm tập kết đích") {
+                if (employerDetails.consolidation === status.fromConsolidation) {
+                  send += 1;
+                } else if (employerDetails.consolidation === status.toConsolidation) {
+                  receiver += 1;
+                }
+              } 
+              if (status.action === "Đang gửi đến điểm giao dịch đích") {
+                send += 1;
+              } 
+            } else if (employerDetails?.role === "Nhân viên điểm giao dịch") {
+              if (status.action === "Đang gửi đến điểm tập kết") {
+                send += 1;
+              }
+              if (status.action === "Đang gửi đến điểm giao dịch đích") {
+                receiver += 1;
+              }
+
             }
           }
         }
       }
       setSuccesses(success);
       setFailures(failure);
+      setSend(send);
+      setReceive(receiver);
     }
     calculate();
   }, [filteredOrders, allOrders]);
@@ -121,16 +153,18 @@ export default function OrderShippingStatistic() {
       let status_count: Map<string, number> = new Map<string, number>;
       if (employerDetails?.role === "Nhân viên điểm giao dịch") {
         status_count.set("Nhận đơn hàng", 0);
-        status_count.set("Gửi đến điểm giao dịch đích", 0);
+        status_count.set("Đang gửi đến điểm tập kết", 0);
+        status_count.set("Đang gửi đến điểm giao dịch đích", 0);
         status_count.set("Điểm giao dịch đích đã nhận", 0);
         status_count.set("Đang giao hàng", 0);
         status_count.set("Giao hàng thành công", 0);
         status_count.set("Giao hàng không thành công", 0);
       } else {
-        status_count.set("Gửi đến điểm tập kết", 0);
+        status_count.set("Đang gửi đến điểm tập kết", 0);
         status_count.set("Điểm tập kết đã nhận", 0);
-        status_count.set("Gửi đến điểm tập kết đích", 0);
+        status_count.set("Đang gửi đến điểm tập kết đích", 0);
         status_count.set("Điểm tập kết đích đã nhận", 0);
+        status_count.set("Đang gửi đến điểm giao dịch đích", 0);
       }
       for (let i = 0; i < filteredOrders.length; i++) {
         if (filteredOrders[i]?.status) {
@@ -217,15 +251,26 @@ export default function OrderShippingStatistic() {
             <option value="2024">2024</option>
           </select>
         </div>
-        <div className="grid grid-cols-2 space-x-8">
-          <div>
-            <Card className="bg-white p-8">
-              <h1 className="md:text-[20px] mr-[1%] text-[15px]">Tỉ lệ giao thành công/thất bại</h1>
-              <div className="flex justify-center">
-                <PieChart successes={successes} failures={failures} width='350px' height='auto'/>
-              </div>
-              
-            </Card>
+        <div className="lg:grid lg:grid-cols-2 lg:space-x-8">
+          <div className="mb-8 lg:mb-0">
+            <div className="mb-8">
+              <Card className="bg-white p-8">
+                <h1 className="md:text-[20px] mr-[1%] text-[15px]">Tỉ lệ giao thành công/thất bại</h1>
+                <div className="flex justify-center">
+                  <PieChart successes={successes} failures={failures} width='350px' height='auto'/>
+                </div>
+              </Card>
+            </div>
+
+            <div>
+              <Card className="bg-white p-8">
+                <h1 className="md:text-[20px] mr-[1%] text-[15px]">Lượt hàng đang đi/về</h1>
+                <div className="flex justify-center pt-8">
+                  <BarChart send={send} receive={receive} width='350px' height='auto'/>
+                </div>
+              </Card>
+            </div>
+            
           </div>
           
           <div>

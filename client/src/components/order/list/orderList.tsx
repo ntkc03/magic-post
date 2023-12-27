@@ -51,13 +51,14 @@ export default function OrderList() {
                 if (statuses && statuses.length > 0) {
                   let status = statuses[statuses.length - 1];
                   console.log(employerDetails?.consolidation)
-                  if(employerDetails?.consolidation === status.consolidation && employerDetails?.transaction === status.transaction) {
+                  if((employerDetails?.consolidation === status.fromConsolidation && employerDetails?.transaction === status.fromTransaction) 
+                  || (employerDetails?.consolidation === status.toConsolidation && employerDetails?.transaction === status.toTransaction)) {
                     filterOrders.push(orders[i]);
                   }
                 }
               }
             }
-      
+
             setAllOrders(filterOrders);
             setFilteredOrders(filterOrders);
           } else {
@@ -119,7 +120,7 @@ export default function OrderList() {
 
         {/* List of items */}
         <div className="mt-8">
-          <OrderTable allOrders={filteredOrders}/>
+          <OrderTable allOrders={filteredOrders} employer={employerDetails}/>
         </div>
       </div>
     </div>

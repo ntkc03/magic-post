@@ -42,15 +42,15 @@ function createData(order: orderInterface) {
     if (statuses) {
         const lastState = statuses[statuses.length - 1];
         status = lastState.action ?? "";
-        const place = lastState.place;
-        if (place === "consolidation") {
-            location = "Điểm tập kết: " + lastState.consolidation;
-        } else if (place === "transaction") {
-            location = "Điểm giao dịch: " + lastState.transaction;
-        }
-        if (status === "Giao hàng thành công") {
-            sentAt = lastState.date;
-        }
+        // const place = lastState.place;
+        // if (place === "consolidation") {
+        //     location = "Điểm tập kết: " + lastState.consolidation;
+        // } else if (place === "transaction") {
+        //     location = "Điểm giao dịch: " + lastState.transaction;
+        // }
+        // if (status === "Giao hàng thành công") {
+        //     sentAt = lastState.date;
+        // }
     }
     return {
         code, senderAddress, receiverAddress, location, status, createdAt, sentAt

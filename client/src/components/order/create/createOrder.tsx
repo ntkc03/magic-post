@@ -169,11 +169,12 @@ export default function CreateOrder() {
     if (employerDetailsLoaded) {
       let status: Status = {
         action: "Nhận đơn hàng",
-        consolidation: employerDetails?.consolidation,
-        transaction: employerDetails?.transaction,
+        fromConsolidation: employerDetails?.consolidation,
+        fromTransaction: employerDetails?.transaction,
+        toConsolidation: employerDetails?.consolidation,
+        toTransaction: employerDetails?.transaction,
         date: new Date(),
         staff: employerDetails?.name,
-        place: "transaction",
       };
 
 

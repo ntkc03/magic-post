@@ -8,6 +8,8 @@ import { fetchUser, clearUserDetails } from '../../../features/redux/slices/user
 import { employerInterface } from '../../../types/EmployerInterface';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { getConsolidationByAddress, updateConsolidation } from '../../../features/axios/api/consolidation/consolidationPointDetails';
+import { ConsolidationInterface } from '../../../types/ConsolidationInterface';
 interface PrintButtonProps {
   code: string;
   onClose: () => void;
@@ -53,19 +55,27 @@ const ConfirmReceiverTransaction: React.FC<PrintButtonProps> = ({ code, onClose,
     if (orderDetails && employerDetails) {
       let status: Status = {
         action: 'Điểm giao dịch đích đã nhận',
-        consolidation: orderDetails.receiverDistrict,
-        transaction: orderDetails.receiverVillage,
+        fromConsolidation: employerDetails?.consolidation,
+        fromTransaction: employerDetails?.transaction,
+        toConsolidation: employerDetails?.consolidation,
+        toTransaction: employerDetails?.transaction,
         date: new Date(),
         staff: employerDetails?.name,
-        place: "transaction",
       };
 
       let statuses: Status[] = orderDetails.status ? orderDetails.status : [];
       statuses.push(status);
       setValue('status', statuses);
       await updateOrder(orderDetails);
-      
 
+      if (orderDetails.receiverDistrict) {
+        const data: ConsolidationInterface = await getConsolidationByAddress(orderDetails.receiverDistrict);
+        if (data && data.quantity !== undefined && data.quantity !== 0) {
+          data.quantity = data.quantity - 1;
+        } 
+        updateConsolidation(data);
+      }
+      
       onClose(); // Close the component after updating the order
     }
   };

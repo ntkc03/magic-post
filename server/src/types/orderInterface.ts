@@ -46,8 +46,13 @@ export interface orderInterface {
 
 export interface Status {
     action?: string;
-    consolidation?: string;
-    transaction?: string;
+    fromConsolidation?: string;
+    fromTransaction?: string;
+    toConsolidation?: string;
+    toTransaction?: string;
     date?: Date;
     staff?: string;
+    place?: string;
+    note?: string;
+    guide?: string;
 }

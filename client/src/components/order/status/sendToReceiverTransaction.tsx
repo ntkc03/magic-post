@@ -60,12 +60,13 @@ const SendToReceiverTransaction: React.FC<PrintButtonProps> = ({ code, onClose, 
     // Access the necessary information from your component's state or props
     if (orderDetails && employerDetails) {
       let status: Status = {
-        action: 'Gửi đến điểm giao dịch đích',
-        consolidation: orderDetails.receiverDistrict,
-        transaction: orderDetails.receiverVillage,
+        action: 'Đang gửi đến điểm giao dịch đích',
+        fromConsolidation: employerDetails?.consolidation,
+        fromTransaction: '',
+        toConsolidation: orderDetails.receiverDistrict,
+        toTransaction: orderDetails.receiverVillage,
         date: new Date(),
         staff: employerDetails?.name,
-        place: "consolidation"
       };
 
       let statuses: Status[] = orderDetails.status ? orderDetails.status : [];
@@ -82,13 +83,6 @@ const SendToReceiverTransaction: React.FC<PrintButtonProps> = ({ code, onClose, 
         updateTransaction(data);
       }
 
-      if (orderDetails.receiverDistrict) {
-        const data: ConsolidationInterface = await getConsolidationByAddress(orderDetails.receiverDistrict);
-        if (data && data.quantity !== undefined && data.quantity !== 0) {
-          data.quantity = data.quantity - 1;
-        } 
-        updateConsolidation(data);
-      }
       
       onClose(); 
     }

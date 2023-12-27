@@ -8,6 +8,8 @@ import { fetchUser, clearUserDetails } from '../../../features/redux/slices/user
 import { employerInterface } from '../../../types/EmployerInterface';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { getTransactionByAddress, updateTransaction } from '../../../features/axios/api/transaction/transactionPointDetails';
+import { TransactionInterface } from '../../../types/TransactionInterface';
 
 interface PrintButtonProps {
   code: string;
@@ -54,11 +56,12 @@ const ConfirmSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose,
     if (orderDetails && employerDetails) {
       let status: Status = {
         action: 'Điểm tập kết đã nhận',
-        consolidation: employerDetails.consolidation,
-        transaction: '',
+        fromConsolidation: employerDetails?.consolidation,
+        fromTransaction: employerDetails?.transaction,
+        toConsolidation: employerDetails?.consolidation,
+        toTransaction: employerDetails.transaction,
         date: new Date(),
         staff: employerDetails?.name,
-        place: "consolidation",
       };
 
       let statuses: Status[] = orderDetails.status ? orderDetails.status : [];
@@ -66,6 +69,14 @@ const ConfirmSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose,
       setValue('status', statuses);
       await updateOrder(orderDetails);
 
+      if (orderDetails.senderDistrict && orderDetails.senderVillage) {
+        const data: TransactionInterface = await getTransactionByAddress(orderDetails.senderVillage, orderDetails.senderDistrict);
+        if (data && data.quantity !== undefined && data.quantity !== 0) {
+          data.quantity = data.quantity - 1;
+        } 
+        updateTransaction(data);
+      }
+      
       onClose();
     }
   };

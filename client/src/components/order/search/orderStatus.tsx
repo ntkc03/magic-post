@@ -69,20 +69,20 @@ const OrderStatus: React.FC<SearchBoxProps> = ({ result }) => {
                     <p className="col-span-3 font-medium text-bgBlue hover:text-blue-700 duration-300 transition ease-in-out text-lg">{status.action}</p>
                     <p className="text-right font-medium text-bgBlue hover:text-blue-700 duration-300 transition ease-in-out text-md">{formatDate(status.date?? new Date())}</p>
                   </div>
-                  {(status.action === "Nhận đơn hàng" || status.action === "Gửi đến điểm tập kết") && (
-                    <p className="text-gray-700">Nhân viên: {status.staff}. Điểm giao dịch: {status.transaction}</p>
+                  {(status.action === "Nhận đơn hàng" || status.action === "Đang gửi đến điểm tập kết") && (
+                    <p className="text-gray-700">Nhân viên: {status.staff}. Điểm giao dịch: {status.fromTransaction}</p>
                   )}
 
-                  {(status.action === "Điểm tập kết đã nhận" || status.action === "Gửi đến điểm tập kết đích") && (
-                    <p className="text-gray-700">Nhân viên: {status.staff}. Điểm tập kết: {status.consolidation}</p>
+                  {(status.action === "Điểm tập kết đã nhận" || status.action === "Đang gửi đến điểm tập kết đích") && (
+                    <p className="text-gray-700">Nhân viên: {status.staff}. Điểm tập kết: {status.fromConsolidation}</p>
                   )}
 
-                  {(status.action === "Điểm tập kết đích đã nhận" || status.action === "Gửi đến điểm giao dịch đích") && (
-                    <p className="text-gray-700">Nhân viên: {status.staff}. Điểm tập kết: {status.consolidation}</p>
+                  {(status.action === "Điểm tập kết đích đã nhận" || status.action === "Đang gửi đến điểm giao dịch đích") && (
+                    <p className="text-gray-700">Nhân viên: {status.staff}. Điểm tập kết: {status.fromConsolidation}</p>
                   )}
 
                   {(status.action === "Điểm giao dịch đích đã nhận" || status.action === "Đang giao hàng") && (
-                    <p className="text-gray-700">Nhân viên: {status.staff}. Điểm giao dịch: {status.transaction}</p>
+                    <p className="text-gray-700">Nhân viên: {status.staff}. Điểm giao dịch: {status.fromTransaction}</p>
                   )}
 
                   {(status.action === "Giao hàng thành công") && (

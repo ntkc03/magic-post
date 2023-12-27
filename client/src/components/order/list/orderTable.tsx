@@ -26,9 +26,11 @@ import ConfirmReceiverTransaction from '../status/confirmReceiverTransaction';
 import Shipping from '../status/shipping';
 import ShippingStatus from '../status/shippingStatus';
 import { Typography } from '@mui/material';
+import { employerInterface } from '../../../types/EmployerInterface';
 
 interface OrderTableProps {
-  allOrders: orderInterface[]
+  allOrders: orderInterface[];
+  employer?: employerInterface;
 }
 
 interface Data {
@@ -41,6 +43,8 @@ interface Data {
   cod: string;
   fee: string;
   action: string;
+  consolidation: string;
+  transaction: string;
 }
 
 function createData(
@@ -53,6 +57,8 @@ function createData(
   cod: string,
   fee: string,
   action: string,
+  consolidation: string,
+  transaction: string,
 ): Data {
   return {
     code,
@@ -64,6 +70,8 @@ function createData(
     cod,
     fee, 
     action,
+    consolidation,
+    transaction
   };
 }
 
@@ -145,7 +153,7 @@ const headCells: readonly HeadCell[] = [
   },
   {
     id: 'action',
-    label: 'Hành động tiếp thep',
+    label: 'Hành động tiếp theo',
   },
 ];
 
@@ -204,7 +212,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 }
 
 
-const OrderTable: React.FC<OrderTableProps> = ({ allOrders }) => {
+const OrderTable: React.FC<OrderTableProps> = ({ allOrders, employer}) => {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('date');
   const [page, setPage] = React.useState(0);
@@ -231,6 +239,8 @@ React.useEffect(() => {
         order.COD ? order.COD.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) : "0 VND",
         order.sumFee ? order.sumFee.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) : "0 VND",
         "Hành động tiếp theo",
+        (order.status && order.status.length > 0) ? (order.status[order.status.length - 1]?.toConsolidation ?? " ") : '',
+        (order.status && order.status.length > 0) ? (order.status[order.status.length - 1]?.toTransaction ?? " ") : '',
       ),
     ),
   );
@@ -261,11 +271,11 @@ React.useEffect(() => {
 
   const statusColors: Record<string, string> = {
     'Nhận đơn hàng': '#B8E1FF',
-    'Gửi đến điểm tập kết': '#E9C3BB',
+    'Đang gửi đến điểm tập kết': '#E9C3BB',
     'Điểm tập kết đã nhận': '#FFDCE3',
-    'Gửi đến điểm tập kết đích': '#F0D6FA',
+    'Đang gửi đến điểm tập kết đích': '#F0D6FA',
     'Điểm tập kết đích đã nhận': '#EEDCCE',
-    'Gửi đến điểm giao dịch đích': '#ADDDCE',
+    'Đang gửi đến điểm giao dịch đích': '#ADDDCE',
     'Điểm giao dịch đích đã nhận': '#C8B4BA',
     'Đang giao hàng': '#C1CD97',
     'Giao hàng thành công': '#D5C7D9',
@@ -279,11 +289,11 @@ React.useEffect(() => {
 
   const nextAction: Record<string, string> = {
     'Nhận đơn hàng': 'Gửi đến điểm tập kết',
-    'Gửi đến điểm tập kết': 'Xác nhận đã nhận đơn hàng',
+    'Đang gửi đến điểm tập kết': 'Xác nhận đã nhận đơn hàng',
     'Điểm tập kết đã nhận': 'Gửi đến điểm tập kết đích',
-    'Gửi đến điểm tập kết đích': 'Xác nhận đã nhận đơn hàng',
+    'Đang gửi đến điểm tập kết đích': 'Xác nhận đã nhận đơn hàng',
     'Điểm tập kết đích đã nhận': 'Gửi đến điểm giao dịch đích',
-    'Gửi đến điểm giao dịch đích': 'Xác nhận đã nhận đơn hàng',
+    'Đang gửi đến điểm giao dịch đích': 'Xác nhận đã nhận đơn hàng',
     'Điểm giao dịch đích đã nhận': 'Giao hàng',
     'Đang giao hàng': 'Xác nhận tình trạng đơn',
     'Giao hàng thành công': 'Giao hàng thành công',
@@ -319,17 +329,18 @@ React.useEffect(() => {
     const onCloseButt = () => {
       setItems(undefined);
     }
+    console.log('hi', employer?.transaction, 'hello', row.transaction)
     if (row.status === 'Nhận đơn hàng') {
       setItems(<SendToSenderConsolidation code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
-    } else if (row.status === 'Gửi đến điểm tập kết') {
+    } else if (row.status === 'Đang gửi đến điểm tập kết' && employer?.transaction === row.transaction) {
       setItems(<ConfirmSenderConsolidation code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
     } else if (row.status === 'Điểm tập kết đã nhận') {
       setItems(<SendToReceiverConsolidation code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
-    } else if (row.status === 'Gửi đến điểm tập kết đích') {
+    } else if (row.status === 'Đang gửi đến điểm tập kết đích' && employer?.consolidation === row.consolidation) {
       setItems(<ConfirmReceiverConsolidation code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
     } else if (row.status === 'Điểm tập kết đích đã nhận') {
       setItems(<SendToReceiverTransaction code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
-    } else if (row.status === 'Gửi đến điểm giao dịch đích') {
+    } else if (row.status === 'Đang gửi đến điểm giao dịch đích' && employer?.transaction === row.transaction) {
       setItems(<ConfirmReceiverTransaction code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
     } else if (row.status === 'Điểm giao dịch đích đã nhận') {
       setItems(<Shipping code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)

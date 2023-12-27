@@ -59,11 +59,12 @@ const ShippingStatus: React.FC<PrintButtonProps> = ({ code, onClose, onCloseButt
     if (orderDetails && employerDetails) {
       let status: Status = {
         action: 'Giao hàng thành công',
-        consolidation: orderDetails.receiverDistrict,
-        transaction: orderDetails.receiverVillage,
+        fromConsolidation: orderDetails.receiverDistrict,
+        fromTransaction: orderDetails.receiverVillage,
+        toConsolidation: orderDetails.receiverDistrict,
+        toTransaction: orderDetails.receiverVillage,
         date: new Date(),
         staff: employerDetails?.name,
-        place: "received"
       };
 
       let statuses: Status[] = orderDetails.status ? orderDetails.status : [];
@@ -99,11 +100,12 @@ const ShippingStatus: React.FC<PrintButtonProps> = ({ code, onClose, onCloseButt
     if (orderDetails && employerDetails) {
       let status: Status = {
         action: 'Giao hàng không thành công',
-        consolidation: orderDetails.receiverDistrict,
-        transaction: orderDetails.receiverVillage,
+        fromConsolidation: employerDetails?.consolidation,
+        fromTransaction: employerDetails?.transaction,
+        toConsolidation: employerDetails?.consolidation,
+        toTransaction: employerDetails?.transaction,
         date: new Date(),
         staff: employerDetails?.name,
-        place: "transaction",
         note: note,
         guide: orderDetails.cannotDelivered
       };

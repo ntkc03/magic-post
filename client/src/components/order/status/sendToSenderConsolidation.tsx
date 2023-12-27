@@ -60,12 +60,13 @@ const SendToSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, 
     // Access the necessary information from your component's state or props
     if (orderDetails && employerDetails) {
       let status: Status = {
-        action: 'Gửi đến điểm tập kết',
-        consolidation: employerDetails.consolidation,
-        transaction: '',
+        action: 'Đang gửi đến điểm tập kết',
+        fromConsolidation: employerDetails?.consolidation,
+        fromTransaction: employerDetails?.transaction,
+        toConsolidation: employerDetails?.consolidation,
+        toTransaction: "",
         date: new Date(),
         staff: employerDetails?.name,
-        place: "transaction"
       };
 
       let statuses: Status[] = orderDetails.status ? orderDetails.status : [];
@@ -83,13 +84,6 @@ const SendToSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, 
         updateConsolidation(data);
       }
 
-      if (orderDetails.senderDistrict && orderDetails.senderVillage) {
-        const data: TransactionInterface = await getTransactionByAddress(orderDetails.senderVillage, orderDetails.senderDistrict);
-        if (data && data.quantity !== undefined && data.quantity !== 0) {
-          data.quantity = data.quantity - 1;
-        } 
-        updateTransaction(data);
-      }
 
       onClose();
     }
