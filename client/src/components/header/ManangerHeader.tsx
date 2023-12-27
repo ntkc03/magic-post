@@ -17,7 +17,7 @@ import { log } from "console";
 
 const navigation = [
   { name: "Quản lý tài khoản", href: "/manager/employee", current: false },
-  { name: "Quản lý đơn hàng", href: "", current: false },
+  { name: "Quản lý đơn hàng", href: "/manager/orders", current: false },
 ];
 
 function classNames(...classes: string[]) {

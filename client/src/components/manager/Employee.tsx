@@ -132,9 +132,6 @@ export function Employee() {
                 <div className='pl-1 pb-4 text-center' >
                     <text className='text-3xl'>Danh sách Nhân viên</text>
                 </div>
-                <div className="lg:mx-[15%] mt-8">
-                    <SearchFilterBar onSearch={handleSearch} />
-                </div>
                 <div className="text-base pt-5 pb-5">
                     {employerDetails?.transaction !== "" && (
                         <span>Điểm giao dịch: {employerDetails?.transaction} - Khu vực: {employerDetails?.consolidation}</span>
@@ -143,6 +140,10 @@ export function Employee() {
                         <span>Điểm tập kết: {employerDetails?.consolidation}</span>
                     )}
                 </div>
+                <div className="lg:mx-[15%] mt-8">
+                    <SearchFilterBar onSearch={handleSearch} />
+                </div>
+
                 <div className="pb-3 flex justify-end">
                     <Stack direction="row" spacing={2}>
                         {/* <Button size="small"

@@ -24,7 +24,7 @@ interface Data {
     sentAt: string;
 }
 
-function createData(order: orderInterface): Data {
+function createData(order: orderInterface, consolidation: string, transaction: string): Data {
     const code = order.code ?? '';
     const senderAddress: string = order.senderVillage + ', '
         + order.senderDistrict + ', '
@@ -32,15 +32,50 @@ function createData(order: orderInterface): Data {
     const receiverAddress: string = order.receiverVillage + ','
         + order.receiverDistrict + ', '
         + order.receiverCity;
-    const createdAt = order.create_at ? formatDate(order?.create_at) : '';
+    let createdAt: string = '';
     const statuses: Status[] | undefined = order.status;
-    let status: string = "";
+    let statusLine: string = "";
     let sentAt: string = '';
     if (statuses) {
         statuses.map((status) => {
-            
+            if (status.toConsolidation === consolidation &&
+                status.toTransaction === transaction) {
+                if (status.action === "Giao hàng thành công") {
+                    statusLine = "Đã giao hàng thành công";
+                    if (status.date) {
+                        const date = new Date(status.date);
+                        sentAt = formatDate(date);
+                    }
+                } else if (status.action === "Giao hàng không thành công") {
+                    statusLine = "Giao hàng không thành công";
+                    if (status.date) {
+                        const date = new Date(status.date);
+                        sentAt = formatDate(date);
+                    }
+                } else if (status.action?.includes("nhận")) {
+                    statusLine = "Đã nhận đơn hàng"
+                    if (status.date) {
+                        const date = new Date(status.date);
+                        createdAt = formatDate(date);
+                    }
+                } else {
+                    statusLine = "Đơn hàng đang được gửi đến"
+                }
+            } else {
+                if (status.action?.includes("nhận")) {
+                    statusLine = "Đã giao đơn hàng thành công"
+                } else {
+                    statusLine = "Đơn hàng đang được giao"
+                }
+                if (status.date) {
+                    const date = new Date(status.date);
+                    sentAt = formatDate(date);
+                }
+            }
         })
+
     }
+    const status = statusLine;
     return {
         code, senderAddress, receiverAddress, status, createdAt, sentAt
     }
@@ -181,7 +216,7 @@ const OrderTable: React.FC<OrderTableProps> = ({ allOrders, consolidation, trans
     React.useEffect(() => {
         setRows(
             allOrders.map((order) =>
-                createData(order)));
+                createData(order, consolidation, transaction)));
     }, [allOrders]);
 
     const handleRequestSort = (
@@ -275,10 +310,12 @@ const OrderTable: React.FC<OrderTableProps> = ({ allOrders, consolidation, trans
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
-            <FormControlLabel
-                control={<Switch checked={dense} onChange={handleChangeDense} />}
-                label="Dense padding"
-            />
+            <div className="float-left">
+                <FormControlLabel
+                    control={<Switch checked={dense} onChange={handleChangeDense} />}
+                    label="Dense padding"
+                />
+            </div>
         </Box>
     );
 }
