@@ -4,7 +4,7 @@ import { employerInterface } from "../../types/EmployerInterface";
 import { useDispatch } from "react-redux";
 import { fetchAllEmployers } from "../../features/redux/slices/user/allEmployersSlide";
 import { allEmployersData } from "../../features/axios/api/employer/EmployersDetail";
-import { DataGrid, GridRowSelectionModel } from '@mui/x-data-grid';
+import { DataGrid, GridColumnHeaderParams, GridRowSelectionModel } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -40,6 +40,7 @@ export function Employee() {
             return;
         }
         const lowercaseQuery = query.toLowerCase();
+
         // Filter employers based on the search query
         const filtered = allEmployers.filter(
             (employer) =>
@@ -50,9 +51,9 @@ export function Employee() {
                 employer.transaction?.toLowerCase().includes(lowercaseQuery) ||
                 employer.consolidation?.toLowerCase().includes(lowercaseQuery)
         );
+        
         setFilteredEmployers(filtered);
     };
-
 
 
     useEffect(() => {
@@ -118,13 +119,6 @@ export function Employee() {
                 </div>
                 <div className="pb-3 flex justify-end">
                     <Stack direction="row" spacing={2}>
-                        {/* <Button size="small"
-                            variant="outlined"
-                            startIcon={<EditIcon />}
-                            disabled={rowSelectionModel.length !== 1}
-                        >
-                            Chỉnh sửa
-                        </Button> */}
                         <Button size="small"
                             variant="outlined"
                             startIcon={<DeleteIcon />}
@@ -147,12 +141,12 @@ export function Employee() {
                             getRowId={(row) => row.username}
                             rows={rows}
                             columns={[
-                                { field: 'name', headerName: 'Tên', width: 210 },
-                                { field: 'username', headerName: 'Tên đăng nhập', width: 200 },
-                                { field: 'role', headerName: 'Vai trò', width: 200 },
-                                { field: 'phone', headerName: 'Số điện thoại', width: 200 },
-                                { field: 'transaction', headerName: 'Điểm giao dịch', width: 200 },
-                                { field: 'consolidation', headerName: 'Điểm tập kết', width: 200 },
+                                { field: 'name', width: 210, renderHeader: () => (<strong>Tên</strong>) },
+                                { field: 'username', width: 200, renderHeader: () => (<strong>Tên đăng nhập</strong>) },
+                                { field: 'role', width: 200, renderHeader: () => (<strong>Vai trò</strong>) },
+                                { field: 'phone', width: 200, renderHeader: () => (<strong>Số điện thoại</strong>) },
+                                { field: 'transaction', width: 200, renderHeader: () => (<strong>Điểm giao dịch</strong>) },
+                                { field: 'consolidation', width: 200, renderHeader: () => (<strong>Điểm tập kết</strong>) },
                             ]}
                             initialState={{
                                 pagination: {

@@ -10,61 +10,77 @@ import { formatDate } from "../order/details/format";
 
 
 interface OrderTableProps {
-    allOrders: orderInterface[]
+    allOrders: orderInterface[],
+    consolidation: string,
+    transaction: string
 }
 
 interface Data {
     code: string;
     senderAddress: string;
     receiverAddress: string;
-    location: string;
     status: string;
     createdAt: string;
     sentAt: string;
 }
 
-function createData(order: orderInterface): Data {
-    const code = order.code ? order.code : "";
-    const senderAddress: string = order.senderHouseNumber + ', '
-        + order.senderVillage + ', '
+function createData(order: orderInterface, consolidation: string, transaction: string): Data {
+    const code = order.code ?? '';
+    const senderAddress: string = order.senderVillage + ', '
         + order.senderDistrict + ', '
-        + order.senderCity + ', '
-        + order.senderCountry;
-    const receiverAddress: string = order.receiverHouseNumber + ', '
-        + order.receiverVillage + ', '
+        + order.senderCity;
+    const receiverAddress: string = order.receiverVillage + ','
         + order.receiverDistrict + ', '
-        + order.receiverCity + ', '
-        + order.receiverCountry;
-    const createdAt = order.create_at ? formatDate(order?.create_at) : '';
+        + order.receiverCity;
+    let createdAt: string = '';
     const statuses: Status[] | undefined = order.status;
-    let location: string = "";
-    let status: string = "";
-    let sentAt: string = "";
+    let statusLine: string = "";
+    let sentAt: string = '';
     if (statuses) {
-        const lastStatus = statuses[statuses.length - 1];
-        status = lastStatus.action ?? "";
-        if (status.includes("Đang gửi") || status === "Giao hàng thành công" || status === "Giao hàng không thành công") {
-            if (lastStatus.date) {
-                const date = new Date(lastStatus.date);
-                sentAt = formatDate(date);
-            }
-            if (lastStatus.fromTransaction === "") {
-                location = "Điểm tập kết: " + lastStatus.fromConsolidation;
+        statuses.map((status) => {
+            if (status.toConsolidation === consolidation &&
+                status.toTransaction === transaction) {
+                if (status.action === "Giao hàng thành công") {
+                    statusLine = "Đã giao hàng thành công";
+                    if (status.date) {
+                        const date = new Date(status.date);
+                        sentAt = formatDate(date);
+                    }
+                } else if (status.action === "Giao hàng không thành công") {
+                    statusLine = "Giao hàng không thành công";
+                    if (status.date) {
+                        const date = new Date(status.date);
+                        sentAt = formatDate(date);
+                    }
+                } else if (status.action?.includes("nhận")) {
+                    statusLine = "Đã nhận đơn hàng"
+                    if (status.date) {
+                        const date = new Date(status.date);
+                        createdAt = formatDate(date);
+                    }
+                } else {
+                    statusLine = "Đơn hàng đang được gửi đến"
+                }
             } else {
-                location = "Điểm giao dịch: " + lastStatus.fromTransaction + " - " + lastStatus.fromConsolidation;
+                if (status.action?.includes("nhận")) {
+                    statusLine = "Đã giao đơn hàng thành công"
+                } else {
+                    statusLine = "Đơn hàng đang được giao"
+                }
+                if (status.date) {
+                    const date = new Date(status.date);
+                    sentAt = formatDate(date);
+                }
             }
-        } else if (status.includes("nhận")) {
-            if (lastStatus.toTransaction === "") {
-                location = "Điểm tập kết: " + lastStatus.toConsolidation;
-            } else {
-                location = "Điểm giao dịch: " + lastStatus.toTransaction + " - " + lastStatus.toConsolidation;
-            }
-        }
+        })
+
     }
+    const status = statusLine;
     return {
-        code, senderAddress, receiverAddress, location, status, createdAt, sentAt
+        code, senderAddress, receiverAddress, status, createdAt, sentAt
     }
 }
+
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -120,18 +136,13 @@ const headCells: readonly HeadCell[] = [
         label: 'Địa chỉ người nhận',
     },
     {
-        id: 'createdAt',
-        label: 'Thời gian tạo đơn',
-    },
-    {
-        id: 'location',
-        label: 'Vị trí đơn hàng',
-    },
-    {
         id: 'status',
         label: 'Trạng thái đơn',
     },
-
+    {
+        id: 'createdAt',
+        label: 'Thời gian nhận đơn',
+    },
     {
         id: 'sentAt',
         label: 'Thời gian gửi đơn',
@@ -192,24 +203,20 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     );
 }
 
-const OrderTable: React.FC<OrderTableProps> = ({ allOrders }) => {
+const OrderTable: React.FC<OrderTableProps> = ({ allOrders, consolidation, transaction }) => {
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('createdAt');
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-
     const [rows, setRows] = React.useState<Data[]>([]);
-
-    const [items, setItems] = useState<React.ReactNode>();
 
 
 
     React.useEffect(() => {
         setRows(
             allOrders.map((order) =>
-                createData(order)));
+                createData(order, consolidation, transaction)));
     }, [allOrders]);
 
     const handleRequestSort = (
@@ -275,9 +282,8 @@ const OrderTable: React.FC<OrderTableProps> = ({ allOrders }) => {
                                         </TableCell>
                                         <TableCell align="left" sx={{ width: 200 }}>{row.senderAddress}</TableCell>
                                         <TableCell align="left" sx={{ width: 200 }}>{row.receiverAddress}</TableCell>
-                                        <TableCell align="left" sx={{ width: 150 }} >{row.createdAt}</TableCell>
-                                        <TableCell align="left" sx={{ width: 200 }}>{row.location}</TableCell>
                                         <TableCell align="left" sx={{ width: 200 }}>{row.status}</TableCell>
+                                        <TableCell align="left" sx={{ width: 150 }} >{row.createdAt}</TableCell>
                                         <TableCell align="left" sx={{ width: 150 }}>{row.sentAt}</TableCell>
                                     </TableRow>
                                 );
@@ -304,10 +310,12 @@ const OrderTable: React.FC<OrderTableProps> = ({ allOrders }) => {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
-            <FormControlLabel
-                control={<Switch checked={dense} onChange={handleChangeDense} />}
-                label="Dense padding"
-            />
+            <div className="float-left">
+                <FormControlLabel
+                    control={<Switch checked={dense} onChange={handleChangeDense} />}
+                    label="Dense padding"
+                />
+            </div>
         </Box>
     );
 }

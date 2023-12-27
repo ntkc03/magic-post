@@ -62,17 +62,16 @@ function EmployeeShimmer() {
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell />
-                                    <TableCell align="center" sx={{ width: 300 }}>
+                                    <TableCell align="left" sx={{ width: 300 }}>
                                         <Typography fontWeight="bold">Tên</Typography>
                                     </TableCell>
-                                    <TableCell align="center" sx={{ width: 300 }}>
+                                    <TableCell align="left" sx={{ width: 300 }}>
                                         <Typography fontWeight="bold">Tên đăng nhập</Typography>
                                     </TableCell>
-                                    <TableCell align="center" sx={{ width: 300 }}>
+                                    <TableCell align="left" sx={{ width: 300 }}>
                                         <Typography fontWeight="bold">Vai trò</Typography>
                                     </TableCell>
-                                    <TableCell align="center" sx={{ width: 250 }}>
+                                    <TableCell align="left" sx={{ width: 250 }}>
                                         <Typography fontWeight="bold">Số điện thoại</Typography>
                                     </TableCell>
                                 </TableRow>
