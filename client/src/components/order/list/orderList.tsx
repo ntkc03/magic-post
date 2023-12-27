@@ -7,8 +7,31 @@ import SearchFilterBar from "./filter/searchFilterBar";
 import React from "react";
 import { orderInterface } from "../../../types/OrderInterface";
 import { formatDate } from "../details/format";
+import { useDispatch } from "react-redux";
+import { employerData } from "../../../features/axios/api/employer/userDetails";
+import { fetchUser, clearUserDetails } from "../../../features/redux/slices/user/userDetailsSlice";
+import { employerInterface } from "../../../types/EmployerInterface";
+
+const token = localStorage.getItem("token");
 
 export default function OrderList() {
+
+  const dispatch = useDispatch();
+  const [employerDetails, setEmployerDetails] = useState<employerInterface>();
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchUser());
+      const employerDetails = async () => {
+        const data = await employerData();
+        setEmployerDetails(data);
+      };
+      employerDetails();
+    }
+    return () => {
+      dispatch(clearUserDetails());
+    };
+  }, [dispatch]);
 
   const [allOrders, setAllOrders] = React.useState<orderInterface[]>([]);
 
@@ -20,8 +43,24 @@ export default function OrderList() {
           const { status, allOrders: fetchedOrders } = response;
   
           if (status === 'success') {
-            setAllOrders(fetchedOrders);
-            setFilteredOrders(fetchedOrders);
+            let orders: orderInterface[] = fetchedOrders;
+            let filterOrders: orderInterface[] = [];
+            for (let i = 0; i < orders.length; i++) {
+              if (orders[i]?.status) {
+                let statuses = orders[i].status;
+                if (statuses && statuses.length > 0) {
+                  let status = statuses[statuses.length - 1];
+                  console.log(employerDetails?.consolidation)
+                  if((employerDetails?.consolidation === status.fromConsolidation && employerDetails?.transaction === status.fromTransaction) 
+                  || (employerDetails?.consolidation === status.toConsolidation && employerDetails?.transaction === status.toTransaction)) {
+                    filterOrders.push(orders[i]);
+                  }
+                }
+              }
+            }
+
+            setAllOrders(filterOrders);
+            setFilteredOrders(filterOrders);
           } else {
             console.error('Error: Unexpected response status');
           }
@@ -34,20 +73,7 @@ export default function OrderList() {
     };
   
     fetchOrders();
-  }, []);
-
-  useEffect(() => {
-    function setPadding(){
-      let header: HTMLElement | null  = document.getElementById('fixed-header');
-      let container: HTMLElement | null  = document.getElementById('container');
-
-      if(container) {
-        container.style.marginTop = header?.offsetHeight + "px";
-      }
-    }
-    setPadding();
-    window.addEventListener('resize', setPadding);
-  });
+  }, [employerDetails]);
 
   const [filteredOrders, setFilteredOrders] = useState([...allOrders]);
 
@@ -89,12 +115,12 @@ export default function OrderList() {
         <h1 className="md:text-[30px] mr-[1%] text-[20px] flex justify-center">Danh sách đơn hàng</h1>
         {/* Search Bar and Filter */}
         <div className="lg:mx-[15%] mt-8">
-          <SearchFilterBar onSearch={handleSearch} onFilter={handleFilter}/>
+          <SearchFilterBar onSearch={handleSearch} onFilter={handleFilter} employerRole={employerDetails?.role || ""}/>
         </div>
 
         {/* List of items */}
         <div className="mt-8">
-          <OrderTable allOrders={filteredOrders}/>
+          <OrderTable allOrders={filteredOrders} employer={employerDetails}/>
         </div>
       </div>
     </div>

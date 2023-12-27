@@ -79,7 +79,7 @@ useEffect(() => {
                     <div className="grid lg:grid-cols-2 ">
                         <div className="lg:mr-2 my-2">
                             <select id="receiverCountry" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="">Quốc gia</option>  
+                                <option value="" hidden>Quốc gia</option>  
                                 <option value="Việt Nam">Việt Nam</option>         
                             </select>
                             {errors.receiverCountry && (
@@ -91,7 +91,7 @@ useEffect(() => {
                         
                         <div className="lg:ml-2 my-2">
                             <select id="receiverCity" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="">Tỉnh/Thành phố</option>     
+                                <option value="" hidden>Tỉnh/Thành phố</option>     
                             </select>
                             {errors.receiverCity && (
                             <p className="text-red-500 text-sm">
@@ -104,7 +104,7 @@ useEffect(() => {
                     <div className="grid lg:grid-cols-2">
                         <div className="lg:mr-2 my-2">
                             <select id="receiverDistrict" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3"  aria-label=".form-select-sm">
-                                <option value="">Quận/Huyện</option>     
+                                <option value="" hidden>Quận/Huyện</option>     
                             </select>
                             {errors.receiverDistrict && (
                             <p className="text-red-500 text-sm">
@@ -116,7 +116,7 @@ useEffect(() => {
                         
                         <div className="lg:ml-2 my-2">
                             <select id="receiverVillage" className="w-full px-2 py-3 border border-gray-300  rounded focus:outline-none focus:border-blue-500 form-select form-select-sm mb-3" aria-label=".form-select-sm">
-                                <option value="">Phường/Xã</option>     
+                                <option value="" hidden >Phường/Xã</option>     
                             </select>
                             {errors.receiverVillage && (
                             <p className="text-red-500 text-sm">

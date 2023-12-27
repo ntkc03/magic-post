@@ -9,6 +9,10 @@ import { employerInterface } from '../../../types/EmployerInterface';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { getConsolidationByAddress, updateConsolidation } from '../../../features/axios/api/consolidation/consolidationPointDetails';
+import { getTransactionByAddress, updateTransaction } from '../../../features/axios/api/transaction/transactionPointDetails';
+import { ConsolidationInterface } from '../../../types/ConsolidationInterface';
+import { TransactionInterface } from '../../../types/TransactionInterface';
 
 interface PrintButtonProps {
   code: string;
@@ -56,19 +60,32 @@ const SendToSenderConsolidation: React.FC<PrintButtonProps> = ({ code, onClose, 
     // Access the necessary information from your component's state or props
     if (orderDetails && employerDetails) {
       let status: Status = {
-        action: 'Gửi đến điểm tập kết',
-        consolidation: orderDetails.senderDistrict,
-        transaction: orderDetails.senderVillage,
+        action: 'Đang gửi đến điểm tập kết',
+        fromConsolidation: employerDetails?.consolidation,
+        fromTransaction: employerDetails?.transaction,
+        toConsolidation: employerDetails?.consolidation,
+        toTransaction: "",
         date: new Date(),
         staff: employerDetails?.name,
-        place: "transaction"
       };
 
       let statuses: Status[] = orderDetails.status ? orderDetails.status : [];
       statuses.push(status);
       setValue('status', statuses);
       await updateOrder(orderDetails);
-      onClose(); // Close the component after updating the order
+      
+      if (orderDetails.senderDistrict) {
+        const data: ConsolidationInterface = await getConsolidationByAddress(orderDetails.senderDistrict);
+        if (data && data.quantity !== undefined) {
+          data.quantity = data.quantity + 1;
+        } else {
+          data.quantity = 1;
+        }
+        updateConsolidation(data);
+      }
+
+
+      onClose();
     }
   };
 

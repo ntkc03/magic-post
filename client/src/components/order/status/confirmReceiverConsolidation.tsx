@@ -7,7 +7,6 @@ import { employerData } from '../../../features/axios/api/employer/userDetails';
 import { fetchUser, clearUserDetails } from '../../../features/redux/slices/user/userDetailsSlice';
 import { employerInterface } from '../../../types/EmployerInterface';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { getConsolidationByAddress, updateConsolidation } from '../../../features/axios/api/consolidation/consolidationPointDetails';
 import { ConsolidationInterface } from '../../../types/ConsolidationInterface';
@@ -57,11 +56,12 @@ const ConfirmReceiverConsolidation: React.FC<PrintButtonProps> = ({ code, onClos
     if (orderDetails && employerDetails) {
       let status: Status = {
         action: 'Điểm tập kết đích đã nhận',
-        consolidation: orderDetails.receiverDistrict,
-        transaction: orderDetails.receiverVillage,
+        fromConsolidation: employerDetails?.consolidation,
+        fromTransaction: employerDetails?.transaction,
+        toConsolidation: employerDetails?.consolidation,
+        toTransaction: employerDetails?.transaction,
         date: new Date(),
         staff: employerDetails?.name,
-        place: "consolidation",
       };
 
       let statuses: Status[] = orderDetails.status ? orderDetails.status : [];
@@ -69,16 +69,6 @@ const ConfirmReceiverConsolidation: React.FC<PrintButtonProps> = ({ code, onClos
       setValue('status', statuses);
       await updateOrder(orderDetails);
       
-      if (orderDetails.receiverDistrict) {
-        const data: ConsolidationInterface = await getConsolidationByAddress(orderDetails.receiverDistrict);
-        if (data && data.quantity !== undefined) {
-          data.quantity = data.quantity + 1;
-        } else {
-          data.quantity = 1;
-        }
-        updateConsolidation(data);
-      }
-
       if (orderDetails.senderDistrict) {
         const data: ConsolidationInterface = await getConsolidationByAddress(orderDetails.senderDistrict);
         if (data && data.quantity !== undefined) {

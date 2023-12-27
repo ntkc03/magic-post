@@ -15,7 +15,7 @@ import { employerInterface } from "../../types/EmployerInterface";
 import { employerData } from "../../features/axios/api/employer/userDetails";
 
 const navigation = [
-  { name: "Thống kê", href: "", current: false },
+  { name: "Thống kê", href: "/order/shipping-statistic", current: false },
   { name: "Quản lý đơn hàng", href: "/order/list", current: false },
   { name: "Tạo đơn", href: "/order/new", current: false }
 ];
@@ -36,6 +36,19 @@ function StaffHeader() {
 
   const token = localStorage.getItem("token");
 
+  useEffect(() => {
+    function setPadding(){
+      let header: HTMLElement | null  = document.getElementById('fixed-header');
+      let container: HTMLElement | null  = document.getElementById('container');
+
+      if(container) {
+        container.style.marginTop = header?.offsetHeight + "px";
+      }
+    }
+    setPadding();
+    window.addEventListener('resize', setPadding);
+  });
+  
   useEffect(() => {
     if (!isLoggedIn) {
       navigate('/');

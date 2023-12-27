@@ -37,13 +37,28 @@ function StaticOrders() {
         fetchOrders();
     }, []);
 
-    function getLastStatus(order: orderInterface): Status | undefined {
+    function getLastStatusLocation(order: orderInterface): string | undefined {
         const array: Status[] | undefined = order.status;
+        let location: string | undefined = undefined;
         let lastStatus: Status | undefined = undefined;
         if (array && array.length > 0) {
             lastStatus = array[array.length - 1];
+            const status = lastStatus.action ?? "";
+            if (status.includes("Đang gửi") || status === "Giao hàng thành công" || status === "Giao hàng không thành công") {
+                if (lastStatus.fromTransaction === "") {
+                    location = "Điểm tập kết: " + lastStatus.fromConsolidation;
+                } else {
+                    location = "Điểm giao dịch: " + lastStatus.fromTransaction + " - " + lastStatus.fromConsolidation;
+                }
+            } else if (status.includes("nhận")) {
+                if (lastStatus.toTransaction === "") {
+                    location = "Điểm tập kết: " + lastStatus.toConsolidation;
+                } else {
+                    location = "Điểm giao dịch: " + lastStatus.toTransaction + " - " + lastStatus.toConsolidation;
+                }
+            }
         }
-        return lastStatus;
+        return location;
     }
 
     const handleSearch = (query: string) => {
@@ -62,9 +77,9 @@ function StaticOrders() {
                 order.receiverVillage?.toLowerCase().includes(lowercaseQuery) ||
                 order.receiverDistrict?.toLowerCase().includes(lowercaseQuery) ||
                 order.receiverCountry?.toLowerCase().includes(lowercaseQuery) ||
-                getLastStatus(order)?.consolidation?.toLowerCase().includes(lowercaseQuery) ||
-                getLastStatus(order)?.transaction?.toLowerCase().includes(lowercaseQuery)
+                getLastStatusLocation(order)?.toLowerCase().includes(lowercaseQuery)
         );
+        console.log(lowercaseQuery);
         setFilteredOrders(filtered);
     }
 

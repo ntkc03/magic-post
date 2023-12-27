@@ -55,11 +55,12 @@ const Shipping: React.FC<PrintButtonProps> = ({ code, onClose, onCloseButt }) =>
     if (orderDetails && employerDetails) {
       let status: Status = {
         action: 'Đang giao hàng',
-        consolidation: orderDetails.receiverDistrict,
-        transaction: orderDetails.receiverVillage,
+        fromConsolidation: employerDetails?.consolidation,
+        fromTransaction: employerDetails?.transaction,
+        toConsolidation: orderDetails.receiverDistrict,
+        toTransaction: orderDetails.receiverVillage,
         date: new Date(),
         staff: employerDetails?.name,
-        place: "transaction"
       };
 
       let statuses: Status[] = orderDetails.status ? orderDetails.status : [];

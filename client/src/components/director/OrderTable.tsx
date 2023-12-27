@@ -24,36 +24,47 @@ interface Data {
 }
 
 function createData(order: orderInterface): Data {
-    const code = order.code ?? '';
-    const senderAddress: string = order.senderVillage + ', '
+    const code = order.code ? order.code : "";
+    const senderAddress: string = order.senderHouseNumber + ', '
+        + order.senderVillage + ', '
         + order.senderDistrict + ', '
-        + order.senderCity;
-    const receiverAddress: string = order.receiverVillage + ','
+        + order.senderCity + ', '
+        + order.senderCountry;
+    const receiverAddress: string = order.receiverHouseNumber + ', '
+        + order.receiverVillage + ', '
         + order.receiverDistrict + ', '
-        + order.receiverCity;
+        + order.receiverCity + ', '
+        + order.receiverCountry;
     const createdAt = order.create_at ? formatDate(order?.create_at) : '';
     const statuses: Status[] | undefined = order.status;
     let location: string = "";
     let status: string = "";
-    let sentAt: string = '';
+    let sentAt: string = "";
     if (statuses) {
         const lastStatus = statuses[statuses.length - 1];
         status = lastStatus.action ?? "";
-        const place = lastStatus.place;
-        if (place === "consolidation") {
-            location = "Điểm tập kết: " + lastStatus.consolidation;
-        } else if (place === "transaction") {
-            location = "Điểm giao dịch: " + lastStatus.transaction;
-        }
-        if (status === "Giao hàng thành công") {
-            sentAt = lastStatus.date ? formatDate(lastStatus.date) : '';
+        if (status.includes("Đang gửi") || status === "Giao hàng thành công" || status === "Giao hàng không thành công") {
+            if (lastStatus.date) {
+                const date = new Date(lastStatus.date);
+                sentAt = formatDate(date);
+            }
+            if (lastStatus.fromTransaction === "") {
+                location = "Điểm tập kết: " + lastStatus.fromConsolidation;
+            } else {
+                location = "Điểm giao dịch: " + lastStatus.fromTransaction + " - " + lastStatus.fromConsolidation;
+            }
+        } else if (status.includes("nhận")) {
+            if (lastStatus.toTransaction === "") {
+                location = "Điểm tập kết: " + lastStatus.toConsolidation;
+            } else {
+                location = "Điểm giao dịch: " + lastStatus.toTransaction + " - " + lastStatus.toConsolidation;
+            }
         }
     }
     return {
         code, senderAddress, receiverAddress, location, status, createdAt, sentAt
     }
 }
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -109,6 +120,10 @@ const headCells: readonly HeadCell[] = [
         label: 'Địa chỉ người nhận',
     },
     {
+        id: 'createdAt',
+        label: 'Thời gian tạo đơn',
+    },
+    {
         id: 'location',
         label: 'Vị trí đơn hàng',
     },
@@ -116,10 +131,7 @@ const headCells: readonly HeadCell[] = [
         id: 'status',
         label: 'Trạng thái đơn',
     },
-    {
-        id: 'createdAt',
-        label: 'Thời gian tạo đơn',
-    },
+
     {
         id: 'sentAt',
         label: 'Thời gian gửi đơn',
@@ -235,7 +247,7 @@ const OrderTable: React.FC<OrderTableProps> = ({ allOrders }) => {
     };
 
     return (
-        <Box sx={{ width: '100%' , maxWidth: 1600 }} id="box">
+        <Box sx={{ width: '100%', maxWidth: 1600 }} id="box">
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>
                     <Table
@@ -263,9 +275,9 @@ const OrderTable: React.FC<OrderTableProps> = ({ allOrders }) => {
                                         </TableCell>
                                         <TableCell align="left" sx={{ width: 200 }}>{row.senderAddress}</TableCell>
                                         <TableCell align="left" sx={{ width: 200 }}>{row.receiverAddress}</TableCell>
+                                        <TableCell align="left" sx={{ width: 150 }} >{row.createdAt}</TableCell>
                                         <TableCell align="left" sx={{ width: 200 }}>{row.location}</TableCell>
                                         <TableCell align="left" sx={{ width: 200 }}>{row.status}</TableCell>
-                                        <TableCell align="left" sx={{ width: 150 }} >{row.createdAt}</TableCell>
                                         <TableCell align="left" sx={{ width: 150 }}>{row.sentAt}</TableCell>
                                     </TableRow>
                                 );

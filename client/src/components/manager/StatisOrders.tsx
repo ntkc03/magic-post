@@ -31,10 +31,10 @@ function StaticOrders() {
                         if (status === 'success') {
                             if (employerDetails) {
                                 const orders = allOrders.filter((order) => {
-                                    order.status?.map((status) => {
-                                        if (status.consolidation === employerDetails.consolidation &&
-                                            status.transaction === employerDetails.transaction) { return order; }
-                                    })
+                                    // order.status?.map((status) => {
+                                    //     if (status.consolidation === employerDetails.consolidation &&
+                                    //         status.transaction === employerDetails.transaction) { return order; }
+                                    // })
                                 })
                                 setAllOrders(orders);
                                 setFilteredOrders(orders);
@@ -79,9 +79,7 @@ function StaticOrders() {
                 order.senderCountry?.toLowerCase().includes(lowercaseQuery) ||
                 order.receiverVillage?.toLowerCase().includes(lowercaseQuery) ||
                 order.receiverDistrict?.toLowerCase().includes(lowercaseQuery) ||
-                order.receiverCountry?.toLowerCase().includes(lowercaseQuery) ||
-                getLastStatus(order)?.consolidation?.toLowerCase().includes(lowercaseQuery) ||
-                getLastStatus(order)?.transaction?.toLowerCase().includes(lowercaseQuery)
+                order.receiverCountry?.toLowerCase().includes(lowercaseQuery)
         );
         setFilteredOrders(filtered);
     }

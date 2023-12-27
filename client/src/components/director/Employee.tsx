@@ -56,8 +56,16 @@ export function Employee() {
     };
 
 
-
-
+    useEffect(() => {
+        dispatch(fetchAllEmployers);
+        const getAllEmployersData = async () => {
+            const allEmployers: employerInterface[] = await allEmployersData();
+            setAllEmployers(allEmployers);
+            setFilteredEmployers(allEmployers);
+            setLoading(false);
+        }
+        getAllEmployersData();
+    }, [allEmployers]);
 
     const deleteEmployerAction = () => {
         for (const selected of rowSelectionModel) {
@@ -77,17 +85,6 @@ export function Employee() {
             }
         }
     }
-
-    useEffect(() => {
-        dispatch(fetchAllEmployers);
-        const getAllEmployersData = async () => {
-            const allEmployers: employerInterface[] = await allEmployersData();
-            setAllEmployers(allEmployers);
-            setFilteredEmployers(allEmployers);
-            setLoading(false);
-        }
-        getAllEmployersData();
-    }, []);
 
     const deleteHandle = () => {
 

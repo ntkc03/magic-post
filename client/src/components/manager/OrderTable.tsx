@@ -24,7 +24,7 @@ interface Data {
     sentAt: string;
 }
 
-function createData(order: orderInterface, consolidation: string, transaction: string): Data {
+function createData(order: orderInterface): Data {
     const code = order.code ?? '';
     const senderAddress: string = order.senderVillage + ', '
         + order.senderDistrict + ', '

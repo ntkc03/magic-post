@@ -65,21 +65,6 @@ export function CreateAccount() {
     getAllTransactionsData();
   }, [selectedConsolidation]);
 
-  // if (formData.transaction) {
-  //   const transaction = await getTransactionByAddress(formData.consolidation, formData.transaction);
-  //   if (transaction) {
-  //     transaction.manager = formData.username;
-  //     updateTransaction(transaction);
-  //   }
-  // } else {
-  //   const consolidation = await getConsolidationByAddress(formData.consolidation);
-  //   if (consolidation) {
-  //     console.log(consolidation);
-  //     consolidation.manager = formData.username;
-  //     updateConsolidation(consolidation);
-  //   }
-  // }
-
   const notify = (msg: string, type: string) =>
     type === "error"
       ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
@@ -123,20 +108,6 @@ export function CreateAccount() {
   };
   return (
     <div className="flex justify-center min-h-screen">
-      {/* <div className="flex justify-center items-center bg-background">
-        <div className="lg:block hidden ">
-          <img 
-            src="https://i.imgur.com/5KtEikT.png"
-            alt="Img"
-            className="max-w-450 max-h-450 w-4/5 bg-cover bg-center"
-          />
-          <img
-            src="https://i.imgur.com/7XTdnaF.png"
-            alt="Img"
-            className="mt-[-180px] max-w-450 max-h-450 w-1/5 bg-cover bg-center"
-          />
-        </div>
-      </div> */}
       <div className="flex flex-wrap justify-center items-center ">
         <div className="w-[200%] h-screen md:h-auto p-8 bg-white border border-gray-300 rounded-xl shadow-lg">
           <h2 className="text-2xl font-bold ">Tạo tài khoản</h2>

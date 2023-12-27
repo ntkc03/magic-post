@@ -10,6 +10,7 @@ import GenerateQR from "./generateQRCode";
 import OrderDetailsPrint from "./orderDetailsPrint";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 
 
@@ -120,10 +121,14 @@ const OrderPrintForm: React.FC<OrderDetailsProps> = ({ code }) => {
         
         <div className="flex items-center justify-center m-4 space-x-4">
           <PrintButton elementId="elementToPrint" />
-          <button type="button" className="inline-flex items-center bg-blue-400 hover:bg-blue-800 text-white py-2 px-8 shadow-md rounded">
-          <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
-              Tạo đơn mới
-          </button>
+          
+          <Link to="/order/new">
+            <button type="button" className="inline-flex items-center bg-blue-400 hover:bg-blue-800 text-white py-2 px-8 shadow-md rounded">
+            <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
+                Tạo đơn mới
+            </button>
+          </Link>
+          
         </div>
 
         
