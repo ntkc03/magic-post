@@ -1,40 +1,58 @@
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { Status, orderInterface } from '../../types/OrderInterface';
-import { StatisticsOrdersPayload } from '../../types/PayloadInterface';
 
 import { getOrderList } from '../../features/axios/api/order/createOrder';
-import OrderTable from './OrderTable';
-import SearchFilterBar from './searchFilterBar.tsx/searchFilterBar';
+import SearchFilterBar from '../director/searchFilterBar.tsx/searchFilterBar';
+import { employerInterface } from '../../types/EmployerInterface';
+import { employerData } from '../../features/axios/api/employer/userDetails';
 
 function StaticOrders() {
 
     const [allOrders, setAllOrders] = useState<orderInterface[]>([]);
     const [filteredOrders, setFilteredOrders] = useState([...allOrders]);
+    const [employerDetails, setEmployerDetails] = useState<employerInterface>();
+
+    const token = localStorage.getItem("token");
+
 
 
     useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const response = await getOrderList();
-                if (response) {
-                    const { status, allOrders: fetchedOrders } = response;
-
-                    if (status === 'success') {
-                        setAllOrders(fetchedOrders);
-                        setFilteredOrders(fetchedOrders);
-                    } else {
-                        console.error('Error: Unexpected response status');
-                    }
-                } else {
-                    console.error('Error: Response data is undefined');
-                }
-            } catch (error: any) {
-                console.error('Error fetching orders:', error.message);
+        if (token) {
+            const fetchUser = async () => {
+                const data = await employerData();
+                setEmployerDetails(data);
             }
-        };
+            const fetchOrders = async () => {
+                try {
+                    const response = await getOrderList();
+                    if (response) {
+                        const { status, allOrders: fetchedOrders } = response;
 
-        fetchOrders();
+                        if (status === 'success') {
+                            if (employerDetails) {
+                                const orders = allOrders.filter((order) => {
+                                    order.status?.map((status) => {
+                                        if (status.consolidation === employerDetails.consolidation &&
+                                            status.transaction === employerDetails.transaction) { return order; }
+                                    })
+                                })
+                                setAllOrders(orders);
+                                setFilteredOrders(orders);
+                            }
+
+                        } else {
+                            console.error('Error: Unexpected response status');
+                        }
+                    } else {
+                        console.error('Error: Response data is undefined');
+                    }
+                } catch (error: any) {
+                    console.error('Error fetching orders:', error.message);
+                }
+            };
+            fetchUser();
+            fetchOrders();
+        }
     }, []);
 
     function getLastStatus(order: orderInterface): Status | undefined {
@@ -79,7 +97,7 @@ function StaticOrders() {
 
                     {/* List of items */}
                     <div className="mt-8">
-                        <OrderTable allOrders={filteredOrders} />
+                        {/* <OrderTable allOrders={filteredOrders} /> */}
                     </div>
                 </div>
             </div>

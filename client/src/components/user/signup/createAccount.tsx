@@ -50,9 +50,9 @@ export function CreateAccount() {
 
   const submitHandler = async (formData: SignupPayload) => {
     if (employerDetails?.role === "Trưởng điểm giao dịch") {
-      formData.role = "nhân viên điểm giao dịch";
+      formData.role = "Nhân viên điểm giao dịch";
     } else if (employerDetails?.role === "Trưởng điểm tập kết") {
-      formData.role = "nhân viên điểm tập kết";
+      formData.role = "Nhân viên điểm tập kết";
     }
     createAccount(formData)
       .then((response: any) => {

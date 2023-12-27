@@ -32,8 +32,7 @@ export function Employee() {
 
     let rows: employerInterface[] = [];
     if (filteredEmployers) {
-        // Use allEmployers if it's defined
-        rows = filteredEmployers;/* logic to convert allEmployers to GridValidRowModel */;
+        rows = filteredEmployers;
     }
 
     const handleSearch = (query: string) => {
@@ -138,7 +137,7 @@ export function Employee() {
                 </div>
                 <div className="text-base pt-5 pb-5">
                     {employerDetails?.transaction !== "" && (
-                        <span>Điểm giao dịch: {employerDetails?.transaction}</span>
+                        <span>Điểm giao dịch: {employerDetails?.transaction} - Khu vực: {employerDetails?.consolidation}</span>
                     )}
                     {employerDetails?.transaction === "" && (
                         <span>Điểm tập kết: {employerDetails?.consolidation}</span>

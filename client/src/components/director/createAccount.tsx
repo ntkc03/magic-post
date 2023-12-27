@@ -88,8 +88,21 @@ export function CreateAccount() {
   const submitHandler = async (formData: SignupPayload) => {
     if (formData.transaction) {
       formData.role = "Trưởng điểm giao dịch";
+      const transaction: TransactionInterface = await getTransactionByAddress(formData.transaction, formData.consolidation);
+      if (transaction) {
+        transaction.manager = formData.username;
+        updateTransaction(transaction);
+      }
     } else {
       formData.role = "Trưởng điểm tập kết";
+      const getConsolidation = async () => {
+        const consolidation: ConsolidationInterface = await getConsolidationByAddress(formData.consolidation);
+        if (consolidation) {
+          consolidation.manager = formData.username;
+          updateConsolidation(consolidation);
+        }
+      }
+      getConsolidation();
     }
     createAccount(formData)
       .then((response: any) => {
