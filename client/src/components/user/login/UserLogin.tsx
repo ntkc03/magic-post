@@ -181,7 +181,7 @@ export default function UserLogin() {
             </button>
           </form>
 
-          <div className="flex justify-center lg:hidden">
+          <div className="flex justify-center">
             <img src="https://i.imgur.com/TSDO2cW.gif"
               alt="img"
               className="h-auto w-auto" />
