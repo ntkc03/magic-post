@@ -297,7 +297,7 @@ React.useEffect(() => {
     'Điểm giao dịch đích đã nhận': 'Giao hàng',
     'Đang giao hàng': 'Xác nhận tình trạng đơn',
     'Giao hàng thành công': 'Giao hàng thành công',
-    'Giao hàng không thành công': 'Chuyển hoàn đơn',
+    'Giao hàng không thành công': 'Theo dẫn người gửi',
   };
 
   
@@ -321,6 +321,17 @@ React.useEffect(() => {
   );
 
 
+  const isButtonDisabled = (row: Data) => {
+    if ((row.status === 'Đang gửi đến điểm tập kết' && employer?.transaction !== row.transaction) 
+      || (row.status === 'Đang gửi đến điểm tập kết đích' && employer?.consolidation !== row.consolidation)
+      || (row.status === 'Đang gửi đến điểm giao dịch đích' && employer?.transaction  !== row.transaction)
+      || (row.status === 'Giao hàng thành công')
+      || (row.status === 'Giao hàng không thành công')) {
+        return true;
+    }
+    return false;
+  }
+
   const handleButtonClick = (row: Data) => {
     const onClose = () => {
       setItems(undefined);
@@ -340,7 +351,7 @@ React.useEffect(() => {
       setItems(<ConfirmReceiverConsolidation code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
     } else if (row.status === 'Điểm tập kết đích đã nhận') {
       setItems(<SendToReceiverTransaction code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
-    } else if (row.status === 'Đang gửi đến điểm giao dịch đích' && employer?.transaction === row.transaction) {
+    } else if (row.status === 'Đang gửi đến điểm giao dịch đích' && employer?.transaction  === row.transaction) {
       setItems(<ConfirmReceiverTransaction code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
     } else if (row.status === 'Điểm giao dịch đích đã nhận') {
       setItems(<Shipping code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
@@ -411,7 +422,7 @@ React.useEffect(() => {
                         color: "black",
               
                       }}
-                      
+                      disabled={isButtonDisabled(row)} 
                       onClick={() => handleButtonClick(row)}
                     >
                       {getNextAction(row.status)}

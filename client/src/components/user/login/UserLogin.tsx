@@ -181,15 +181,6 @@ export default function UserLogin() {
             </button>
           </form>
 
-          <div className="mt-4 text-center">
-            <Link to={"/employer/register"}>
-              <span className="text-gray-500">
-                Chưa có tài khoản?{" "}
-                <p className="text-loginText underline">Đăng ký</p>
-              </span>
-            </Link>
-          </div>
-
           <div className="flex justify-center lg:hidden">
             <img src="https://i.imgur.com/TSDO2cW.gif"
               alt="img"

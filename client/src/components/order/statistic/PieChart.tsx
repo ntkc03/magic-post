@@ -22,8 +22,8 @@ const PieChart: React.FC<PieChartProps> = ({ successes, failures, width, height 
     datasets: [
       {
         data: [successPercentage, failurePercentage],
-        backgroundColor: ['#3498db', '#e74c3c'], // Blue for success, Red for failure
-        hoverBackgroundColor: ['#2980b9', '#c0392b'], // Darker shades for hover effect
+        backgroundColor: ['rgba(75, 192, 192, 0.7)', 'rgba(255, 99, 132, 0.7)'], // Blue for success, Red for failure
+        hoverBackgroundColor: ['rgba(75, 192, 192, 1)', "rgba(255, 99, 132, 1)"], // Darker shades for hover effect
         borderWidth: 2, // Border width for slices
         borderColor: '#fff', // Border color for slices
       },
