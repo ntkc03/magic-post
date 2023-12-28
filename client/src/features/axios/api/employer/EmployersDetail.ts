@@ -13,7 +13,7 @@ export const allEmployersData = async (): Promise<any> => {
     const response = await api(config);
     return response?.data.allEmployers;
   } catch (error) {
-    throw new Error("error while getting employers data");
+    throw new Error("Gặp lỗi khi lấy dữ liệu về nhân viên.");
   }
 };
 
@@ -26,7 +26,7 @@ export const getEmployersByCons = async (consolidation: string): Promise<any> =>
     const response = await api(config);
     return response.data;
   } catch (error) {
-    throw new Error("error getting employers");
+    throw new Error("Gặp lỗi khi lấy dữ liệu về nhân viên.");
   }
 };
 
@@ -39,6 +39,6 @@ export const getEmployersByTrans = async (transaction: string): Promise<any> => 
     const response = await api(config);
     return response.data;
   } catch (error) {
-    throw new Error("error getting employers");
+    throw new Error("Gặp lỗi khi lấy dữ liệu về nhân viên.");
   }
 };

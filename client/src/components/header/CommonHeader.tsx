@@ -5,9 +5,9 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
 const navigation = [
-  { name: "Trang chủ", href: "/homepage", current: false },
-  { name: "Dịch vụ", href: "/", current: false },
-  { name: "Thông tin", href: "/", current: false },
+  { name: "Trang chủ", href: "/", current: false },
+  { name: "Dịch vụ", href: "/service", current: false },
+  { name: "Ước tính cước phí", href: "/estimation", current: false },
 ];
 
 
@@ -18,7 +18,7 @@ function classNames(...classes: string[]) {
 
 function CommonHeader() {
   return (
-    <Disclosure as="nav" className="bg-background">
+    <Disclosure as="nav" className="bg-background z-50">
       {({ open }) => (
         <>
           <div className="sm:mx-2 mx-auto  px-2 sm:px-6 lg:px-8">

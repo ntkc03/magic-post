@@ -10,20 +10,21 @@ ChartJS.register(BarController, CategoryScale, LinearScale, Tooltip, Legend, Bar
 interface BarChartProps {
   send: number;
   receive: number;
+  stay: number;
   width: string;
   height: string;
 }
 
-const BarChart: React.FC<BarChartProps> = ({ send, receive, width, height }) => {
+const BarChart: React.FC<BarChartProps> = ({ send, receive, stay, width, height }) => {
   const data = {
-    labels: ['Lượt hàng đang đi', 'Lượt hàng đang về'],
+    labels: ['Hàng đang đi', 'Hàng đang về', 'Hàng đang tại điểm'],
     datasets: [
       {
-        data: [send, receive],
-        backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)'], 
-        hoverBackgroundColor: ['rgba(54, 162, 235, 0.8)', 'rgba(255, 99, 132, 0.8)'],
+        data: [send, receive, stay],
+        backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(153, 102, 255, 0.2)'], 
+        hoverBackgroundColor: ['rgba(54, 162, 235, 0.8)', 'rgba(255, 99, 132, 0.8)', 'rgba(153, 102, 255, 0.8)'],
         borderWidth: 2,
-        borderColor: ['rgb(54, 162, 235)', 'rgb(255, 99, 132)'], 
+        borderColor: ['rgb(54, 162, 235)', 'rgb(255, 99, 132)', 'rgb(153, 102, 255)'], 
         label: 'Số lượng', // Add label for the dataset
       },
     ],
@@ -39,7 +40,7 @@ const BarChart: React.FC<BarChartProps> = ({ send, receive, width, height }) => 
         callbacks: {
           label: (context: any) => {
             const labelIndex = context.dataIndex;
-            const count = labelIndex === 0 ? send : receive;
+            const count = labelIndex === 0 ? send : labelIndex === 1 ? receive : stay;
             return ` Số lượng: ${count}`;
           },
         },

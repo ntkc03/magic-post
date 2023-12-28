@@ -122,11 +122,11 @@ const GoodsInformation: React.FC<GoodsInformationProps> = ({ errors }) => {
                             <div>
                                 <div className="my-4 lg:grid lg:grid-cols-3">
                                     <p className="lg:col-span-1 py-2">Tổng khối lượng (g)</p>
-                                    <input
+                                     <input
                                         type="text"
                                         placeholder="Nhập tổng khối lượng"
                                         id="total-weight"
-                                        className="lg:col-span-2 lg:mx-4 lg:w-auto w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                       className="lg:col-span-2 lg:mx-4 lg:w-auto w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
                                     {errors.weight && (
                                     <p className="text-red-500 text-sm">

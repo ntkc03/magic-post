@@ -108,7 +108,7 @@ export default function UserLogin() {
         const token = response.token;
         dispatch(setToken(token));
         dispatch(loginSuccess());
-        notify("Login success", "success");
+        notify("Đăng nhập thành công", "success");
         setTimeout(() => {
           if (isLoggedIn) {
             // Gọi employerDetails() để cập nhật dữ liệu
@@ -181,7 +181,7 @@ export default function UserLogin() {
             </button>
           </form>
 
-          <div className="flex justify-center lg:hidden">
+          <div className="flex justify-center">
             <img src="https://i.imgur.com/TSDO2cW.gif"
               alt="img"
               className="h-auto w-auto" />

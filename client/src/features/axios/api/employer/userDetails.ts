@@ -14,47 +14,9 @@ export const employerData = async (): Promise<any> => {
     const response = await api(config);
     return response.data;
   } catch (error) {
-    throw new Error("error while getting user data");
+    throw new Error("Gặp lỗi khi lấy dữ liệu về nhân viên.");
   }
 };
-
-// export const updateUser = async (payload: UserInterface): Promise<any> => {
-//   try {
-//     const config: AxiosRequestConfig = {
-//       url: apiConfig.updateUser,
-//       method: "put",
-//       data: payload,
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
-//     };
-//     const response = await api(config);
-//     return response;
-//   } catch (error) {
-//     throw new Error("error while updating user");
-//   }
-// };
-
-// export const uploadResume = async (file: File): Promise<any> => {
-//   try {
-//     const payload = new FormData();
-//     payload.append("image", file);
-
-//     const config: AxiosRequestConfig = {
-//       url: apiConfig.uploadResume,
-//       method: "put",
-//       data: payload,
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
-//     };
-
-//     const response = await api(config);
-//     return response;
-//   } catch (error) {
-//     throw new Error("Error while uploading resume");
-//   }
-// };
 
 export const deleteEmployer = async (username: string): Promise<any> => {
   try {
@@ -64,6 +26,6 @@ export const deleteEmployer = async (username: string): Promise<any> => {
     };
     await api(config);
   } catch (error) {
-    throw new Error("error while deleting employer");
+    throw new Error("Gặp lỗi khi xóa dữ liệu về nhân viên.");
   }
 };

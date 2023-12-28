@@ -96,12 +96,14 @@ export default function OrderShippingStatistic() {
   const [failures, setFailures] = useState<number>(0);
   const [send, setSend] = useState<number>(0);
   const [receive, setReceive] = useState<number>(0);
+  const [stay, setStay] = useState<number>(0);
   React.useEffect(() => {
     const calculate = async () => {
       let success = 0;
       let failure = 0;
       let send = 0;
       let receiver = 0;
+      let stay = 0;
       for (let i = 0; i < filteredOrders.length; i++) {
         if (filteredOrders[i]?.status) {
           let statuses = filteredOrders[i].status;
@@ -116,23 +118,25 @@ export default function OrderShippingStatistic() {
             if (employerDetails?.role === "Nhân viên điểm tập kết") {
               if (status.action === "Đang gửi đến điểm tập kết") {
                 receiver += 1;
-              }
-              if (status.action === "Đang gửi đến điểm tập kết đích") {
+              } else if (status.action === "Đang gửi đến điểm tập kết đích") {
                 if (employerDetails.consolidation === status.fromConsolidation) {
                   send += 1;
                 } else if (employerDetails.consolidation === status.toConsolidation) {
                   receiver += 1;
                 }
-              } 
-              if (status.action === "Đang gửi đến điểm giao dịch đích") {
+              } else if (status.action === "Đang gửi đến điểm giao dịch đích") {
                 send += 1;
-              } 
+              } else {
+                stay += 1;
+              }
+
             } else if (employerDetails?.role === "Nhân viên điểm giao dịch") {
               if (status.action === "Đang gửi đến điểm tập kết") {
                 send += 1;
-              }
-              if (status.action === "Đang gửi đến điểm giao dịch đích") {
+              } else if (status.action === "Đang gửi đến điểm giao dịch đích") {
                 receiver += 1;
+              } else {
+                stay += 1;
               }
 
             }
@@ -144,6 +148,7 @@ export default function OrderShippingStatistic() {
       setFailures(failure);
       setSend(send);
       setReceive(receiver);
+      setStay(stay)
     }
     calculate();
   }, [filteredOrders, allOrders]);
@@ -277,7 +282,7 @@ export default function OrderShippingStatistic() {
               <Card className="bg-white p-8">
                 <h1 className="md:text-[20px] mr-[1%] text-[15px]">Lượt hàng đang đi/về</h1>
                 <div className="flex justify-center pt-8">
-                  <BarChart send={send} receive={receive} width='350px' height='auto'/>
+                  <BarChart send={send} receive={receive} stay={stay} width='350px' height='auto'/>
                 </div>
               </Card>
             </div>

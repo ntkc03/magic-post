@@ -14,10 +14,15 @@ import {
 import { employerInterface } from "../../types/EmployerInterface";
 import { employerData } from "../../features/axios/api/employer/userDetails";
 
-const navigation = [
+const navigationTransaction = [
   { name: "Thống kê", href: "/order/shipping-statistic", current: false },
   { name: "Quản lý đơn hàng", href: "/order/list", current: false },
   { name: "Tạo đơn", href: "/order/new", current: false }
+];
+
+const navigationConsolidation = [
+  { name: "Thống kê", href: "/order/shipping-statistic", current: false },
+  { name: "Quản lý đơn hàng", href: "/order/list", current: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -102,7 +107,21 @@ function StaffHeader() {
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                   <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
-                      {navigation.map((item) => (
+                      {employerDetails?.role === "Nhân viên điểm giao dịch" && navigationTransaction.map((item) => (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className={classNames(
+                            "text-black hover:bg-buttonBlue hover:text-white",
+                            "rounded-md px-3 py-2 text-sm font-medium"
+                          )}
+                          aria-current={item.current ? "page" : undefined}
+                        >
+                          {item.name}
+                        </a>
+                      ))}
+
+                      {employerDetails?.role === "Nhân viên điểm tập kết" && navigationConsolidation.map((item) => (
                         <a
                           key={item.name}
                           href={item.href}
@@ -174,21 +193,33 @@ function StaffHeader() {
 
             <Disclosure.Panel className="sm:hidden">
               <div className="space-y-1 px-2 pb-3 pt-2">
-                {navigation.map((item) => (
-                  <Disclosure.Button
-                    key={item.name}
-                    as="a"
-                    href={item.href}
-                    className={classNames(
-                      "bg-buttonBlue text-textColor",
-                      "hover:bg-gray-200 opacity-75",
-                      "block rounded-md px-3 py-2 text-base font-medium"
-                    )}
-                    aria-current={item.current ? "page" : undefined}
-                  >
-                    {item.name}
-                  </Disclosure.Button>
-                ))}
+              {employerDetails?.role === "Nhân viên điểm giao dịch" && navigationTransaction.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className={classNames(
+                    "text-black hover:bg-buttonBlue hover:text-white",
+                    "rounded-md px-3 py-2 text-sm font-medium"
+                  )}
+                  aria-current={item.current ? "page" : undefined}
+                >
+                  {item.name}
+                </a>
+              ))}
+
+              {employerDetails?.role === "Nhân viên điểm tập kết" && navigationConsolidation.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className={classNames(
+                    "text-black hover:bg-buttonBlue hover:text-white",
+                    "rounded-md px-3 py-2 text-sm font-medium"
+                  )}
+                  aria-current={item.current ? "page" : undefined}
+                >
+                  {item.name}
+                </a>
+              ))}
               </div>
             </Disclosure.Panel>
           </div>
