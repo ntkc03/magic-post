@@ -6,9 +6,6 @@ import { employerData } from "../../features/axios/api/employer/userDetails";
 import React from "react";
 import { orderInterface } from "../../types/OrderInterface";
 import { getOrderList } from "../../features/axios/api/order/createOrder";
-import { Card } from "@material-tailwind/react";
-import PieChart from "../order/statistic/PieChart";
-import BarChart from "../order/statistic/BarChart";
 import SearchFilterBar from "../director/searchFilterBar.tsx/searchFilterBar";
 import OrderTable from "./OrderTable";
 
@@ -47,11 +44,16 @@ export default function StaticOrders() {
                         let orders: orderInterface[] = fetchedOrders;
                         let filterOrders: orderInterface[] = [];
                         for (let i = 0; i < orders.length; i++) {
+                            let checkDuplicate = 0;
                             if (orders[i]?.status) {
                                 orders[i].status?.map((status) => {
                                     if ((employerDetails?.consolidation === status.fromConsolidation && employerDetails?.transaction === status.fromTransaction)
                                         || (employerDetails?.consolidation === status.toConsolidation && employerDetails?.transaction === status.toTransaction)) {
-                                        filterOrders.push(orders[i]);
+                                        if (checkDuplicate == 0) {
+                                            filterOrders.push(orders[i]);
+                                            checkDuplicate = 1;
+                                        }
+                                        return;
                                     }
 
                                 })
@@ -113,61 +115,6 @@ export default function StaticOrders() {
         setFilteredOrders(filtered);
     }
 
-    const [successes, setSuccesses] = useState<number>(0);
-    const [failures, setFailures] = useState<number>(0);
-    const [send, setSend] = useState<number>(0);
-    const [receive, setReceive] = useState<number>(0);
-    React.useEffect(() => {
-        const calculate = async () => {
-            let success = 0;
-            let failure = 0;
-            let send = 0;
-            let receiver = 0;
-            for (let i = 0; i < filteredOrders.length; i++) {
-                if (filteredOrders[i]?.status) {
-                    let statuses = filteredOrders[i].status;
-                    if (statuses && statuses.length > 0) {
-                        let status = statuses[statuses.length - 1];
-                        if (status.action === "Giao hàng thành công") {
-                            success += 1;
-                        } else if (status.action === "Giao hàng không thành công") {
-                            failure += 1;
-                        }
-
-                        if (employerDetails?.role === "Nhân viên điểm tập kết") {
-                            if (status.action === "Đang gửi đến điểm tập kết") {
-                                receiver += 1;
-                            }
-                            if (status.action === "Đang gửi đến điểm tập kết đích") {
-                                if (employerDetails.consolidation === status.fromConsolidation) {
-                                    send += 1;
-                                } else if (employerDetails.consolidation === status.toConsolidation) {
-                                    receiver += 1;
-                                }
-                            }
-                            if (status.action === "Đang gửi đến điểm giao dịch đích") {
-                                send += 1;
-                            }
-                        } else if (employerDetails?.role === "Nhân viên điểm giao dịch") {
-                            if (status.action === "Đang gửi đến điểm tập kết") {
-                                send += 1;
-                            }
-                            if (status.action === "Đang gửi đến điểm giao dịch đích") {
-                                receiver += 1;
-                            }
-
-                        }
-                    }
-                }
-            }
-            console.log(receiver, send);
-            setSuccesses(success);
-            setFailures(failure);
-            setSend(send);
-            setReceive(receiver);
-        }
-        calculate();
-    }, [filteredOrders, allOrders]);
 
 
     return (

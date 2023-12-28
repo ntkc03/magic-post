@@ -57,6 +57,7 @@ function createData(order: orderInterface, consolidation: string, transaction: s
                     if (status.date) {
                         const date = new Date(status.date);
                         createdAt = formatDate(date);
+                        sentAt = "";
                     }
                 } else {
                     statusLine = "Đơn hàng đang được gửi đến"

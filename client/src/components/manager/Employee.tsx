@@ -52,7 +52,7 @@ export function Employee() {
     };
     const token = localStorage.getItem("token");
 
-
+    // lấy toàn bộ dữ liệu về tài khoản từ database
     useEffect(() => {
         if (token) {
             const fetchEmployerDetails = async () => {
@@ -68,6 +68,7 @@ export function Employee() {
 
     }, []);
 
+    // lọc các tài khoản của điểm giao dịch hoặc điểm tập kết
     useEffect(() => {
         if (employerDetails) {
             const getAllEmployersData = async () => {

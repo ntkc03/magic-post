@@ -23,6 +23,8 @@ interface Data {
     sentAt: string;
 }
 
+
+// chuẩn hóa dữ liệu để đưa vào bảng
 function createData(order: orderInterface): Data {
     const code = order.code ? order.code : "";
     const senderAddress: string = order.senderHouseNumber + ', '
@@ -65,6 +67,8 @@ function createData(order: orderInterface): Data {
         code, senderAddress, receiverAddress, location, status, createdAt, sentAt
     }
 }
+
+
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
         return -1;

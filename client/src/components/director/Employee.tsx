@@ -30,7 +30,7 @@ export function Employee() {
 
 
 
-
+    // dữ liệu cập nhật vào bảng
     let rows: employerInterface[] = [];
     if (filteredEmployers) {
         // Use allEmployers if it's defined
@@ -58,7 +58,7 @@ export function Employee() {
         setFilteredEmployers(filtered);
     };
 
-
+    //lấy toàn bộ dữ liệu người dùng
     useEffect(() => {
         dispatch(fetchAllEmployers);
         if (token) {

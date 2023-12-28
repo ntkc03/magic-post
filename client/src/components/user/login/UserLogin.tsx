@@ -72,9 +72,9 @@ export default function UserLogin() {
         if (isLoggedIn && employerDetails) {
           // Chuyển hướng sau khi cả hai dữ liệu đều đã được đọc xong
           if (employerDetails?.role === "Giám đốc") {
-            navigate("/director/statistics-points");
+            navigate("/director/statistics-orders");
           } else if (employerDetails?.role === "Trưởng điểm tập kết" || employerDetails?.role === "Trưởng điểm giao dịch") {
-            navigate("/manager/employee");
+            navigate("/manager/orders");
           } else {
             navigate("/employer/home");
           }

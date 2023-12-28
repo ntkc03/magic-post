@@ -1,8 +1,5 @@
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { Status, orderInterface } from '../../types/OrderInterface';
-import { StatisticsOrdersPayload } from '../../types/PayloadInterface';
-
 import { getOrderList } from '../../features/axios/api/order/createOrder';
 import OrderTable from './OrderTable';
 import SearchFilterBar from './searchFilterBar.tsx/searchFilterBar';
@@ -12,7 +9,7 @@ function StaticOrders() {
     const [allOrders, setAllOrders] = useState<orderInterface[]>([]);
     const [filteredOrders, setFilteredOrders] = useState([...allOrders]);
 
-
+    // lấy tất cả dữ liệu của tất cả đơn hàng
     useEffect(() => {
         const fetchOrders = async () => {
             try {

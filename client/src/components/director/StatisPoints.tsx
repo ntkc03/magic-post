@@ -262,6 +262,10 @@ function Row(props: { row: StatisticsPointsPayload }) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
 
+    const handleClick = () =>{
+        console.log("test",row.consolidation.address)
+    }
+
     return (
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -280,7 +284,9 @@ function Row(props: { row: StatisticsPointsPayload }) {
                 <TableCell sx={{ width: '20%' }} align="left">{row.consolidation.address}</TableCell>
                 <TableCell sx={{ width: '20%' }} align="left">{row.consolidation.country}</TableCell>
                 <TableCell sx={{ width: '20%' }} align="left">{row.consolidation.manager??"--"}</TableCell>
-                <TableCell sx={{ width: '20%' }} align="right">{row.consolidation.quantity?? 0}</TableCell>
+                <TableCell sx={{ width: '20%' }} align="right">
+                    <a href={`/director/point-details/${row.consolidation.address}`} className='text-bgBlue hover:text-blue-700 duration-300 transition ease-in-out hover:underline'>{row.consolidation.quantity?? 0}</a>
+                    </TableCell>
 
             </TableRow>
             <TableRow >
@@ -311,7 +317,9 @@ function Row(props: { row: StatisticsPointsPayload }) {
                                                 {transaction.address}
                                             </TableCell>
                                             <TableCell align="left">{transaction.manager ?? "--"}</TableCell>
-                                            <TableCell align="right">{transaction.quantity?? 0}</TableCell>
+                                            <TableCell align="right">
+                                            <a href={`/director/point-details/${row.consolidation.address}/${transaction.address}`} className='text-bgBlue hover:text-blue-700 duration-300 transition ease-in-out hover:underline'>{transaction.quantity?? 0}</a>
+                                                </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

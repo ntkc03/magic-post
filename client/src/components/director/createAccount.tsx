@@ -34,14 +34,13 @@ export function CreateAccount() {
   const [selectedConsolidation, setSelectedConsolidation] = useState("");
   const [selectedTransaction, setSelectedTransaction] = useState("");
 
-
-
-
+  //lấy dữ liệu người dùng
   const getEmployerDetails = async () => {
     const data = await employerData();
     setEmployerDetails(data);
   }
 
+  // lấy dữ liệu cho phần select của điểm tập kết
   useEffect(() => {
     getEmployerDetails();
     const getAllConsoldationsData = async () => {
@@ -54,6 +53,7 @@ export function CreateAccount() {
     getAllConsoldationsData();
   }, []);
 
+  // lấy dữ liệu cho phần select của điểm giao dịch
   useEffect(() => {
     const getAllTransactionsData = async () => {
       if (selectedConsolidation !== "") {
