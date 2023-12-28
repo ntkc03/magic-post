@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { employerInterface } from "../../types/EmployerInterface";
-import { useDispatch } from "react-redux";
-import { fetchAllEmployers } from "../../features/redux/slices/user/allEmployersSlide";
 import { allEmployersData, getEmployersByCons } from "../../features/axios/api/employer/EmployersDetail";
 import { DataGrid, GridRowSelectionModel } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';

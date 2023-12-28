@@ -12,13 +12,16 @@ import { employerData } from "../../../features/axios/api/employer/userDetails";
 import { fetchUser, clearUserDetails } from "../../../features/redux/slices/user/userDetailsSlice";
 import { employerInterface } from "../../../types/EmployerInterface";
 
+//************************************
+// Description: Phần thân của trang hiển thị danh sách đơn.
+//************************************
+
 const token = localStorage.getItem("token");
-
 export default function OrderList() {
-
   const dispatch = useDispatch();
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
 
+  // Lấy dữ liệu nhân viên
   useEffect(() => {
     if (token) {
       dispatch(fetchUser());
@@ -33,8 +36,11 @@ export default function OrderList() {
     };
   }, [dispatch]);
 
+  // Lấy dữ liệu của đơn hàng theo từng địa chỉ của điểm tập kết/giao dịch
+  // Có filter theo tháng-năm đã chọn
   const [allOrders, setAllOrders] = React.useState<orderInterface[]>([]);
-
+  const [selectedMonth, setSelectedMonth] = useState<string>("");
+  const [selectedYear, setSelectedYear] = useState<string>("");
   React.useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -61,6 +67,25 @@ export default function OrderList() {
 
             setAllOrders(filterOrders);
             setFilteredOrders(filterOrders);
+
+            if (selectedMonth && selectedYear) {
+              filterOrders = filterOrders.filter((order) => {
+                let orderDate = new Date();
+                if (order.create_at) {
+                  orderDate = new Date(order.create_at);
+                }
+                const orderMonth = orderDate.getMonth() + 1;
+                const orderYear = orderDate.getFullYear();
+                console.log(orderMonth.toString().padStart(2, "0"), orderYear.toString())
+                return (
+                  orderMonth.toString().padStart(2, "0") === selectedMonth &&
+                  orderYear.toString() === selectedYear
+                );
+              });
+            }
+            console.log(filterOrders)
+            setAllOrders(filterOrders);
+            setFilteredOrders(filterOrders);
           } else {
             console.error('Error: Unexpected response status');
           }
@@ -73,8 +98,10 @@ export default function OrderList() {
     };
   
     fetchOrders();
-  }, [employerDetails]);
+  }, [employerDetails, selectedMonth, selectedYear]);
 
+
+  // Filter dữ liệu theo bộ tìm kiếm và bộ lọc theo trạng thái của đơn hàng.
   const [filteredOrders, setFilteredOrders] = useState([...allOrders]);
 
   const handleSearch = (query: string) => {
@@ -121,11 +148,49 @@ export default function OrderList() {
             <p className="flex justify-center">Điểm tập kết: {employerDetails.consolidation}</p>
           )}
         </div>
+        
         {/* Search Bar and Filter */}
         <div className="lg:mx-[15%] mt-8">
           <SearchFilterBar onSearch={handleSearch} onFilter={handleFilter} employerRole={employerDetails?.role || ""}/>
         </div>
+        <div className="flex justify-end my-8">
+          <select
+            value={selectedMonth}
+            onChange={(e) => {
+              setSelectedMonth(e.target.value);
+            }}
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-green-500"
+          >
+            <option value="" hidden>Chọn tháng</option>
+            <option value="01">Tháng 1</option>
+            <option value="02">Tháng 2</option>
+            <option value="03">Tháng 3</option>
+            <option value="04">Tháng 4</option>
+            <option value="05">Tháng 5</option>
+            <option value="06">Tháng 6</option>
+            <option value="07">Tháng 7</option>
+            <option value="08">Tháng 8</option>
+            <option value="09">Tháng 9</option>
+            <option value="10">Tháng 10</option>
+            <option value="11">Tháng 11</option>
+            <option value="12">Tháng 12</option>
+          </select>
 
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-green-500 ml-2"
+          >
+            <option value="" hidden>
+              Chọn năm
+            </option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+          </select>
+        </div>
         {/* List of items */}
         <div className="mt-8">
           <OrderTable allOrders={filteredOrders} employer={employerDetails}/>

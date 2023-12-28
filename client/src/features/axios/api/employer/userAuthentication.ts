@@ -5,6 +5,10 @@ import {
 } from "../../../../types/PayloadInterface";
 import apiConfig from "../../../../utils/apiConfig";
 
+//************************************
+// Description: Hàm liên quan tạo tài khoản, đăng nhập của người dùng.
+//************************************
+
 export const createAccount = async (payload: SignupPayload): Promise<any> => {
   try {
     const config: AxiosRequestConfig = {

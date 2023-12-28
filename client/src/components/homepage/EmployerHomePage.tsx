@@ -1,6 +1,8 @@
+//************************************
+// Description: Phần thân trang chủ của Nhân viên.
+//************************************
 
 function EmployerHome() {
-  
     return (
       <div className="relative overflow-hidden bg-background py-24 sm:py-32">
           <div className="items-center justify-center bg-background text-center text-textColor">

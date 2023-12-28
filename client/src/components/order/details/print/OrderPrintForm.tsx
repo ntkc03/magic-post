@@ -12,6 +12,9 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
+//************************************
+// Description: Phần thân của trang in đơn hàng.
+//************************************
 
 
 interface OrderDetailsProps {
@@ -66,7 +69,7 @@ const OrderPrintForm: React.FC<OrderDetailsProps> = ({ code }) => {
 
                 {/* QR */}
                 <div className="flex w-full justify-center pb-4">
-                  <GenerateQR url={`${configKeys.API_URL}order/details/${code}`} />
+                  <GenerateQR url={`${configKeys.API_URL}order/print/${code}`} />
                 </div>
             </div>
 

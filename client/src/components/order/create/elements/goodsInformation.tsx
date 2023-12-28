@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
-
 import "react-toastify/dist/ReactToastify.css";
 import {
     Card,
@@ -9,28 +8,29 @@ import {
 import { orderInterface } from "../../../../types/OrderInterface";
 import ItemDetails from "./itemDetails";
 
+//************************************
+// Description: Phần Thông tin về hàng hóa cho trang Tạo đơn mới.
+//************************************
+
 
 interface GoodsInformationProps {
     errors: FieldErrors<orderInterface>;
   }
   
 const GoodsInformation: React.FC<GoodsInformationProps> = ({ errors }) => {
-
-
   const [items, setItems] = useState<React.ReactNode[]>([]);
 
+  // Đặc tính của hàng hóa.
   const checkboxOptions1 = [
     { value: 'highValue', label: 'Giá trị cao' },
     { value: 'fragile', label: 'Dễ vỡ' },
     { value: 'liquid', label: 'Chất lỏng' },
     { value: 'coldStorage', label: 'Hàng lạnh' },
   ];
-
   const checkboxOptions2 = [
     { value: 'solidBlock', label: 'Nguyên khối' },
     { value: 'oversized', label: 'Quá khổ' },
     { value: 'magneticBattery', label: 'Từ tính/Pin' },
-    // Add more checkbox options as needed
   ];
 
   const handleAddItem = () => {
@@ -58,13 +58,13 @@ const GoodsInformation: React.FC<GoodsInformationProps> = ({ errors }) => {
                     Thông tin hàng hóa
                 </h1>
                 <div>
-                    {/* information */}
+                    {/* Thông tin */}
                     <div>
+                        {/* Loại hàng gửi */}
                         <div className="mb-4 mt-4">
                             <label className="font-bold">
                                 Loại hàng gửi
                             </label>
-
                             <div className="md:space-x-4 my-2 grid md:grid-cols-2">
                                 {[
                                     { label: 'Hàng hóa', value: 'goods' },
@@ -91,6 +91,7 @@ const GoodsInformation: React.FC<GoodsInformationProps> = ({ errors }) => {
 
                         <div className="border-t border-gray-300 my-4"></div>
 
+                        {/* Thêm hàng hóa */}
                         <div className="mb-4">
                             <div id="items-list">
                                 <ItemDetails/>

@@ -2,6 +2,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { orderInterface } from "../../../types/OrderInterface";
 import { formatDate } from "../details/format";
 
+//************************************
+// Description: Phần thông tin cơ bản và dãy trạng thái của đơn hàng để người dùng tra cứu và xem.
+//************************************
+
+
 interface SearchBoxProps {
   result: orderInterface
 }

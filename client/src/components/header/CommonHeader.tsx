@@ -1,17 +1,18 @@
-import React from "react";
-import { Fragment } from "react";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
 
+//************************************
+// Description: Phần Header cho trang chung của người dùng.
+//************************************
+
+// Mảng lưu trữ thông tin chuyển hướng cho navigation section trên header.
 const navigation = [
   { name: "Trang chủ", href: "/", current: false },
   { name: "Dịch vụ", href: "/service", current: false },
   { name: "Ước tính cước phí", href: "/estimation", current: false },
 ];
 
-
-
+// Hàm tạo một chuỗi tên lớp dựa trên các đối số đầu vào.
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
@@ -24,7 +25,7 @@ function CommonHeader() {
           <div className="sm:mx-2 mx-auto  px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                {/* Mobile menu button*/}
+                {/* Nút mở navigation đối với điện thoại*/}
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-black-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
@@ -34,9 +35,12 @@ function CommonHeader() {
                   )}
                 </Disclosure.Button>
               </div>
+              {/* Tên của trang web */}
               <a href="/homepage" className="sm:flex-1 sm:justify-start flex w-full justify-center text-bold text-2xl font-logo">
                 MagicPost
               </a>
+              {/* Tương ứng với một đối tượng trong mảng navigation, tạo ra một bộ chuyển hướng có tên và đường dẫn đã được lưu. */}
+              {/* Navigation trên kích thước lớn hơn kích thước điện thoại (small).*/}
               <div className="flex-4 hidden sm:block">
                 <div className="flex space-x-4">
                   {navigation.map((item) => (
@@ -55,6 +59,7 @@ function CommonHeader() {
                 </div>
               </div>
 
+              {/* Nút đăng nhập --> Chuyển hướng sang trang đăng nhập tài khoản. */}
               <div className="absolute right-0 flex-1 sm:relative sm:block">
                 <Disclosure.Button className="flex-1 items-center float-right rounded-md p-2 hover:bg-buttonBlue hover:text-white text-textColor focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <a href = "/employer/login">Đăng nhập</a>
@@ -63,6 +68,7 @@ function CommonHeader() {
             </div>
           </div>
 
+          {/* Navigation của trang web trên điện thoại. Khi lớn hơn kích thước điện thoại thì nó sẽ không xuất hiện. */}
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
               {navigation.map((item) => (

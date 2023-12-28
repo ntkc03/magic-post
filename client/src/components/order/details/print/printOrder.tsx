@@ -3,14 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrint } from '@fortawesome/free-solid-svg-icons'
 import html2canvas from 'html2canvas';
 
+//************************************
+// Description: Nút In đơn và những hành động được xử lý để in đơn đó.
+//************************************
+
 interface PrintButtonProps {
   elementId: string;
 }
 
 const PrintButton: React.FC<PrintButtonProps> = ({ elementId }) => {
+  // Khi nhấn vào nút in đơn, tự động chuyển hướng sang cửa sổ của hành động in của trình duyệt.
     const handlePrint = () => {
         const section = document.getElementById(elementId);
-    
         if (section) {
           html2canvas(section).then((canvas) => {
             const url = canvas.toDataURL();

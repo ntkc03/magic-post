@@ -1,9 +1,11 @@
-// PieChart.tsx
-
 import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend);
+
+//************************************
+// Description: Pie Chart cho thống kê số đơn hàng đã giao thành công/thất bại tại một điểm giao dịch.
+//************************************
 
 interface PieChartProps {
   successes: number;

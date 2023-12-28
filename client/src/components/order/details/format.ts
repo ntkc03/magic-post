@@ -1,3 +1,6 @@
+//************************************
+// Description: Hàm định dạng lại thời gian theo format "yyyy/mm/dd hh:mm:ss"
+//************************************
 
 export function formatDate(date: Date) {
     date = new Date(date);

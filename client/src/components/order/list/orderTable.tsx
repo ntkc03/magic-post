@@ -28,6 +28,10 @@ import ShippingStatus from '../status/shippingStatus';
 import { Typography } from '@mui/material';
 import { employerInterface } from '../../../types/EmployerInterface';
 
+//************************************
+// Description: Bảng hiển thị thông tin cơ bản về đơn hàng.
+//************************************
+
 interface OrderTableProps {
   allOrders: orderInterface[];
   employer?: employerInterface;
@@ -76,7 +80,7 @@ function createData(
 }
 
 
-
+// Bộ so sánh giảm dần
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -89,6 +93,7 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 
 type Order = 'asc' | 'desc';
 
+// Bộ so sánh khi đơn hàng theo một key lựa chọn trước.
 function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key,
@@ -101,6 +106,7 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
+// Bộ sắp xếp đơn hàng.
 function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
@@ -164,6 +170,7 @@ interface EnhancedTableProps {
   rowCount: number;
 }
 
+// Tạo phần header cho bảng.
 function EnhancedTableHead(props: EnhancedTableProps) {
   const {order, orderBy, rowCount, onRequestSort } =
     props;
@@ -219,13 +226,10 @@ const OrderTable: React.FC<OrderTableProps> = ({ allOrders, employer}) => {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  
   const [rows, setRows] = React.useState<Data[]>([]);
-
   const [items, setItems] = useState<React.ReactNode>();
 
-
-
+// Thêm dữ liệu của đơn theo hàng.
 React.useEffect(() => {
   setRows(
     allOrders.map((order, index) => 
@@ -246,6 +250,7 @@ React.useEffect(() => {
   );
 }, [allOrders]);
 
+// Xử lý khi nhấn vào biểu tượng sắp xếp.
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof Data,
@@ -269,6 +274,7 @@ React.useEffect(() => {
     setDense(event.target.checked);
   };
 
+  // Mảng lưu trữ màu của từng trạng thái.
   const statusColors: Record<string, string> = {
     'Nhận đơn hàng': '#B8E1FF',
     'Đang gửi đến điểm tập kết': '#E9C3BB',
@@ -282,11 +288,12 @@ React.useEffect(() => {
     'Giao hàng không thành công': '#9EBF99',
   };
 
-  
+  // Lấy màu theo trạng thái
   const getStatusColor = (status: string) => {
     return statusColors[status] || 'transparent';
   };
 
+  // Bảng lưu trữ hành động tiếp theo ứng với trạng thái.
   const nextAction: Record<string, string> = {
     'Nhận đơn hàng': 'Gửi đến điểm tập kết',
     'Đang gửi đến điểm tập kết': 'Xác nhận đã nhận đơn hàng',
@@ -300,7 +307,7 @@ React.useEffect(() => {
     'Giao hàng không thành công': 'Theo dẫn người gửi',
   };
 
-  
+  // Hàm xử lý hành động tiếp theo.
   const getNextAction = (status: string) => {
     return nextAction[status] || '';
   };
@@ -321,6 +328,7 @@ React.useEffect(() => {
   );
 
 
+  // Vô hiệu hóa nút hành động tiếp theo nếu không thuộc phận sự của nhân viên đó.
   const isButtonDisabled = (row: Data) => {
     if ((row.status === 'Đang gửi đến điểm tập kết' && employer?.transaction !== row.transaction) 
       || (row.status === 'Đang gửi đến điểm tập kết đích' && employer?.consolidation !== row.consolidation)
@@ -332,6 +340,8 @@ React.useEffect(() => {
     return false;
   }
 
+  // Xử lý ô hiện Hành động tiếp theo khi nhấn vào nút hành động tiếp theo
+  // Hành động tiếp theo có thể là xác nhận đơn về, hoặc xác nhận đơn đi đến điểm mới.
   const handleButtonClick = (row: Data) => {
     const onClose = () => {
       setItems(undefined);
@@ -340,7 +350,6 @@ React.useEffect(() => {
     const onCloseButt = () => {
       setItems(undefined);
     }
-    console.log('hi', employer?.transaction, 'hello', row.transaction)
     if (row.status === 'Nhận đơn hàng') {
       setItems(<SendToSenderConsolidation code={row.code} onClose={onClose} onCloseButt={onCloseButt}/>)
     } else if (row.status === 'Đang gửi đến điểm tập kết' && employer?.transaction === row.transaction) {

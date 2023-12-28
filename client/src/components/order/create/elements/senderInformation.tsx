@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { FieldErrors, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { setToken } from "../../../../features/redux/slices/user/tokenSlice";
 import { useSelector, useDispatch } from "react-redux/es/exports";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
     Card,
@@ -18,17 +14,21 @@ import { employerInterface } from "../../../../types/EmployerInterface";
 import { ConsolidationInterface } from "../../../../types/ConsolidationInterface";
 import { getConsolidationByAddress } from "../../../../features/axios/api/consolidation/consolidationPointDetails";
 
+//************************************
+// Description: Phần Thông tin người gửi của phần tạo đơn mới.
+//************************************
+
 interface SenderInformationProps {
     errors: FieldErrors<orderInterface>;
   }
   
 const token = localStorage.getItem("token");
-
 const SenderInformation: React.FC<SenderInformationProps> = ({ errors }) => {
   const dispatch = useDispatch();
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
   const [employerConsolidation, setEmployerConsolidation] = useState<ConsolidationInterface>();
 
+//   Lấy thông tin của nhân viên để đặt địa chỉ gửi mặc định.
   useEffect(() => {
     if (token) {
       dispatch(fetchUser());
@@ -55,8 +55,8 @@ const SenderInformation: React.FC<SenderInformationProps> = ({ errors }) => {
   }, [dispatch]);
 
 
+//   Tạo option cho bộ selector địa chỉ.
   const { fetching } = useAddressSelector();  
-
   useEffect(() => {
     const city = document.getElementById("senderCity") as HTMLSelectElement;
     const district= document.getElementById("senderDistrict") as HTMLSelectElement;

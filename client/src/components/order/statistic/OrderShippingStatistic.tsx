@@ -10,12 +10,16 @@ import { employerInterface } from "../../../types/EmployerInterface";
 import { orderInterface } from "../../../types/OrderInterface";
 import BarChart from "./BarChart";
 
-const token = localStorage.getItem("token");
+//************************************
+// Description: Phần thân của trang Thống kê đơn hàng của nhân viên điểm giao dịch/điểm tập kết.
+//************************************
 
+const token = localStorage.getItem("token");
 export default function OrderShippingStatistic() {
   const dispatch = useDispatch();
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
 
+  // lấy dữ liệu về nhận viên
   useEffect(() => {
     if (token) {
       dispatch(fetchUser());
@@ -34,6 +38,8 @@ export default function OrderShippingStatistic() {
   const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [selectedYear, setSelectedYear] = useState<string>("");
 
+  // Lấy dữ liệu về các đơn hàng
+  // Có bộ lọc theo điểm giao dịch, thời gian tháng-năm đã được lựa chọn nếu có.
   React.useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -90,8 +96,9 @@ export default function OrderShippingStatistic() {
     fetchOrders();
   }, [employerDetails, selectedMonth, selectedYear]);
 
+  // Tính toán số lần giao hàng thành công/thất bại
+  // Tính toán số lượt đơn đang về, đang được gửi đi hoặc đang ở tại điểm giao dịch/tập kết.
   const [filteredOrders, setFilteredOrders] = useState([...allOrders]);
-
   const [successes, setSuccesses] = useState<number>(0);
   const [failures, setFailures] = useState<number>(0);
   const [send, setSend] = useState<number>(0);
@@ -153,6 +160,8 @@ export default function OrderShippingStatistic() {
     calculate();
   }, [filteredOrders, allOrders]);
 
+  // Xét giá trị số lượng mặc định cho các trạng thái.
+  // Đếm số lượng tương ứng với mỗi trạng thái.
   const [statusCount, setStatusCount] = useState<Map<string, number>>();
   React.useEffect(() => {
     const calculate = async () => {
@@ -218,6 +227,7 @@ export default function OrderShippingStatistic() {
   return (
     <div className="min-h-screen bg-background py-8" id="container">
       <div className="mx-[5%] order-1 md:order-2">
+        {/* Tiêu đề */}
         <div className="mr-[1%] mb-8">
           <p className="md:text-[30px] text-[20px] flex justify-center mb-4">Thống kê đơn hàng</p>
           {employerDetails?.role === "Nhân viên điểm giao dịch" && (
@@ -227,6 +237,7 @@ export default function OrderShippingStatistic() {
             <p className="flex justify-center">Điểm tập kết: {employerDetails.consolidation}</p>
           )}
         </div>
+        {/* Bộ lọc theo tháng-năm */}
         <div className="flex justify-end mb-8">
           <select
             value={selectedMonth}
@@ -265,6 +276,8 @@ export default function OrderShippingStatistic() {
             <option value="2024">2024</option>
           </select>
         </div>
+
+        {/* Biểu đồ và thống kê. */}
         <div className="lg:grid lg:grid-cols-2 lg:space-x-8">
           <div className="mb-8 lg:mb-0">
             {employerDetails?.role === "Nhân viên điểm giao dịch" && (

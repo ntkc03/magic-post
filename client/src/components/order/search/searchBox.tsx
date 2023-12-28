@@ -6,11 +6,16 @@ import { orderInterface } from "../../../types/OrderInterface";
 import { orderData } from "../../../features/axios/api/order/createOrder";
 import OrderStatus from '../../../components/order/search/orderStatus'
 
+//************************************
+// Description: Phần thân của trang Tra cứu vận đơn của người dùng.
+//************************************
+
 const SearchBox = () => {
   const [orderDetails, setOrderDetails] = useState<orderInterface>(); // State để lưu trữ mã vận đơn
   const [searchCode, setSearchCode] = useState(""); // State để lưu trữ kết quả tìm kiếm
   const [hasError, setHasError] = useState(false); // State để kiểm tra lỗi
 
+  // Xử lý tìm kiếm đơn theo mã code.
   const handleSearch = async () => {
     try {
       const data = await orderData(searchCode);

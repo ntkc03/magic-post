@@ -3,20 +3,28 @@ import { costCalcu } from "../order/create/calculation";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+//************************************
+// Description: Phần thân của trang Ước tính cước phí tại phần chung dành cho người dùng.
+//************************************
+
+// Đối tượng City dành cho phần select để lựa chọn thành phố bắt đầu/kết thúc.
 interface City {
   Name: string;
   Id: string;
 }
 
 function CostEstimation() {
+  // Thành phần và hàm thay đổi trạng thái (state) của một thành phần .
   const [senderCity, setSenderCity] = useState<string>("");
   const [receiverCity, setReceiverCity] = useState<string>("");
   const [weight, setWeight] = useState<number>(0);
 
+  // Khởi tạo các option cho selector thành phố của nơi gửi và nơi nhận
+  // Bước 1: Lấy dữ liệu json từ đường dẫn và gán chúng vào mảng các đối tượng City
+  // Bước 2: Tương ứng với mỗi đối tượng trong City, tạo một option có giá trị là một tỉnh/thành phố.
   useEffect(() => {
     const sender = document.getElementById("senderCity") as HTMLSelectElement;
     const receiver = document.getElementById("receiverCity") as HTMLSelectElement;
-    const totalW = document.getElementById("total-weight") as HTMLInputElement;
 
     const fetchData = async () => {
       try {
@@ -36,6 +44,9 @@ function CostEstimation() {
     fetchData();
   }, []);
 
+  // Tính toán cước phí và thời gian giao hàng dự kiến khi biết tỉnh/thành phố gửi/nhận và khối lượng của hàng hóa.
+  // Bước 1: Từ tỉnh/thành phố gửi/nhận và khối lượng, gọi hàm costCalcu() để tính toán ra fee và time
+  // Bước 2: Gán fee và time vào đối tượng hiển thị trên trang.
   useEffect(() => {
     const setTotalValue = async () => {
       const fee = document.getElementById("fee") as HTMLElement;
@@ -55,10 +66,11 @@ function CostEstimation() {
         time.innerText = `0 ngày`;
       }
     };
-
     setTotalValue();
   }, [senderCity, receiverCity, weight]);
 
+  // Ba hàm handle...Change dùng để thay đổi trạng thái của thành phần đã khai báo ở trên khi giá trị trong input
+  // được thay đổi. 
   const handleSenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSenderCity(event.target.value);
   };
@@ -71,6 +83,7 @@ function CostEstimation() {
     setWeight(parseInt(event.target.value) || 0);
   };
 
+  // Phần thân của trang Ước tính cước phí.
   return (
     <div className="relative overflow-hidden bg-background py-8 sm:py-12 min-h-screen">
       <div className="items-center justify-center bg-background text-center text-textColor">

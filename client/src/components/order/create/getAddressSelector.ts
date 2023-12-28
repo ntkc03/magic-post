@@ -1,23 +1,28 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
 
+//************************************
+// Description: Phần bộ tải options cho selector của địa chỉ theo tỉnh/thành phố, quận/huyện, phường/xã.
+// Bước 1: Lấy dữ liệu từ api và lưu vào một mảng City[]
+// Bước 2: Thêm options cho city
+// Bước 3: Dựa vào city, thêm options cho district
+// Bước 4: Dựa vào district, thêm options cho wards.
+//************************************
+
 interface Ward {
     Name: string;
     Id: string;
-    // Add other properties if needed
 }
 
 interface District {
     Name: string;
     Id: string;
     Wards: Ward[];
-    // Add other properties if needed
 }
 
 interface City {
     Name: string;
     Id: string;
     Districts: District[];
-    // Add other properties if needed
 }
 
 interface AddressSelectorProps {

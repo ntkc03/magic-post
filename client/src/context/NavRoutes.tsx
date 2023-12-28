@@ -6,6 +6,10 @@ import {
   FaUser,
 } from "react-icons/fa";
 
+//************************************
+// Description: Xử lý navigation
+//************************************
+
 const icon = {
   className: "w-5 h-5 text-inherit",
 };
@@ -14,11 +18,6 @@ export const NavRoutes = [
   {
     layout: "admin",
     pages: [
-      // {
-      //   icon: <FaChartBar {...icon} />,
-      //   name: "dashboard",
-      //   path: "/employer/dashboard",
-      // },
       {
         icon: <FaBriefcase {...icon} />,
         name: "Dự án",
