@@ -4,6 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { employerInterface } from '../../../../types/EmployerInterface';
 
+//************************************
+// Description: Phần thanh tìm kiếm và lọc.
+//************************************
+
 interface SearchFilterBarProps {
   onSearch: (query: string) => void;
   onFilter: (filter: string) => void;
@@ -51,6 +55,7 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({ onSearch, onFilter, e
           }}
           className="p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-green-500"
         >
+          {/* Xét option cho bộ lọc trạng thái theo điểm giao dịch/điểm tập kết. */}
           <option value="" hidden>Lọc trạng thái đơn hàng</option>
           {employerRole === "Nhân viên điểm giao dịch" && (
             <>

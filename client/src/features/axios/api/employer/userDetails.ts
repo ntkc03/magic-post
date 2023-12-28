@@ -3,6 +3,10 @@ import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import apiConfig from "../../../../utils/apiConfig";
 import { employerInterface } from "../../../../types/EmployerInterface";
 
+//************************************
+// Description: Hàm liên quan lấy dữ liệu và xóa nhân viên.
+//************************************
+
 const api = setupAxiosInterceptors();
 
 export const employerData = async (): Promise<any> => {

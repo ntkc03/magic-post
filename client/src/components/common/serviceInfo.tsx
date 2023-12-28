@@ -1,8 +1,11 @@
 import { Card } from "@material-tailwind/react";
 import ShippingTable from "./shippingCost";
 
+//************************************
+// Description: Phần thân của trang Dịch vụ - các thông tin liên quan đến dịch vụ mà Magic Post cung cấp.
+//************************************
+
 function ServiceInfo() {
-  
     return (
       <div className="relative overflow-hidden bg-background py-8 sm:py-12 min-h-screen">
         <div className="items-center justify-center bg-background text-center text-textColor">
@@ -39,7 +42,6 @@ function ServiceInfo() {
                             </ul>
                         </div>
                     </div>
-
                     <div className="text-left space-y-4 text-[15px]">
                         <h2 className="lg:text-[20px] mr-[1%] text-[15px] text-blue-700">Phạm vi vận chuyển</h2>
                         <div>

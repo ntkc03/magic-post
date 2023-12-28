@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import QRCode from 'qrcode';
 
+//************************************
+// Description: Tạo mã code dẫn đến phần thông tin chi tiết của đơn.
+//************************************
+
 interface GenerateQRProps {
   url: string;
 }

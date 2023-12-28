@@ -2,6 +2,10 @@ import { AxiosRequestConfig } from "axios";
 import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import apiConfig from "../../../../utils/apiConfig";
 
+//************************************
+// Description: Hàm liên quan lấy dữ liệu người dùng
+//************************************
+
 const api = setupAxiosInterceptors();
 
 export const allEmployersData = async (): Promise<any> => {

@@ -1,11 +1,13 @@
-// BarChart.tsx
-
 import React from 'react';
 import { Chart as ChartJS, BarController, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { BarElement } from 'chart.js'
 
 ChartJS.register(BarController, CategoryScale, LinearScale, Tooltip, Legend, BarElement);
+
+//************************************
+// Description: Phần Bar Chart dành cho thống kê số đơn hàng đang rời, số đơn hàng đang về và số đơn hàng đang ở điểm tập kết/điểm giao dịch.
+//************************************
 
 interface BarChartProps {
   send: number;

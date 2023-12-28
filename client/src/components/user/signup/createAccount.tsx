@@ -10,6 +10,10 @@ import { employerInterface } from "../../../types/EmployerInterface";
 import { employerData } from "../../../features/axios/api/employer/userDetails";
 import { createAccount } from "../../../features/axios/api/employer/userAuthentication";
 
+//************************************
+// Description: Phần Giám đốc và các trưởng điểm tạo tài khoản mới cho nhân viên
+//************************************
+
 export function CreateAccount() {
   const navigate = useNavigate();
   const {

@@ -6,6 +6,10 @@ import { orderInterface } from "../../../types/OrderInterface";
 import { orderData } from "../../../features/axios/api/order/createOrder";
 import OrderStatus from '../../../components/order/search/orderStatus'
 
+//************************************
+// Description: Phần thân của trang thông tin về đơn hàng.
+//************************************
+
 interface OrderDetailsProps {
     code: string;
   }

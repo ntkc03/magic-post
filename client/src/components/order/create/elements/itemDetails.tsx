@@ -1,10 +1,11 @@
 
 
 import "react-toastify/dist/ReactToastify.css";
+//************************************
+// Description: Phần Thêm hàng hóa của phần thông tin hàng hóa.
+//************************************
 
 export default function ItemDetails() {
-
-
 
   return (
     <div>

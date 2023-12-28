@@ -12,13 +12,16 @@ import { employerData } from "../../../features/axios/api/employer/userDetails";
 import { fetchUser, clearUserDetails } from "../../../features/redux/slices/user/userDetailsSlice";
 import { employerInterface } from "../../../types/EmployerInterface";
 
+//************************************
+// Description: Phần thân của trang hiển thị danh sách đơn.
+//************************************
+
 const token = localStorage.getItem("token");
-
 export default function OrderList() {
-
   const dispatch = useDispatch();
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
 
+  // Lấy dữ liệu nhân viên
   useEffect(() => {
     if (token) {
       dispatch(fetchUser());
@@ -33,6 +36,8 @@ export default function OrderList() {
     };
   }, [dispatch]);
 
+  // Lấy dữ liệu của đơn hàng theo từng địa chỉ của điểm tập kết/giao dịch
+  // Có filter theo tháng-năm đã chọn
   const [allOrders, setAllOrders] = React.useState<orderInterface[]>([]);
   const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [selectedYear, setSelectedYear] = useState<string>("");
@@ -95,6 +100,8 @@ export default function OrderList() {
     fetchOrders();
   }, [employerDetails, selectedMonth, selectedYear]);
 
+
+  // Filter dữ liệu theo bộ tìm kiếm và bộ lọc theo trạng thái của đơn hàng.
   const [filteredOrders, setFilteredOrders] = useState([...allOrders]);
 
   const handleSearch = (query: string) => {

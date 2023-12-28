@@ -12,6 +12,10 @@ import { useForm } from 'react-hook-form';
 import { getConsolidationByAddress, updateConsolidation } from '../../../features/axios/api/consolidation/consolidationPointDetails';
 import { ConsolidationInterface } from '../../../types/ConsolidationInterface';
 
+//************************************
+// Description: Phần tạo đơn đến điểm tập kết đích
+//************************************
+
 interface PrintButtonProps {
   code: string;
   onClose: () => void;

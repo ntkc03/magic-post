@@ -4,6 +4,10 @@ import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import apiConfig from "../../../../utils/apiConfig";
 import { orderInterface } from "../../../../types/OrderInterface";
 
+//************************************
+// Description: Hàm liên quan lấy dữ liệu, cập nhật và xóa đơn hàng.
+//************************************
+
 const api = setupAxiosInterceptors();
 
 export const orderData = async (orderCode: string): Promise<any> => {

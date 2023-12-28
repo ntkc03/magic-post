@@ -8,16 +8,18 @@ import { useAddressSelector } from "../getAddressSelector";
 import { FieldErrors } from "react-hook-form";
 import { orderInterface } from "../../../../types/OrderInterface";
 
+//************************************
+// Description: Phần Thông tin người nhận của phần tạo đơn mới.
+//************************************
+
 interface ReceiverInformationProps {
     errors: FieldErrors<orderInterface>;
   }
   
 const ReceiverInformation: React.FC<ReceiverInformationProps> = ({ errors }) => {
 
-
-  const { fetching } = useAddressSelector();
-  
-
+// Tạo option cho bộ selector. 
+const { fetching } = useAddressSelector();
 useEffect(() => {
     const city = document.getElementById("receiverCity") as HTMLSelectElement;
     const district= document.getElementById("receiverDistrict") as HTMLSelectElement;

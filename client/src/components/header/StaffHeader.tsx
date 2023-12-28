@@ -14,33 +14,50 @@ import {
 import { employerInterface } from "../../types/EmployerInterface";
 import { employerData } from "../../features/axios/api/employer/userDetails";
 
+//************************************
+// Description: Phần Header cho trang dành cho nhân viên điểm tập kết/giao dịch.
+//************************************
+
+// Mảng lưu trữ thông tin chuyển hướng cho navigation section trên header của nhân viên điểm giao dịch.
 const navigationTransaction = [
   { name: "Thống kê", href: "/order/shipping-statistic", current: false },
   { name: "Quản lý đơn hàng", href: "/order/list", current: false },
   { name: "Tạo đơn", href: "/order/new", current: false }
 ];
 
+// Mảng lưu trữ thông tin chuyển hướng cho navigation section trên header của nhân viên điểm tập kết.
 const navigationConsolidation = [
   { name: "Thống kê", href: "/order/shipping-statistic", current: false },
   { name: "Quản lý đơn hàng", href: "/order/list", current: false },
 ];
 
+// Hàm tạo một chuỗi tên lớp dựa trên các đối số đầu vào.
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 
 function StaffHeader() {
+  // Kích hoạt hành động và sửa đổi trạng thái trong ứng dụng react.
   const dispatch = useDispatch();
+
+  // Cho phép điều hướng theo chương trình đến các tuyến khác nhau trong ứng dụng.
   const navigate = useNavigate();
 
+  // Thành phần và hàm thay đổi trạng thái của thành phần.
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
+  
+  // Biến xét xem trang đã được đăng nhập hay chưa?
   const isLoggedIn = useSelector(
     (state: RootState) => state.userAuth.isLoggedIn
   );
 
+  // Token sử dụng khi trước đó đã lưu mã thông báo xác thực của người dùng 
+  // vào bộ nhớ cục bộ sau khi đăng nhập thành công
   const token = localStorage.getItem("token");
 
+  // Tạo padding với phần thân vì Header của staff Header là một thành phần fixed.
+  // Phần padding có độ cao bằng độ cao của header.
   useEffect(() => {
     function setPadding(){
       let header: HTMLElement | null  = document.getElementById('fixed-header');
@@ -51,15 +68,19 @@ function StaffHeader() {
       }
     }
     setPadding();
+    // Khi cửa sổ thay đổi kích thước thì padding cũng thay đổi theo.
     window.addEventListener('resize', setPadding);
   });
   
+  // Kiểm tra đã đăng nhập hay chưa, nếu chưa đăng nhập thì không vào được các trang làm việc
+  // của nhân viên.
   useEffect(() => {
     if (!isLoggedIn) {
       navigate('/');
     }
   }, []);
 
+  // Sau khi đăng nhập, lấy dữ liệu liên quan của nhân viên và lưu trữ vào emPloyerDetails.
   useEffect(() => {
     if (token) {
       dispatch(fetchUser());
@@ -74,7 +95,7 @@ function StaffHeader() {
     };
   }, [dispatch]);
 
-
+ // Hàm thực hiện hành động đăng xuất khi đăng xuất ra khỏi trang web.
   const handleLogout = () => {
     dispatch(logout());
     dispatch(clearToken());
@@ -89,7 +110,7 @@ function StaffHeader() {
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
               <div className="relative flex h-16 items-center justify-between">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                  {/* Mobile menu button*/}
+                  {/* Nút mở navigation đối với điện thoại*/}
                   <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
@@ -104,6 +125,9 @@ function StaffHeader() {
                     <a href="/employer/home" className="block h-8 w-auto text-bold text-2xl font-logo text-textColor">MagicPost</a>
                   </div>
                 </div>
+
+                {/* Tương ứng với một đối tượng trong mảng navigation, tạo ra một bộ chuyển hướng có tên và đường dẫn đã được lưu. */}
+                {/* Navigation trên kích thước lớn hơn kích thước điện thoại (small).*/}
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                   <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
@@ -138,8 +162,8 @@ function StaffHeader() {
                   </div>
 
 
-                  {/* Profile dropdown */}
-
+                  {/* Dropdown liên quan đến người dùng
+                  Khi nhấn vào hình ảnh người dùng, sẽ hiện tên của Nhân viên và nút Đăng xuất */}
                   <Menu as="div" className="relative ml-3">
                     <div>
                       <Menu.Button className="flex rounded-full text-sm hover:opacity-50">
@@ -191,6 +215,7 @@ function StaffHeader() {
               </div>
             </div>
 
+            {/* Navigation của trang web trên điện thoại. Khi lớn hơn kích thước điện thoại thì nó sẽ không xuất hiện. */}    
             <Disclosure.Panel className="sm:hidden">
               <div className="space-y-1 px-2 pb-3 pt-2">
               {employerDetails?.role === "Nhân viên điểm giao dịch" && navigationTransaction.map((item) => (

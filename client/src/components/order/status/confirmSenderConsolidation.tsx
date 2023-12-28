@@ -11,6 +11,10 @@ import { useForm } from 'react-hook-form';
 import { getTransactionByAddress, updateTransaction } from '../../../features/axios/api/transaction/transactionPointDetails';
 import { TransactionInterface } from '../../../types/TransactionInterface';
 
+//************************************
+// Description: Phần xác nhận đơn đã đến điểm tập kết
+//************************************
+
 interface PrintButtonProps {
   code: string;
   onClose: () => void;

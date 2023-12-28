@@ -10,6 +10,11 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { getConsolidationByAddress, updateConsolidation } from '../../../features/axios/api/consolidation/consolidationPointDetails';
 import { ConsolidationInterface } from '../../../types/ConsolidationInterface';
+
+//************************************
+// Description: Phần xác nhận đơn đã đến điểm giao dịch đích
+//************************************
+
 interface PrintButtonProps {
   code: string;
   onClose: () => void;

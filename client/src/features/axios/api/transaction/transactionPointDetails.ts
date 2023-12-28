@@ -3,6 +3,10 @@ import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import apiConfig from "../../../../utils/apiConfig";
 import { TransactionInterface } from "../../../../types/TransactionInterface";
 
+//************************************
+// Description: Hàm liên quan lấy dữ liệu và cập nhật điểm giao dịch
+//************************************
+
 const api = setupAxiosInterceptors();
 
 export const allTransactionsData = async (): Promise<any> => {

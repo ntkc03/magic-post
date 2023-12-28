@@ -4,7 +4,6 @@ import { set, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import { createOrder, updateOrder } from "../../../features/axios/api/order/createOrder";
 import { Status, orderInterface } from "../../../types/OrderInterface";
 import SenderInformation from "./elements/senderInformation";
@@ -13,27 +12,29 @@ import GoodsInformation from "./elements/goodsInformation";
 import { costCalcu} from "./calculation";
 import { orderValidationSchema } from "../../../utils/validation";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../features/redux/reducers/Reducer";
 import { employerData } from "../../../features/axios/api/employer/userDetails";
 import { fetchUser, clearUserDetails } from "../../../features/redux/slices/user/userDetailsSlice";
 import { employerInterface} from "../../../types/EmployerInterface";
-import { getConsolidationByAddress, updateConsolidation } from "../../../features/axios/api/consolidation/consolidationPointDetails";
-import { ConsolidationInterface } from "../../../types/ConsolidationInterface";
 import { getTransactionByAddress, updateTransaction } from "../../../features/axios/api/transaction/transactionPointDetails";
 import { TransactionInterface } from "../../../types/TransactionInterface";
 
+//************************************
+// Description: Phần thân trang tạo đơn mới của nhân viên.
+//************************************
 
-
-
-
+// Token sử dụng khi trước đó đã lưu mã thông báo xác thực của người dùng 
+// vào bộ nhớ cục bộ sau khi đăng nhập thành công
 const token = localStorage.getItem("token");
+// Bộ tạo mã code ngẫu nhiên
 const code = String(Math.floor(Math.random() * 1000000000) + 10000000000);
 
-
-
 export default function CreateOrder() {
+  // Kích hoạt hành động và sửa đổi trạng thái trong ứng dụng react.
   const dispatch = useDispatch();
+  // Cho phép điều hướng theo chương trình đến các tuyến khác nhau trong ứng dụng.
   const navigate = useNavigate();
+
+  // Cài đặt dữ liệu và hành động submit form có đối tượng là orderInterface.
   const {
     setValue,
     handleSubmit,
@@ -43,16 +44,18 @@ export default function CreateOrder() {
   });
 
 
+  // Thành phần và hàm thay đổi trạng thái của thành phần.
   const [employerDetails, setEmployerDetails] = useState<employerInterface>();
   const [employerDetailsLoaded, setEmployerDetailsLoaded] = useState(false);
 
+  // Sau khi đăng nhập, lấy dữ liệu liên quan của nhân viên và lưu trữ vào emPloyerDetails.
   useEffect(() => {
     if (token) {
       dispatch(fetchUser());
       const employerDetails = async () => {
         const data = await employerData();
         setEmployerDetails(data);
-        setEmployerDetailsLoaded(true); // Make sure this line is here
+        setEmployerDetailsLoaded(true);
       };
       employerDetails();
     }
@@ -62,6 +65,7 @@ export default function CreateOrder() {
   }, [dispatch]);
 
 
+  // Khi các thành phần của trang thay đổi, thay đổi giá trị của form và hàm tính cước phí và thời gian dự tính.
   useEffect(() => { 
     const handleDocumentChange = () => {
       setFormValue();
@@ -73,7 +77,9 @@ export default function CreateOrder() {
     };
   });
 
+  // Đặt giá trị cho các trường lấy từ giá trị của các đối tượng input trong form.
   const setFormValue = async () =>{
+    // Người gửi
     const senderName = document.getElementById("senderName") as HTMLInputElement;
     const senderCity = document.getElementById("senderCity") as HTMLSelectElement;
     const senderCountry = document.getElementById("senderCountry") as HTMLSelectElement;
@@ -82,6 +88,7 @@ export default function CreateOrder() {
     const senderHouseNumber = document.getElementById("senderHouseNumber") as HTMLInputElement;
     const senderPhone = document.getElementById("senderPhone") as HTMLInputElement;
 
+    // Người nhận
     const receiverName = document.getElementById("receiverName") as HTMLInputElement;
     const receiverCity = document.getElementById("receiverCity") as HTMLSelectElement;
     const receiverCountry = document.getElementById("receiverCountry") as HTMLSelectElement;
@@ -90,21 +97,27 @@ export default function CreateOrder() {
     const receiverHouseNumber = document.getElementById("receiverHouseNumber") as HTMLInputElement;
     const receiverPhone = document.getElementById("receiverPhone") as HTMLInputElement;
 
+    // Loại hàng
     const types = document.querySelectorAll<HTMLInputElement>('.type');
     
 
+    // Các đặc tính của hàng
     const features = document.querySelectorAll<HTMLInputElement>('.features');
     const specialServices: string[] = [];
 
+    // Hướng dẫn khi không gửi được hàng
     const guides = document.querySelectorAll<HTMLInputElement>('.guides');
     const cannotDelivered: string[] = [];
 
+    // Danh sách hàng hóa.
     const itemsElement = document.querySelectorAll<HTMLInputElement>('.items');
     const items: string[] = [];
 
+    // Tiền thu hộ
     const cod = document.getElementById("COD") as HTMLInputElement;
     const totalCod = document.getElementById("total-cod") as HTMLElement;
 
+    // Khối lượng, ước tính giá cước và ghi chú.
     const weight = document.getElementById("total-weight") as HTMLInputElement;
     const cost = document.getElementById("total-cost") as HTMLInputElement;
     const note = document.getElementById("note") as HTMLInputElement;
@@ -126,6 +139,7 @@ export default function CreateOrder() {
     setValue('receiverPhone', receiverPhone.value)
 
 
+    // Nếu không thu hộ, mặc định giá trị bằng 0
     if (Number.isNaN(parseInt(cod.value))) {
       cod.value = '0';
     }
@@ -141,31 +155,37 @@ export default function CreateOrder() {
 
     setValue('code', code);
 
+    // nếu loại là Hàng hóa, type = 1, còn nếu hàng là Tài liệu thì type = 0.
     if (types[0].checked) {
       setValue('type', true)
     } else {
       setValue('type', false)
     }
 
+    // Lấy từng đặc trưng của hàng hóa và lưu vào một mảng.
     for (let i = 0; i < features.length; i++) {
       if (features[i].checked) {
         specialServices.push(features[i].value);
       }
     }
 
+    // Lấy hướng dẫn khi không gửi được hàng hóa và lưu vào mảng.
     for (let i = 0; i < guides.length; i++) {
       if (guides[i].checked) {
         cannotDelivered.push(guides[i].value);
       }
     }
 
+    // Lấy danh sách hàng hóa và lưu vào mảng.
     for (let i = 0; i < itemsElement.length; i++) {
       items.push(itemsElement[i].value)
     }
+
     setValue('specialService', specialServices)
     setValue('cannotDelivered', cannotDelivered[0])
     setValue('items', items)
 
+    // Thêm trạng thái của đơn hàng. Khởi tạo trạng thái "Nhận đơn hàng".
     if (employerDetailsLoaded) {
       let status: Status = {
         action: "Nhận đơn hàng",
@@ -178,6 +198,7 @@ export default function CreateOrder() {
       };
 
 
+      // Thêm trạng thái mới vừa tạo vào mảng statuses và lưu vào form.
       let statuses: Array<Status> = [];
       statuses.push(status)
       setValue("status", statuses)
@@ -186,6 +207,10 @@ export default function CreateOrder() {
 
 
   let totalWeight = 0;
+  // Hàm tính cước phí và thời gian giao hàng dự kiến. 
+  // Bước 1: Lấy thông tin về tỉnh/thành phố gửi/nhận và khối lượng của hàng hóa thông qua id của input đó.
+  // Bước 2: Lấy các đối tượng fee và time và dùng hàm costCalcu để tính
+  // Bước 3: Đặt dữ liệu vào đối tượng form gửi đi.
   const setTotalValue = async () => {
     const sender = document.getElementById("senderCity") as HTMLSelectElement;
     const receiver = document.getElementById("receiverCity") as HTMLSelectElement;
@@ -225,10 +250,7 @@ export default function CreateOrder() {
     }
   }
 
-
-  
-
-
+  // Set padding cho phần thân để đoạn cuối của phần thân không bị che khuất bới fixed footer.
   useEffect(() => {
     function setPadding(){
       let padding: HTMLElement | null = document.getElementById('padding');
@@ -249,17 +271,16 @@ export default function CreateOrder() {
     window.addEventListener('resize', setPadding);
   });
 
-  
-  
-
+  // Thông báo đơn hàng tạo thành công/thất bại
   const notify = (msg: string, type: string) =>
     type === "error"
       ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
       : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
 
 
+  // Xử lý submit form data
   const submitHandler = async (formData: orderInterface) => {
-    
+    // Cập nhật số lượng hàng hóa ở điểm tập kết lên 1.
     const update = async () => {
       if (formData.senderVillage && formData.senderDistrict) {
         const data: TransactionInterface = await getTransactionByAddress(formData.senderVillage, formData.senderDistrict);
@@ -274,6 +295,7 @@ export default function CreateOrder() {
     };
     update();
 
+    // Tạo dữ liệu đơn hàng lên database.
     createOrder(formData)
       .then((response: any) => {
         notify("Tạo đơn hàng thành công!", "success");
@@ -297,22 +319,21 @@ export default function CreateOrder() {
         </div>
         <form onSubmit={handleSubmit(submitHandler)} className="lg:grid lg:grid-cols-2">
             <div className="flex-1">
+              {/* Người gửi */}
               <SenderInformation errors={errors}/>
-
-                <ReceiverInformation errors={errors}/>
+              {/* Người nhận */}
+              <ReceiverInformation errors={errors}/>
             </div>
             
-            {/* Goods */}
+            {/* Hàng hóa */}
             <div className="flex-1 mb-8">
                 <GoodsInformation errors={errors}/>
             </div>
 
             <div id='padding' className="hidden md:block">
-                {/* Some space (adjust the margin-bottom value as needed) */}
             </div>
 
-            {/* Money */}
-
+            {/* Thông tin về đơn.*/}
             <div id='fixed' className="md:mx-[0%] md:w-[88%] md:fixed md:bottom-0 md:left-1/2 md:transform md:-translate-x-1/2 md:z-10 lg:grid lg:grid-cols-6 mx-[5%] bg-white rounded border-[3px] border-gray-400 my-[5px]">
                  <div className="grid md:col-span-3 md:grid-cols-3 md:text-center">
                     <div className="grid grid-cols-2 md:grid-cols-1 md:p-4 p-2 md:border-r-[3px] border-gray-300 border-b-[3px] lg:border-b-[0px]">

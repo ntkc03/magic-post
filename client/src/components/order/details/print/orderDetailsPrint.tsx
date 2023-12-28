@@ -4,6 +4,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { orderInterface } from "../../../../types/OrderInterface";
 import { orderData } from "../../../../features/axios/api/order/createOrder";
 
+//************************************
+// Description: Phần Thông tin của đơn hàng trên giấy in.
+//************************************
 
 interface OrderDetailsProps {
   code: string;
@@ -11,8 +14,6 @@ interface OrderDetailsProps {
 
 const OrderDetailsPrint: React.FC<OrderDetailsProps> = ({ code }) => {
   const [orderDetails, setOrderDetails] = useState<orderInterface>();
-
-
   useEffect(() => {
     const userInfo = async () => {
       const data = await orderData(code);

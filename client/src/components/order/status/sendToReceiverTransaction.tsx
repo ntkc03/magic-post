@@ -14,6 +14,10 @@ import { getTransactionByAddress, updateTransaction } from '../../../features/ax
 import { ConsolidationInterface } from '../../../types/ConsolidationInterface';
 import { TransactionInterface } from '../../../types/TransactionInterface';
 
+//************************************
+// Description: Phần tạo đơn đến điểm giao dịch đích
+//************************************
+
 interface PrintButtonProps {
   code: string;
   onClose: () => void;

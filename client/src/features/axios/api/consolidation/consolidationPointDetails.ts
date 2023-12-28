@@ -3,6 +3,10 @@ import setupAxiosInterceptors from "../../interceptors/axiosInterceptor";
 import apiConfig from "../../../../utils/apiConfig";
 import { ConsolidationInterface } from "../../../../types/ConsolidationInterface";
 
+//************************************
+// Description: Hàm liên quan lấy dữ liệu và cập nhật điểm tập kết
+//************************************
+
 const api = setupAxiosInterceptors();
 
 export const allConsolidationsData = async (): Promise<any> => {
