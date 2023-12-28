@@ -279,7 +279,7 @@ export default function CreateOrder() {
         notify("Tạo đơn hàng thành công!", "success");
         setTimeout(() => {
           navigate(`/order/print/${code}`);
-        }, 2000);
+        }, 500);
       })
       .catch((error: any) => {
         notify(error.message, "error");

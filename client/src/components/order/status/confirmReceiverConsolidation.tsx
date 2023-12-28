@@ -84,7 +84,7 @@ const ConfirmReceiverConsolidation: React.FC<PrintButtonProps> = ({ code, onClos
   return (
     <div>
       {/* Grey overlay */}
-      <div className="fixed top-0 left-0 w-full h-full bg-gray-700 opacity-25 z-50"></div>
+      <div className="fixed top-0 left-0 w-full h-full bg-gray-700 opacity-10 z-50"></div>
 
       <div className="min-w-[350px] z-50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white text-black p-4 rounded shadow-md">
         <div className="fixed top-2 right-2 cursor-pointer text-3xl text-gray-700 hover:text-gray-900">

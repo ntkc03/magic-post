@@ -221,9 +221,7 @@ const OrderTable: React.FC<OrderTableProps> = ({ allOrders, employer}) => {
 
   
   const [rows, setRows] = React.useState<Data[]>([]);
-
   const [items, setItems] = useState<React.ReactNode>();
-
 
 
 React.useEffect(() => {
