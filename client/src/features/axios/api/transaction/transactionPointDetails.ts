@@ -40,7 +40,7 @@ export const getTransactionByAddress = async (address: string, consolidation: st
     const response = await api(config);
     return response.data;
   } catch (error) {
-    throw new Error("error getting transactions");
+    throw new Error("Gặp lỗi khi lấy dữ liệu về điểm giao dịch.");
   }
 };
 
@@ -55,6 +55,6 @@ export const updateTransaction = async (payload: TransactionInterface): Promise<
     const response = await axios(config);
     return response.data;
   } catch (error) {
-    throw new Error("error while updating user");
+    throw new Error("Gặp lỗi khi cập nhật điểm giao dịch.");
   }
 };

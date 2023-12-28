@@ -15,11 +15,11 @@ export const createAccount = async (payload: SignupPayload): Promise<any> => {
     const response = await axios(config);
     return response.data;
   } catch (error: any) {
-    if (error.message === "Request failed with status code 409") {
-      throw new Error("Username already exists !!!");
+    if (error.message === "Yêu cầu không thành công với mã trạng thái 409") {
+      throw new Error("Tên tài khoản đã tồn tại !!!");
     } else {
       console.log(error.message);
-      throw new Error("Create account failed, try again");
+      throw new Error("Tạo tài khoản thất bại, hãy thử lại.");
 
     }
   }
@@ -38,10 +38,10 @@ export const login = async (payload: LoginPayload): Promise<any> => {
     const response = await axios(config);
     return response.data;
   } catch (error: any) {
-    if (error.message === "Request failed with status code 401") {
-      throw new Error("Incorrect username or password !!!");
+    if (error.message === "Yêu cầu không thành công với mã trạng thái 401.") {
+      throw new Error("Đăng nhập thất bại, hãy thử lại.");
     } else {
-      throw new Error("Login failed, try again");
+      throw new Error("Tên đăng nhập hoặc mật khẩu không đúng !!!");
     }
   }
 };

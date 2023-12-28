@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const navigation = [
   { name: "Trang chủ", href: "/", current: false },
   { name: "Dịch vụ", href: "/service", current: false },
-  { name: "Ước tính cước phí", href: "/", current: false },
+  { name: "Ước tính cước phí", href: "/estimation", current: false },
 ];
 
 

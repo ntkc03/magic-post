@@ -16,9 +16,9 @@ function ServiceInfo() {
             </div>
             <div className="mx-[5%] lg:mx-[15%] mt-8">
                 <Card className="text-left bg-white p-8 space-y-12">
-                    <h1 className="text-center md:text-[25px] mr-[1%] text-[20px] uppercase">Chuyển phát nhanh hàng hóa, tài liệu</h1>
+                    <h1 className="text-center lg:text-[25px] mr-[1%] text-[20px] uppercase">Chuyển phát nhanh hàng hóa, tài liệu</h1>
                     <div className="text-left space-y-4 text-[15px]">
-                        <h2 className="md:text-[20px] mr-[1%] text-[15px] text-blue-700">Định nghĩa</h2>
+                        <h2 className="lg:text-[20px] mr-[1%] text-[15px] text-blue-700">Định nghĩa</h2>
                         <p>
                             <span className="text-blue-700 font-bold">
                                 Dịch vụ chuyển phát nhanh hàng hóa, tài liệu
@@ -28,7 +28,7 @@ function ServiceInfo() {
                     </div>
 
                     <div className="text-left space-y-4 text-[15px]">
-                        <h2 className="md:text-[20px] mr-[1%] text-[15px] text-blue-700">Bảng giá dịch vụ</h2>
+                        <h2 className="lg:text-[20px] mr-[1%] text-[15px] text-blue-700">Bảng giá dịch vụ</h2>
                         <ShippingTable />
                         <div>
                             <ul style={{ listStyleType: 'disc', marginLeft: '20px', marginTop: '10px' }}>
@@ -41,7 +41,7 @@ function ServiceInfo() {
                     </div>
 
                     <div className="text-left space-y-4 text-[15px]">
-                        <h2 className="md:text-[20px] mr-[1%] text-[15px] text-blue-700">Phạm vi vận chuyển</h2>
+                        <h2 className="lg:text-[20px] mr-[1%] text-[15px] text-blue-700">Phạm vi vận chuyển</h2>
                         <div>
                             <ul style={{ listStyleType: 'disc', marginLeft: '20px', marginTop: '10px' }}>
                                 <li><span className="text-blue-700 font-bold">Nội tỉnh</span>: Là phạm vi vận chuyển đơn hàng có địa chỉ nhận và giao thuộc trong cùng 01 tỉnh.</li>

@@ -27,7 +27,7 @@ export const allConsolidationsData = async (): Promise<any> => {
       const response = await api(config);
       return response.data;
     } catch (error) {
-      throw new Error("error getting consolidations");
+      throw new Error("Gặp lỗi khi lấy dữ liệu về điểm tập kết.");
     }
   };
 
@@ -42,6 +42,6 @@ export const allConsolidationsData = async (): Promise<any> => {
       const response = await axios(config);
       return response.data;
     } catch (error) {
-      throw new Error("error while updating user");
+      throw new Error("Gặp lỗi khi cập nhật điểm tập kết.");
     }
   };

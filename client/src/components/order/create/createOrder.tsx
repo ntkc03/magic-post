@@ -254,14 +254,13 @@ export default function CreateOrder() {
 
   const notify = (msg: string, type: string) =>
     type === "error"
-      ? toast.error(msg, { position: toast.POSITION.TOP_RIGHT })
-      : toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
+      ? toast.error(msg, { position: toast.POSITION.BOTTOM_RIGHT })
+      : toast.success(msg, { position: toast.POSITION.BOTTOM_RIGHT });
 
 
   const submitHandler = async (formData: orderInterface) => {
     
     const update = async () => {
-
       if (formData.senderVillage && formData.senderDistrict) {
         const data: TransactionInterface = await getTransactionByAddress(formData.senderVillage, formData.senderDistrict);
         if (data && data.quantity !== undefined) {
@@ -277,10 +276,10 @@ export default function CreateOrder() {
 
     createOrder(formData)
       .then((response: any) => {
-        notify("Create a new order successfully", "success");
+        notify("Tạo đơn hàng thành công!", "success");
         setTimeout(() => {
           navigate(`/order/print/${code}`);
-        }, 200);
+        }, 2000);
       })
       .catch((error: any) => {
         notify(error.message, "error");
@@ -361,6 +360,7 @@ export default function CreateOrder() {
             </div>
             
         </form>
+        <ToastContainer />
     </div>
   );
 }

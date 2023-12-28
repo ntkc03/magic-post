@@ -15,7 +15,7 @@ export const orderData = async (orderCode: string): Promise<any> => {
     const response = await api(config);
     return response.data;
   } catch (error) {
-    throw new Error("error while getting user data");
+    throw new Error("Gặp lỗi khi lấy dữ liệu về đơn hàng. ");
   }
 };
 
@@ -29,11 +29,11 @@ export const createOrder = async (payload: orderInterface): Promise<any> => {
     const response = await axios(config);
     return response.data;
   } catch (error: any) {
-    if (error.message === "Request failed with status code 409") {
-      throw new Error("Username already exists !!!");
+    if (error.message === "Yêu cầu không thành công với mã trạng thái 409") {
+      throw new Error("Tạo đơn hàng thất bại, thử lại.");
     } else {
       console.log(error.message);
-      throw new Error("Create account failed, try again");
+      throw new Error("Tạo đơn hàng thất bại, thử lại");
 
     }
   }
@@ -48,7 +48,7 @@ export const getOrderList = async (): Promise<any> => {
     const response = await api(config);
     return response.data;
   } catch (error) {
-    throw new Error("Error while getting all data");
+    throw new Error("Gặp lỗi khi lấy dữ liệu về đơn hàng. ");
   }
 };
 
@@ -64,7 +64,7 @@ export const updateOrder = async (payload: orderInterface): Promise<any> => {
     const response = await axios(config);
     return response.data;
   } catch (error) {
-    throw new Error("error while updating user");
+    throw new Error("Gặp lỗi khi cập nhật đơn hàng. ");
   }
 };
 
@@ -77,6 +77,6 @@ export const deleteOrder = async (): Promise<any> => {
     };
     await api(config);
   } catch (error) {
-    throw new Error("error while deleting resume");
+    throw new Error("Gặp lỗi khi xóa đơn hàng. ");
   }
 };

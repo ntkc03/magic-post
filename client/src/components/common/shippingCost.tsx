@@ -67,7 +67,7 @@ const ShippingTable: React.FC = () => {
               })}
             </tr>
           ))}
-          <tr >
+          <tr className='bg-blue-500 text-white font-bold'>
               <td className="border border-blue-700 px-4 py-2">Chỉ tiêu thời gian</td>
               <td className="border border-blue-700 px-4 py-2">1 ngày</td>
               <td className="border border-blue-700 px-4 py-2">2 ngày</td>
