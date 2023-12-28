@@ -50,7 +50,7 @@ function StaticOrders() {
                 } else {
                     location = "Điểm giao dịch: " + lastStatus.fromTransaction + " - " + lastStatus.fromConsolidation;
                 }
-            } else if (status.includes("nhận")) {
+            } else if (status.includes("nhận") || status.includes("Nhận")) {
                 if (lastStatus.toTransaction === "") {
                     location = "Điểm tập kết: " + lastStatus.toConsolidation;
                 } else {
@@ -58,6 +58,7 @@ function StaticOrders() {
                 }
             }
         }
+        console.log(location);
         return location;
     }
 

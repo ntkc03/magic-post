@@ -48,15 +48,13 @@ export default function StaticOrders() {
                         let filterOrders: orderInterface[] = [];
                         for (let i = 0; i < orders.length; i++) {
                             if (orders[i]?.status) {
-                                let statuses = orders[i].status;
-                                if (statuses && statuses.length > 0) {
-                                    let status = statuses[statuses.length - 1];
-                                    console.log(employerDetails?.consolidation)
+                                orders[i].status?.map((status) => {
                                     if ((employerDetails?.consolidation === status.fromConsolidation && employerDetails?.transaction === status.fromTransaction)
                                         || (employerDetails?.consolidation === status.toConsolidation && employerDetails?.transaction === status.toTransaction)) {
                                         filterOrders.push(orders[i]);
                                     }
-                                }
+
+                                })
                             }
                         }
 
@@ -109,6 +107,7 @@ export default function StaticOrders() {
                 order.senderCountry?.toLowerCase().includes(lowercaseQuery) ||
                 order.receiverVillage?.toLowerCase().includes(lowercaseQuery) ||
                 order.receiverDistrict?.toLowerCase().includes(lowercaseQuery)
+
         );
         console.log(lowercaseQuery);
         setFilteredOrders(filtered);
@@ -228,7 +227,7 @@ export default function StaticOrders() {
 
                     {/* List of items */}
                     <div className="mt-8">
-                        <OrderTable allOrders={filteredOrders} consolidation={employerDetails?.consolidation ?? ''}transaction={employerDetails?.transaction ?? ''} />
+                        <OrderTable allOrders={filteredOrders} consolidation={employerDetails?.consolidation ?? ''} transaction={employerDetails?.transaction ?? ''} />
                     </div>
                 </div>
 

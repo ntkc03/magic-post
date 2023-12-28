@@ -279,8 +279,8 @@ function Row(props: { row: StatisticsPointsPayload }) {
                 </TableCell>
                 <TableCell sx={{ width: '20%' }} align="left">{row.consolidation.address}</TableCell>
                 <TableCell sx={{ width: '20%' }} align="left">{row.consolidation.country}</TableCell>
-                <TableCell sx={{ width: '20%' }} align="left">{row.consolidation.manager}</TableCell>
-                <TableCell sx={{ width: '20%' }} align="right">{row.consolidation.quantity}</TableCell>
+                <TableCell sx={{ width: '20%' }} align="left">{row.consolidation.manager??"--"}</TableCell>
+                <TableCell sx={{ width: '20%' }} align="right">{row.consolidation.quantity?? 0}</TableCell>
 
             </TableRow>
             <TableRow >
@@ -310,8 +310,8 @@ function Row(props: { row: StatisticsPointsPayload }) {
                                             <TableCell component="th" scope="row" >
                                                 {transaction.address}
                                             </TableCell>
-                                            <TableCell align="left">{transaction.manager}</TableCell>
-                                            <TableCell align="right">{transaction.quantity}</TableCell>
+                                            <TableCell align="left">{transaction.manager ?? "--"}</TableCell>
+                                            <TableCell align="right">{transaction.quantity?? 0}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

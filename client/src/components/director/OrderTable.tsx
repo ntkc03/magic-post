@@ -43,7 +43,7 @@ function createData(order: orderInterface): Data {
     if (statuses) {
         const lastStatus = statuses[statuses.length - 1];
         status = lastStatus.action ?? "";
-        if (status.includes("Đang gửi") || status === "Giao hàng thành công" || status === "Giao hàng không thành công") {
+        if (status.includes("Đang") || status === "Giao hàng thành công" || status === "Giao hàng không thành công") {
             if (lastStatus.date) {
                 const date = new Date(lastStatus.date);
                 sentAt = formatDate(date);
@@ -53,7 +53,7 @@ function createData(order: orderInterface): Data {
             } else {
                 location = "Điểm giao dịch: " + lastStatus.fromTransaction + " - " + lastStatus.fromConsolidation;
             }
-        } else if (status.includes("nhận")) {
+        } else if (status.includes("nhận") || status.includes("Nhận")) {
             if (lastStatus.toTransaction === "") {
                 location = "Điểm tập kết: " + lastStatus.toConsolidation;
             } else {

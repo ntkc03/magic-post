@@ -4,7 +4,7 @@ import { employerInterface } from "../../types/EmployerInterface";
 import { useDispatch } from "react-redux";
 import { fetchAllEmployers } from "../../features/redux/slices/user/allEmployersSlide";
 import { allEmployersData } from "../../features/axios/api/employer/EmployersDetail";
-import { DataGrid, GridColumnHeaderParams, GridRowSelectionModel } from '@mui/x-data-grid';
+import { DataGrid, GridRowSelectionModel } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,7 +12,7 @@ import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { deleteEmployer } from "../../features/axios/api/employer/userDetails";
+import { deleteEmployer, employerData } from "../../features/axios/api/employer/userDetails";
 import ConfirmDelete from "./ConfirmDelete";
 import SearchFilterBar from "./searchFilterBar.tsx/searchFilterBar";
 import EmployeeShimmer from "../shimmer/EmployeeShimmer";
@@ -25,6 +25,9 @@ export function Employee() {
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [filteredEmployers, setFilteredEmployers] = useState([...allEmployers]);
     const [loading, setLoading] = useState(true);
+    const [employerDetails, setEmployerDetails] = useState<employerInterface>();
+    const token = localStorage.getItem("token");
+
 
 
 
@@ -51,13 +54,24 @@ export function Employee() {
                 employer.transaction?.toLowerCase().includes(lowercaseQuery) ||
                 employer.consolidation?.toLowerCase().includes(lowercaseQuery)
         );
-        
+
         setFilteredEmployers(filtered);
     };
 
 
     useEffect(() => {
         dispatch(fetchAllEmployers);
+        if (token) {
+            const fetchEmployerDetails = async () => {
+                try {
+                    const data = await employerData();
+                    setEmployerDetails(data);
+                } catch (error: any) {
+                    notify(error.message, "error");
+                }
+            };
+            fetchEmployerDetails();
+        }
         const getAllEmployersData = async () => {
             const allEmployers: employerInterface[] = await allEmployersData();
             setAllEmployers(allEmployers);
@@ -65,7 +79,7 @@ export function Employee() {
             setLoading(false);
         }
         getAllEmployersData();
-    }, [allEmployers]);
+    }, []);
 
     const deleteEmployerAction = () => {
         for (const selected of rowSelectionModel) {
@@ -114,7 +128,7 @@ export function Employee() {
                 <div className='pl-1 pb-4 text-center' >
                     <text className='text-3xl'>Danh sách Nhân viên</text>
                 </div>
-                <div className="lg:mx-[15%] mt-8">
+                <div className="focus lg:mx-[15%] mt-8">
                     <SearchFilterBar onSearch={handleSearch} />
                 </div>
                 <div className="pb-3 flex justify-end">
@@ -122,7 +136,11 @@ export function Employee() {
                         <Button size="small"
                             variant="outlined"
                             startIcon={<DeleteIcon />}
-                            disabled={rowSelectionModel.length === 0}
+                            disabled={
+                                rowSelectionModel.length === 0 ||
+                                (!!employerDetails?.username && 
+                                    rowSelectionModel.includes(employerDetails.username))
+                              }
                             onClick={deleteHandle}>
                             Xóa
                         </Button>
@@ -145,8 +163,9 @@ export function Employee() {
                                 { field: 'username', width: 200, renderHeader: () => (<strong>Tên đăng nhập</strong>) },
                                 { field: 'role', width: 200, renderHeader: () => (<strong>Vai trò</strong>) },
                                 { field: 'phone', width: 200, renderHeader: () => (<strong>Số điện thoại</strong>) },
-                                { field: 'transaction', width: 200, renderHeader: () => (<strong>Điểm giao dịch</strong>) },
                                 { field: 'consolidation', width: 200, renderHeader: () => (<strong>Điểm tập kết</strong>) },
+                                { field: 'transaction', width: 200, renderHeader: () => (<strong>Điểm giao dịch</strong>) },
+
                             ]}
                             initialState={{
                                 pagination: {

@@ -52,7 +52,7 @@ function createData(order: orderInterface, consolidation: string, transaction: s
                         const date = new Date(status.date);
                         sentAt = formatDate(date);
                     }
-                } else if (status.action?.includes("nhận")) {
+                } else if (status.action?.includes("nhận") ||status.action?.includes("Nhận") ) {
                     statusLine = "Đã nhận đơn hàng"
                     if (status.date) {
                         const date = new Date(status.date);
@@ -65,7 +65,7 @@ function createData(order: orderInterface, consolidation: string, transaction: s
                 if (status.action?.includes("nhận")) {
                     statusLine = "Đã giao đơn hàng thành công"
                 } else {
-                    statusLine = "Đơn hàng đang được giao"
+                    statusLine = "Đơn hàng đang được giao đi"
                 }
                 if (status.date) {
                     const date = new Date(status.date);

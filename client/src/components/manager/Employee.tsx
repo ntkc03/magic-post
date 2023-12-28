@@ -146,17 +146,14 @@ export function Employee() {
 
                 <div className="pb-3 flex justify-end">
                     <Stack direction="row" spacing={2}>
-                        {/* <Button size="small"
-                            variant="outlined"
-                            startIcon={<EditIcon />}
-                            disabled={rowSelectionModel.length !== 1}
-                        >
-                            Chỉnh sửa
-                        </Button> */}
                         <Button size="small"
                             variant="outlined"
                             startIcon={<DeleteIcon />}
-                            disabled={rowSelectionModel.length === 0}
+                            disabled={
+                                rowSelectionModel.length === 0 ||
+                                (!!employerDetails?.username &&
+                                    rowSelectionModel.includes(employerDetails.username))
+                            }
                             onClick={deleteHandle}>
                             Xóa
                         </Button>
