@@ -54,7 +54,6 @@ export function Employee() {
                 employer.transaction?.toLowerCase().includes(lowercaseQuery) ||
                 employer.consolidation?.toLowerCase().includes(lowercaseQuery)
         );
-
         setFilteredEmployers(filtered);
     };
 

@@ -76,7 +76,7 @@ export default function UserLogin() {
           if (employerDetails?.role === "Giám đốc") {
             navigate("/director/statistics-orders");
           } else if (employerDetails?.role === "Trưởng điểm tập kết" || employerDetails?.role === "Trưởng điểm giao dịch") {
-            navigate("/manager/orders");
+            navigate("/manager/employee");
           } else {
             navigate("/employer/home");
           }
